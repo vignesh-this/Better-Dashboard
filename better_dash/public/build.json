@@ -1,0 +1,8 @@
+{
+    "js/better_dash.min.js": [
+        "public/js/better_dash_main.js"
+    ],
+    "js/togetherjs-min.js": [
+        "public/js/togetherjs-min.js"
+    ]
+}

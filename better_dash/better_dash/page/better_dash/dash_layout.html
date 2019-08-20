@@ -1,0 +1,542 @@
+<div class="row" style="border: 1px solid #ced5db; margin-top: -25px">
+    <div class="panel-group" id="accordion1" style="margin-bottom: 0%;">
+        <div class="panel panel-default tab_drop" data-doctype="Sales Order"
+            data-name="data">
+            <div class="panel-heading row" data-toggle="collapse" data-parent="#accordion1"
+            href="#collapsecm1">
+                <div class="panel-head-title" data-toggle="collapse" data-parent="#accordion1"
+                    href="#collapsecm1" style="margin-right: 15px; margin-left: 15px">
+                    <div class="panel-title row">
+                        <a class="col-xs-10" data-toggle="collapse" data-parent="#accordion1"
+                        href="#collapsecm1">
+                        <i class="fa fa-cog" aria-hidden="true"></i>
+                        Filters</a>
+                        <a class="col-xs-2" data-toggle="collapse" data-parent="#accordion1"
+                        href="#collapsecm1" style="text-align: right">
+                        Collapse
+                        <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="collapsecm1" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul class = "list-group row" style="margin-top: 15px; padding-left: 15px; padding-right: 15px;">
+                        <div class="col-xs-2" id="date-filter"></div>
+                        <div class="col-xs-2" id="customer-filter"></div>
+                        <div class="col-xs-2" id="supplier-filter"></div>
+                        <div class="col-xs-2" id="medley-oi-filter"></div>
+                        <div class="col-xs-2" id="medley-masterid-filter"></div>
+                        <div class="col-xs-2" id="company-filter"></div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-2 gap" id="p1">
+        <div class="row" style="margin-right:0">
+            <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
+                <h5>Sales Order</h5>
+            </div>
+            <h6 class="col-xs-2">
+                <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.sales_order_count}}</span>
+            </h6>
+            <a class="col-xs-2 doc-filter dropdown-toggle" id="sales_order_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-cog" aria-hidden="true"></i>
+            </a>    
+            <ul class="dropdown-menu" aria-labelledby="sales_order_menu" style="left: 26px;">
+                <li><a id="so-submit">Submit</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Cancel</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Print</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Delete</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-2 gap" id="p1">
+        <div class="row" style="margin-right:0">
+            <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
+                <h5>Material Request</h5>
+            </div>
+            <h6 class="col-xs-2">
+                <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.material_req_count}}</span>
+            </h6>
+            <a class="col-xs-2 doc-filter dropdown-toggle" id="material_req_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-cog" aria-hidden="true"></i>
+            </a>    
+            <ul class="dropdown-menu" aria-labelledby="material_req_menu" style="left: 26px;">
+                <li><a>Submit</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Cancel</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Print</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Delete</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-2 gap" id="p1">
+        <div class="row" style="margin-right:0">
+            <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
+                <h5>Purchase Order</h5>
+            </div>
+            <h6 class="col-xs-2">
+                <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.purchase_ord_count}}</span>
+            </h6>
+            <a class="col-xs-2 doc-filter dropdown-toggle" id="purchase_ord_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-cog" aria-hidden="true"></i>
+            </a>    
+            <ul class="dropdown-menu" aria-labelledby="purchase_ord_menu" style="left: 26px;">
+                <li><a>Submit</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Cancel</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Print</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Delete</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-2 gap" id="p1">
+        <div class="row" style="margin-right:0">
+            <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
+                <h5>Purchase Receipt</h5>
+            </div>
+            <h6 class="col-xs-2">
+                <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.purchase_rec_count}}</span>
+            </h6>
+            <a class="col-xs-2 doc-filter dropdown-toggle" id="purchase_rec_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-cog" aria-hidden="true"></i>
+            </a>    
+            <ul class="dropdown-menu" aria-labelledby="purchase_rec_menu" style="left: 26px;">
+                <li><a>Submit</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Cancel</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Print</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Delete</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-2 gap" id="p1">
+        <div class="row" style="margin-right:0">
+            <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
+                <h5>Delivery Note</h5>
+            </div>
+            <h6 class="col-xs-2">
+                <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.delivery_note_count}}</span>
+            </h6>
+            <a class="col-xs-2 doc-filter dropdown-toggle" id="delivery_note_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-cog" aria-hidden="true"></i>
+            </a>    
+            <ul class="dropdown-menu" aria-labelledby="delivery_note_menu" style="left: 26px;">
+                <li><a>Submit</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Cancel</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Print</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Delete</a></li>
+            </ul>  
+        </div>
+    </div>
+    <div class="col-xs-2 gap" id="p1">
+        <div class="row" style="margin-right:0">
+            <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
+                <h5>Sales Invoice</h5>
+            </div>
+            <h6 class="col-xs-2">
+                <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.sales_invoice_count}}</span>
+            </h6>
+            <a class="col-xs-2 doc-filter dropdown-toggle" id="sales_invoice_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-cog" aria-hidden="true"></i>
+            </a>    
+            <ul class="dropdown-menu" aria-labelledby="sales_invoice_menu" style="left: 26px;">
+                <li><a>Submit</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Cancel</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Print</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a>Delete</a></li>
+            </ul>    
+        </div>
+    </div>
+</div>
+<div class="row ui" style="border: 1px solid #ced5db; min-height: -webkit-fill-available;">
+    <div class="col-xs-2 gaps sales-order" id="p1">
+
+        <div class="panel-group" id="accordion1"  style="margin-top:0px;">
+            {% for(var j=0; j<data.sales_order.length; j++) { %}
+            <div class="panel panel-default tab_drop" data-doctype="Sales Order"
+                data-name="{{data.sales_order[j].name}}">
+                <div class="panel-heading row">
+                    <div class="col-xs-2">
+                        <input type="checkbox" name="checkbox-1" id="checkbox-1" data-doctype="Sales Order" data-name="{{data.sales_order[j].name}}">
+                    </div>
+                    <div class="col-xs-10 panel-head-title" data-toggle="collapse" data-parent="#accordion1"
+                        href="#collapsecm1{{j}}">
+                        <p class="panel-title">
+                            <a style="font-weight: bold">{{j+1}}.</a>
+                            <a data-toggle="collapse" data-parent="#accordion1"
+                                href="#collapsecm1{{j}}" data-toggle="tooltip" title="{{data.sales_order[j].customer}}/{{data.sales_order[j].name}}">
+                                {{data.sales_order[j].title}}
+                            </a>
+                        </p>
+                    </div>
+                    <div class="col-xs-12">
+                        <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.sales_order[j].item_count}} Items</span>
+                        <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.sales_order[j].status}}</span>
+                    </div>
+                </div>
+                <div id="collapsecm1{{j}}" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>Rate</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for(var k=0; k<data.sales_order[j].items.length; k++) { %}
+                                        <tr>
+                                            <td title="{{data.sales_order[j].items[k].item_name}}({{data.sales_order[j].items[k].item_code}})">{{data.sales_order[j].items[k].item_name}}</td>
+                                            <td>{{data.sales_order[j].items[k].qty}}</td>
+                                            <td>{{data.sales_order[j].items[k].rate}}</td>
+                                            <td>{{data.sales_order[j].items[k].amount}}</td>
+                                        </tr>
+                                {% } %}    
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% } %}
+        </div>
+
+
+    </div>
+    <div class="col-xs-2 gaps material-request" id="p1">
+
+        <div class="panel-group" id="accordion2">
+            {% for(var o=0; o<data.material_req.length; o++) { %}
+            <div class="panel panel-default tab_drop" data-doctype="Material Request"
+                data-name="{{data.material_req[o].name}}">
+                <div class="panel-heading row">
+                    <div class="col-xs-2">
+                        <input type="checkbox" name="checkbox-1" id="checkbox-1">
+                    </div>
+                    <div class="col-xs-10 panel-head-title" data-toggle="collapse" data-parent="#accordion2"
+                        href="#collapsecm2{{o}}">
+                        <p class="panel-title">
+                            <a style="font-weight: bold">{{o+1}}.</a>
+                            <a data-toggle="collapse" data-parent="#accordion2" data-toggle="tooltip" title="{{data.material_req[o].customer_name}}/{{data.material_req[o].name}}"
+                                href="#collapsecm2{{o}}">
+                                {{data.material_req[o].title}}
+                            </a>
+                        </p>
+                    </div>
+                    <div class="col-xs-12">
+                        <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.material_req[o].item_count}} Items</span>
+                        <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.material_req[o].status}}</span>
+                        <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.material_req[o].material_request_type}}</span>
+                    </div>
+                </div>
+                <div id="collapsecm2{{o}}" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>UOM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for(var k=0; k<data.material_req[o].items.length; k++) { %}
+                                        <tr>
+                                            <td>{{data.material_req[o].items[k].item_name}}({{data.material_req[o].items[k].item_code}})</td>
+                                            <td>{{data.material_req[o].items[k].qty}}</td>
+                                            <td>{{data.material_req[o].items[k].uom}}</td>
+                                        </tr>
+                                {% } %}    
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% } %}
+        </div>
+
+
+    </div>
+    <div class="col-xs-2 gaps purchase-order" id="p1">
+
+        <div class="panel-group" id="accordion3">
+            {% for(var j=0; j<data.purchase_ord.length; j++) { %}
+            <div class="panel panel-default tab_drop" data-doctype="Purchase Order"
+                data-name="{{data.purchase_ord[j].name}}">
+                <div class="panel-heading row">
+                    <div class="col-xs-2">
+                        <input type="checkbox" name="checkbox-1" id="checkbox-1">
+                    </div>
+                    <div class="col-xs-10 panel-head-title" data-toggle="collapse" data-parent="#accordion3"
+                        href="#collapsecm3{{j}}">
+                        <p class="panel-title">
+                            <a style="font-weight: bold">{{j+1}}.</a>
+                            <a data-toggle="collapse" data-parent="#accordion3" data-toggle="tooltip" title="{{data.purchase_ord[j].supplier}}/{{data.purchase_ord[j].name}}"
+                                href="#collapsecm3{{j}}">
+                                {{data.purchase_ord[j].title}}
+                            </a>
+                        </p>
+                    </div>
+                    <div class="col-xs-12">
+                        <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.purchase_ord[j].item_count}} Items</span>
+                        <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.purchase_ord[j].status}}</span>
+                    </div>
+                </div>
+                <div id="collapsecm3{{j}}" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>Rate</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for(var k=0; k<data.purchase_ord[j].items.length; k++) { %}
+                                        <tr>
+                                            <td>{{data.purchase_ord[j].items[k].item_name}}</td>
+                                            <td>{{data.purchase_ord[j].items[k].qty}}</td>
+                                            <td>{{data.purchase_ord[j].items[k].rate}}</td>
+                                            <td>{{data.purchase_ord[j].items[k].amount}}</td>
+                                        </tr>
+                                {% } %}    
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% } %}
+        </div>
+
+
+    </div>
+    <div class="col-xs-2 gaps purchase-receipt" id="p1">
+
+        <div class="panel-group" id="accordion4">
+            {% for(var j=0; j<data.purchase_rec.length; j++) { %}
+            <div class="panel panel-default tab_drop" data-doctype="Purchase Receipt"
+                data-name="{{data.purchase_rec[j].name}}">
+                <div class="panel-heading row">
+                    <div class="col-xs-2">
+                        <input type="checkbox" name="checkbox-1" id="checkbox-1">
+                    </div>
+                    <div class="col-xs-10 panel-head-title" data-toggle="collapse" data-parent="#accordion4"
+                        href="#collapsecm4{{j}}">
+                        <p class="panel-title">
+                            <a style="font-weight: bold">{{j+1}}.</a>
+                            <a data-toggle="collapse" data-parent="#accordion4" data-toggle="tooltip" title="{{data.purchase_rec[j].supplier}}/{{data.purchase_rec[j].name}}"
+                                href="#collapsecm4{{j}}">
+                                {{data.purchase_rec[j].title}}
+                            </a>
+                        </p>
+                    </div>
+                    <div class="col-xs-12">
+                        <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.purchase_rec[j].item_count}} Items</span>
+                        <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.purchase_rec[j].status}}</span>
+                    </div>
+                </div>
+                <div id="collapsecm4{{j}}" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        {% for(var k=0; k<data.purchase_rec[j].items.length; k++) { %}
+                            <li class = "list-group-item">{{data.purchase_rec[j].items[k].item_name}}</li>
+                        {% } %}
+                    </div>
+                </div>
+            </div>
+            {% } %}
+        </div>
+
+
+    </div>
+    <div class="col-xs-2 gaps delivery-note" id="p1">
+
+        <div class="panel-group" id="accordion5">
+            {% for(var j=0; j<data.delivery_note.length; j++) { %}
+            <div class="panel panel-default tab_drop" data-doctype="Delivery Note"
+                data-name="{{data.delivery_note[j].name}}">
+                <div class="panel-heading row">
+                    <div class="col-xs-2">
+                        <input type="checkbox" name="checkbox-1" id="checkbox-1">
+                    </div>
+                    <div class="col-xs-10 panel-head-title" data-toggle="collapse" data-parent="#accordion5"
+                        href="#collapsecm5{{j}}">
+                        <p class="panel-title">
+                            <a style="font-weight: bold">{{j+1}}.</a>
+                            <a data-toggle="collapse" data-parent="#accordion5" data-toggle="tooltip" title="{{data.delivery_note[j].customer}}/{{data.delivery_note[j].name}}"
+                                href="#collapsecm5{{j}}">
+                                {{data.delivery_note[j].title}}
+                            </a>
+                        </p>
+                    </div>
+                    <div class="col-xs-12">
+                        <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.delivery_note[j].item_count}} Items</span>
+                        <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.delivery_note[j].status}}</span>
+                    </div>
+                </div>
+                <div id="collapsecm5{{j}}" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        {% for(var k=0; k<data.delivery_note[j].items.length; k++) { %}
+                            <li class = "list-group-item">{{data.delivery_note[j].items[k].item_name}}</li>
+                        {% } %}
+                    </div>
+                </div>
+            </div>
+            {% } %}
+        </div>
+
+
+    </div>
+    <div class="col-xs-2 gaps sales-invoice" id="p1">
+
+        <div class="panel-group" id="accordion6">
+            {% for(var j=0; j<data.sales_invoice.length; j++) { %}
+            <div class="panel panel-default tab_drop" data-doctype="Sales Invoice"
+                data-name="{{data.sales_invoice[j].name}}">
+                <div class="panel-heading row">
+                    <div class="col-xs-2">
+                        <input type="checkbox" name="checkbox-1" id="checkbox-1">
+                    </div>
+                    <div class="col-xs-10 panel-head-title" data-toggle="collapse" data-parent="#accordion6"
+                        href="#collapsecm6{{j}}">
+                        <p class="panel-title">
+                            <a style="font-weight: bold">{{j+1}}.</a>
+                            <a data-toggle="collapse" data-parent="#accordion6" data-toggle="tooltip" title="{{data.sales_invoice[j].customer}}/{{data.sales_invoice[j].name}}"
+                                href="#collapsecm6{{j}}">
+                                {{data.sales_invoice[j].title}}
+                            </a>
+                        </p>
+                    </div>
+                    <div class="col-xs-12">
+                        <span style="background-color: #abaeaf; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.sales_invoice[j].item_count}} Items</span>
+                        <span style="background-color: #abaeaf; font-size:10px; font-weight: 100; color: black;" class="badge badge-light">{{data.sales_invoice[j].status}}</span>
+                    </div>
+                </div>
+                <div id="collapsecm6{{j}}" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        {% for(var k=0; k<data.sales_invoice[j].items.length; k++) { %}
+                            <li class = "list-group-item">{{data.sales_invoice[j].items[k].item_name}}</li>
+                        {% } %}
+                    </div>
+                </div>
+            </div>
+            {% } %}
+        </div>
+
+
+    </div>
+    <div id="contextMenu" class="dropdown clearfix">
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu"
+            style="display:block;position:static;margin-bottom:5px;">
+            <li><a tabindex="-1" id="highlight_linked">Highlight Linked</a>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li><a tabindex="-1">Open Document in New Tab</a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<style>
+    #page-better-dash .layout-main-section {
+        border: 0 !important;
+    }
+
+    #page-better-dash .panel-heading a:hover{
+        text-decoration: none !important;
+    }
+
+    #page-better-dash .panel-heading {
+        cursor: context-menu;
+    }
+
+    #page-better-dash .container {
+        width: 100% !important;
+    }
+    /* #page-better-dash .list-group-item {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-right: 0;
+        padding-left: 0;
+    } */
+    .gaps {
+        border-right: 1px solid #ced5db;
+        min-height: -webkit-fill-available;
+        max-height: -webkit-fill-available;
+        padding: 1px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+    .gap {
+        border-right: 1px solid #ced5db;
+        padding: 1px;
+    }
+
+    .ui {
+        border: 1px solid #ced5db;
+        min-height: -webkit-fill-available;
+    }
+
+    .panel-title {
+        font-size: 12px;
+    }
+    .panel-body {
+        padding: 0;
+        font-size: 10px;
+    }
+
+    .panel-head-title {
+        padding: 0 !important;
+        margin-top: 3px;
+    }
+
+    ::-webkit-scrollbar {
+        width: 0px;
+        /* Remove scrollbar space */
+        background: transparent;
+        /* Optional: just make scrollbar invisible */
+    }
+    #contextMenu {
+        position: absolute;
+        display: none;
+    }
+    .panel-group .panel{
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
+    
+    }
+    .gaps .tab_drop{
+        border-bottom: 1px solid #ced5db;
+        border-top: 0;
+    }
+    .doc-filter{
+        padding: 9px;
+        text-align: end;
+    }
+    .panel-body table{
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+</style>
