@@ -24,6 +24,7 @@ frappe.views.BetterDashboard = Class.extend({
 		this.make_context_menu();
 		this.set_linked_docs_action();
 		this.set_secondary_action();
+		this.make_custom_actions();
 	},
 	get_data: function () {
 		var me = this;
@@ -301,5 +302,87 @@ frappe.views.BetterDashboard = Class.extend({
 		me.page.set_secondary_action(__("Refresh"), function() {
 			me.reset_data();
 		}, null, __("Please Wait..."))
+	},
+	make_custom_actions: function () {
+		var me = this;
+		me.page.add_menu_item(__("Make Purchase Order"), function() {
+			frappe.confirm(__("Please Select Material Requests to Create a Purchase Order"), function() {
+				$(".gaps:not(.gaps.material-request)").find("input").attr("disabled", true);
+				me.page.set_primary_action(__("Select"), function() {
+					$(".gaps").find("input").removeAttr("disabled");
+					$(me.page.btn_primary).remove();
+					var selected_mrs = [];
+					$(".gaps.material-request").find("input:checked").each(function() {
+						selected_mrs.push($(this).attr('data-name'));
+					});
+					frappe.confirm(__("You have selected "+String(selected_mrs)), function() {
+						var callback1 = function (){
+							var state1 = $("#myModal").find('[data-step="1"]');
+							this.supplier = frappe.ui.form.make_control({
+								df: {
+									fieldtype: 'Link',
+									label: 'Supplier',
+									fieldname: 'supplier',
+									options: 'Supplier',
+									onchange: () => {
+									}
+								},
+								parent: $(state1).find('#supplier-field'),
+								render_input: true
+							});
+							this.warehouse = frappe.ui.form.make_control({
+								df: {
+									fieldtype: 'Link',
+									label: 'Set Target Warehouse',
+									fieldname: 'target_warehouse',
+									options: 'Warehouse',
+									onchange: () => {
+									}
+								},
+								parent: $(state1).find('#warehouse-field'),
+								render_input: true
+							});
+						};
+						
+						var callback2 = function (){
+							frappe.call({
+								method: "better_dash.better_dash.page.better_dash.better_dash.get_po_doc",
+								args: {
+									"selected_mrs": selected_mrs,
+									"method": "erpnext.stock.doctype.material_request.material_request.make_purchase_order"
+								},
+								callback: function (r) {
+									console.log(r.message);
+								}
+							})
+
+						};
+						
+						$('#myModal').modalSteps({
+							callbacks: {
+								'1': callback1,
+								'2': callback2
+							}
+						});						
+						$(cur_dialog.header).find(".btn-primary").attr({"data-toggle":"modal", "data-target":"#myModal"});
+								
+
+					}, function() {
+						$(".gaps").find("input").prop('checked', false);
+						frappe.msgprint("Cancelled")
+					});
+				}, null, __("Please Wait..."))
+			}, function () {
+				$(".gaps").find("input").removeAttr("disabled");
+				frappe.msgprint("Cancelled");
+			});
+		});
+		me.page.add_menu_item(__("Make Delivery Notes"), function() {
+
+		});
+		me.page.add_menu_item(__("Make Sales Invoices"), function() {
+
+		});
+
 	}
 });	

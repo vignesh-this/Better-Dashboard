@@ -4,5 +4,8 @@
     ],
     "js/togetherjs-min.js": [
         "public/js/togetherjs-min.js"
+    ],
+    "js/jquery-steps-min.js": [
+        "public/js/jquery.steps.min.js"
     ]
 }

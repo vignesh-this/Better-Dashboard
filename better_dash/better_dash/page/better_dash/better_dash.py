@@ -4,7 +4,10 @@ from frappe.utils import cint, cstr
 from frappe import throw, _
 from frappe.desk.form.linked_with import get_linked_docs, get_linked_doctypes
 from frappe.utils.dateutils import parse_date
-from frappe.utils import getdate
+from frappe.utils import getdate, nowdate
+from frappe.utils import cstr, flt, getdate, comma_and, cint, nowdate, add_days
+from frappe.model.mapper import map_docs
+from erpnext.controllers.accounts_controller import get_taxes_and_charges
 
 @frappe.whitelist()
 def get_all_data(date=None):
@@ -62,3 +65,19 @@ def get_all_data(date=None):
                 "delivery_note_count": len(delivery_note),
                 "sales_invoice_count": len(sales_invoice)
             }
+
+@frappe.whitelist()
+def get_po_doc(selected_mrs, method):
+    doc = frappe.new_doc("Purchase Order")
+    doc.supplier = "Medleymed"
+    doc.set_warehouse = "Work In Progress - C"
+    doc.taxes_and_charges = "In State GST - C"
+    doc.transaction_date = str(nowdate()) 
+    doc.schedule_date = str(frappe.utils.add_days(nowdate(), 7))
+
+    new_doc = map_docs(source_names=selected_mrs, target_doc=doc, method=method)
+    taxes = get_taxes_and_charges('Sales Taxes and Charges Template', "In State GST - C")
+    for tax in taxes:
+        new_doc.append('taxes', tax)
+    new_doc.insert()
+    return new_doc
