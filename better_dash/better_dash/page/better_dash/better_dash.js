@@ -308,9 +308,9 @@ frappe.views.BetterDashboard = Class.extend({
 		me.page.add_menu_item(__("Make Purchase Order"), function() {
 			frappe.confirm(__("Please Select Material Requests to Create a Purchase Order"), function() {
 				$(".gaps:not(.gaps.material-request)").find("input").attr("disabled", true);
-				me.page.set_primary_action(__("Select"), function() {
+				me.page.set_primary_action(__("Select Material Requests"), function() {
 					$(".gaps").find("input").removeAttr("disabled");
-					$(me.page.btn_primary).remove();
+					$(me.page.btn_primary).hide();
 					var selected_mrs = [];
 					$(".gaps.material-request").find("input:checked").each(function() {
 						selected_mrs.push($(this).attr('data-name'));
@@ -318,7 +318,7 @@ frappe.views.BetterDashboard = Class.extend({
 					frappe.confirm(__("You have selected "+String(selected_mrs)), function() {
 						var callback1 = function (){
 							var state1 = $("#myModal").find('[data-step="1"]');
-							this.supplier = frappe.ui.form.make_control({
+							me.supplier = frappe.ui.form.make_control({
 								df: {
 									fieldtype: 'Link',
 									label: 'Supplier',
@@ -330,7 +330,7 @@ frappe.views.BetterDashboard = Class.extend({
 								parent: $(state1).find('#supplier-field'),
 								render_input: true
 							});
-							this.warehouse = frappe.ui.form.make_control({
+							me.warehouse = frappe.ui.form.make_control({
 								df: {
 									fieldtype: 'Link',
 									label: 'Set Target Warehouse',
@@ -342,17 +342,65 @@ frappe.views.BetterDashboard = Class.extend({
 								parent: $(state1).find('#warehouse-field'),
 								render_input: true
 							});
+							me.schedule_date = frappe.ui.form.make_control({
+								df: {
+									fieldtype: 'Date',
+									label: 'Schedule Date',
+									fieldname: 'schedule_date',
+									onchange: () => {
+									}
+								},
+								parent: $(state1).find('#schedule-date-field'),
+								render_input: true
+							});
 						};
-						
-						var callback2 = function (){
+
+						var callback2 = function () {
+							var state2 = $("#myModal").find('[data-step="2"]');
+							me.tax = frappe.ui.form.make_control({
+								df: {
+									fieldtype: 'Link',
+									label: 'Taxes and Charges Template',
+									fieldname: 'tax',
+									options: 'Sales Taxes and Charges Template',
+									onchange: () => {
+									}
+								},
+								parent: $(state2).find('#taxes-field'),
+								render_input: true
+							});
+						};
+
+						var callback3 = function (){
+							var state3 = $("#myModal").find('[data-step="3"]');
+							var supplier = me.supplier.get_value();
+							var warehouse = me.warehouse.get_value();
+							var schedule_date = me.schedule_date.get_value();
+							var tax = me.tax.get_value();
 							frappe.call({
 								method: "better_dash.better_dash.page.better_dash.better_dash.get_po_doc",
 								args: {
 									"selected_mrs": selected_mrs,
+									"supplier": supplier,
+									"warehouse": warehouse,
+									"schedule_date": schedule_date,
+									"tax": tax,
 									"method": "erpnext.stock.doctype.material_request.material_request.make_purchase_order"
 								},
 								callback: function (r) {
 									console.log(r.message);
+									me.route = frappe.ui.form.make_control({
+										df: {
+											fieldtype: 'Button',
+											label: r.message.name,
+											fieldname: 'route',
+											click: () => {
+												frappe.set_route('Form', r.message.doctype, r.message.name);
+											}
+										},
+										parent: $(state3).find('#route-field'),
+										render_input: true
+									});
 								}
 							})
 
@@ -361,7 +409,8 @@ frappe.views.BetterDashboard = Class.extend({
 						$('#myModal').modalSteps({
 							callbacks: {
 								'1': callback1,
-								'2': callback2
+								'2': callback2,
+								'3': callback3
 							}
 						});						
 						$(cur_dialog.header).find(".btn-primary").attr({"data-toggle":"modal", "data-target":"#myModal"});
@@ -378,7 +427,27 @@ frappe.views.BetterDashboard = Class.extend({
 			});
 		});
 		me.page.add_menu_item(__("Make Delivery Notes"), function() {
-
+			frappe.confirm(__("Please Select Sales Orders to Create a Delivery Note"), function() {
+				$(".gaps:not(.gaps.sales-order)").find("input").attr("disabled", true);
+				me.page.set_primary_action(__("Select Sales Orders"), function() {
+					var selected_so = [];
+					$(".gaps.sales-order").find("input:checked").each(function() {
+						selected_so.push($(this).attr('data-name'));
+					});
+					frappe.confirm(__("Please Select Purchase Receipts against which you want these delivery notes"), function() {
+						// $(me.page.btn_primary).remove();
+						me.page.set_primary_action(__("Select Purchase Receipts"), function() {
+							var selected_pr = [];
+							$(".gaps.purchase-receipt").find("input:checked").each(function() {
+								selected_pr.push($(this).attr('data-name'));
+							});
+							console.log(selected_so, selected_pr)
+						});
+						$(".gaps").find("input").removeAttr("disabled");
+						$(".gaps:not(.gaps.purchase-receipt)").find("input").attr("disabled", true);
+					});
+				});
+			});
 		});
 		me.page.add_menu_item(__("Make Sales Invoices"), function() {
 

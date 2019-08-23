@@ -67,15 +67,19 @@ def get_all_data(date=None):
             }
 
 @frappe.whitelist()
-def get_po_doc(selected_mrs, method):
+def get_po_doc(selected_mrs, method, supplier, warehouse, schedule_date, tax):
     doc = frappe.new_doc("Purchase Order")
-    doc.supplier = "Medleymed"
-    doc.set_warehouse = "Work In Progress - C"
-    doc.taxes_and_charges = "In State GST - C"
-    doc.transaction_date = str(nowdate()) 
-    doc.schedule_date = str(frappe.utils.add_days(nowdate(), 7))
+    doc.supplier = supplier
+    doc.set_warehouse = warehouse
+    doc.taxes_and_charges = tax
+    doc.transaction_date = frappe.utils.add_days(nowdate(), 0)
+    doc.schedule_date = frappe.utils.add_days(nowdate(), 7)
 
     new_doc = map_docs(source_names=selected_mrs, target_doc=doc, method=method)
+    new_doc.transaction_date = frappe.utils.add_days(nowdate(), 0)
+    new_doc.schedule_date = frappe.utils.add_days(nowdate(), 7)
+    for items in new_doc.items:
+        items.schedule_date = frappe.utils.add_days(nowdate(), 0)
     taxes = get_taxes_and_charges('Sales Taxes and Charges Template', "In State GST - C")
     for tax in taxes:
         new_doc.append('taxes', tax)
