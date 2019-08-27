@@ -456,8 +456,8 @@
 </div>
 </div>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+    <div class="modal-dialog" role="document" style="width: 70%">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -465,14 +465,15 @@
         </div>
         <div class="modal-body">
     <div class="row hide" data-step="1" data-title="Fill Details For Purchase Order">
-      <div class="col-xs-12" id="supplier-field"></div>
-      <div class="col-xs-12" id="warehouse-field"></div>
-      <div class="col-xs-12" id="schedule-date-field"></div>
+      <div class="col-xs-6" id="supplier-field"></div>
+      <div class="col-xs-6" id="warehouse-field"></div>
+      <div class="col-xs-6" id="schedule-date-field"></div>
+      <div class="col-xs-6" id="taxes-field"></div>
     </div>
-    <div class="row hide" data-step="2" data-title="Set Taxes">
-        <div class="col-xs-12" id="taxes-field"></div>
+    <div class="row hide" data-step="2" data-title="Check Purchase Order and Proceed to Save">
+      <div class="col-xs-12" id="preview-field"></div>        
     </div>
-    <div class="row hide" data-step="3" data-title="Purchase Order Created!">
+    <div class="row hide" data-step="3" data-title="Purchase Order Created Click on the button to view !">
         <div class="col-xs-12" id="route-field"></div>
     </div>
   </div>

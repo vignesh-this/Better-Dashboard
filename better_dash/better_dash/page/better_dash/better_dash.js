@@ -7,8 +7,8 @@ frappe.pages['better-dash'].on_page_load = function (wrapper) {
 	new frappe.views.BetterDashboard(page);
 }
 frappe.pages['better-dash'].refresh = function (wrapper) {
-}
 
+}
 
 frappe.views.BetterDashboard = Class.extend({
 	init: function(page) {
@@ -318,6 +318,10 @@ frappe.views.BetterDashboard = Class.extend({
 					frappe.confirm(__("You have selected "+String(selected_mrs)), function() {
 						var callback1 = function (){
 							var state1 = $("#myModal").find('[data-step="1"]');
+							$(state1).find('#supplier-field').empty();
+							$(state1).find('#warehouse-field').empty();
+							$(state1).find('#schedule-date-field').empty();
+							$(state1).find('#taxes-field').empty();
 							me.supplier = frappe.ui.form.make_control({
 								df: {
 									fieldtype: 'Link',
@@ -353,10 +357,6 @@ frappe.views.BetterDashboard = Class.extend({
 								parent: $(state1).find('#schedule-date-field'),
 								render_input: true
 							});
-						};
-
-						var callback2 = function () {
-							var state2 = $("#myModal").find('[data-step="2"]');
 							me.tax = frappe.ui.form.make_control({
 								df: {
 									fieldtype: 'Link',
@@ -366,13 +366,13 @@ frappe.views.BetterDashboard = Class.extend({
 									onchange: () => {
 									}
 								},
-								parent: $(state2).find('#taxes-field'),
+								parent: $(state1).find('#taxes-field'),
 								render_input: true
 							});
 						};
 
-						var callback3 = function (){
-							var state3 = $("#myModal").find('[data-step="3"]');
+						var callback2 = function () {
+							var state2 = $("#myModal").find('[data-step="2"]');
 							var supplier = me.supplier.get_value();
 							var warehouse = me.warehouse.get_value();
 							var schedule_date = me.schedule_date.get_value();
@@ -389,6 +389,79 @@ frappe.views.BetterDashboard = Class.extend({
 								},
 								callback: function (r) {
 									console.log(r.message);
+									me.data1 = [];
+									$(state2).find('#preview-field').empty();
+									me.po_items = frappe.ui.form.make_control({
+										df:	{
+											fieldname: "items", 
+											fieldtype: "Table", 
+											in_place_edit: true, 
+											fields: 
+											[
+												{
+													label: 'Item Code',
+													fieldname: 'item_code',
+													fieldtype: 'Link',
+													options: 'Item',
+													in_list_view: 1,
+													columns: 3
+												},
+												{
+													label: 'Quantity',
+													fieldname: 'qty',
+													fieldtype: 'Float',
+													in_list_view: 1,
+													columns: 1
+												},
+												{
+													label: 'Rate',
+													fieldname: 'rate',
+													fieldtype: 'Currency',
+													in_list_view: 1,
+													columns: 2
+												},
+												{
+													label: 'Amount',
+													fieldname: 'amount',
+													fieldtype: 'Currency',
+													in_list_view: 1,
+													columns: 2
+												}
+											],
+											data: r.message.items,
+											get_data: () => {
+												return r.message.items;
+											},
+										},
+										parent: $(state2).find('#preview-field'),
+										render_input: true
+									});
+								}
+							})
+						};
+
+						var callback3 = function (){
+							var state3 = $("#myModal").find('[data-step="3"]');
+							var supplier = me.supplier.get_value();
+							var warehouse = me.warehouse.get_value();
+							var schedule_date = me.schedule_date.get_value();
+							var tax = me.tax.get_value();
+							// var items = me.po_items.get_data();
+							frappe.call({
+								method: "better_dash.better_dash.page.better_dash.better_dash.get_po_doc",
+								args: {
+									"selected_mrs": selected_mrs,
+									"supplier": supplier,
+									"warehouse": warehouse,
+									"schedule_date": schedule_date,
+									"tax": tax,
+									"save_action": true,
+									// "new_items": items,
+									"method": "erpnext.stock.doctype.material_request.material_request.make_purchase_order"
+								},
+								callback: function (r) {
+									console.log(r.message);
+									$(state3).find('#route-field').empty();
 									me.route = frappe.ui.form.make_control({
 										df: {
 											fieldtype: 'Button',
@@ -403,6 +476,7 @@ frappe.views.BetterDashboard = Class.extend({
 									});
 								}
 							})
+
 
 						};
 						
