@@ -509,13 +509,62 @@ frappe.views.BetterDashboard = Class.extend({
 						selected_so.push($(this).attr('data-name'));
 					});
 					frappe.confirm(__("Please Select Purchase Receipts against which you want these delivery notes"), function() {
-						// $(me.page.btn_primary).remove();
 						me.page.set_primary_action(__("Select Purchase Receipts"), function() {
 							var selected_pr = [];
 							$(".gaps.purchase-receipt").find("input:checked").each(function() {
 								selected_pr.push($(this).attr('data-name'));
 							});
-							console.log(selected_so, selected_pr)
+							console.log(selected_so, selected_pr);
+							var callback1 = function () {
+								frappe.call({
+									method: "better_dash.better_dash.page.better_dash.better_dash.get_data_for_delivery_note",
+									args: {
+										sales_orders: selected_so,
+										purchase_reciepts: selected_pr
+									},
+									callback: function (r) {
+										console.log(r.message)
+										$("#saor").html(frappe.render_template("make_dn_so", {"data": r.message}));
+										$("#pure").html(frappe.render_template("make_dn_pr", {"data": r.message}));
+										$("#deno").html(frappe.render_template("make_dn_dn", {"data": r.message}));
+										var dnqty = document.getElementById('dn-qty');
+										dnqty.addEventListener('input', function() {
+											console.log('Hey, somebody changed something in my text!');
+										});
+										var dnfqty = document.getElementById('dn-fqty');
+										dnfqty.addEventListener('input', function() {
+											console.log('Hey, somebody changed something in my text!');
+										});
+										var dnrate = document.getElementById('dn-rate');
+										dnrate.addEventListener('input', function() {
+											console.log('Hey, somebody changed something in my text!');
+										});
+										var dndp = document.getElementById('dn-dp');
+										dndp.addEventListener('input', function() {
+											console.log('Hey, somebody changed something in my text!');
+										});
+										var dnam = document.getElementById('dn-am');
+										dnam.addEventListener('input', function() {
+											console.log('Hey, somebody changed something in my text!');
+										});
+									}
+								});
+							};
+							var callback2 = function () {
+								
+							};
+							var callback3 = function () {
+								
+							};
+							$('#myModal1').modalSteps({
+								callbacks: {
+									'1': callback1,
+									'2': callback2,
+									'3': callback3
+								}
+							});
+							$('#myModal1').modal('show');
+							$(this).remove();
 						});
 						$(".gaps").find("input").removeAttr("disabled");
 						$(".gaps:not(.gaps.purchase-receipt)").find("input").attr("disabled", true);

@@ -7,7 +7,9 @@ from frappe.utils.dateutils import parse_date
 from frappe.utils import getdate, nowdate
 from frappe.utils import cstr, flt, getdate, comma_and, cint, nowdate, add_days
 from frappe.model.mapper import map_docs
+from frappe.model.mapper import make_mapped_doc
 from erpnext.controllers.accounts_controller import get_taxes_and_charges
+import json
 
 @frappe.whitelist()
 def get_all_data(date=None):
@@ -26,7 +28,10 @@ def get_all_data(date=None):
         items = frappe.db.get_list("Material Request Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "uom"])
         i.items = items
         i.item_count = len(items)
-        i.title = i.customer_name[0:20]
+        if i.customer_name:
+            i.title = i.customer_name[0:20]
+        else:
+            i.title = ""
     purchase_ord = frappe.db.get_list("Purchase Order", fields=["name", "supplier", "status"], filters=filter)
     for i in purchase_ord:
         items = frappe.db.get_list("Purchase Order Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount", "uom"])
@@ -88,3 +93,19 @@ def get_po_doc(selected_mrs, method, supplier, warehouse, schedule_date, tax, sa
         new_doc.insert()
     return new_doc
 
+@frappe.whitelist()
+def get_data_for_delivery_note(sales_orders, purchase_reciepts):
+    SO = []
+    PR = []
+    DN = []
+    method = "erpnext.selling.doctype.sales_order.sales_order.make_delivery_note"
+
+    for x in json.loads(sales_orders):
+        salesorder = frappe.get_doc("Sales Order", x)
+        SO.append(salesorder)    
+        new_doc = make_mapped_doc(source_name=salesorder.name, method=method)
+        DN.append(new_doc)
+    for y in json.loads(purchase_reciepts):
+        purchasereciept = frappe.get_doc("Purchase Receipt", y)
+        PR.append(purchasereciept)          
+    return {"SO": SO, "PR": PR, "DN": DN}    

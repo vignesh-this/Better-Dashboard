@@ -1,0 +1,49 @@
+<h5>Fill Bills</h5>
+{% for(var j=0; j<data["DN"].length; j++) { %}
+
+<div class="panel-group" id="accordiondn{{j}}" style="margin-top:0px;">
+    <div class="panel panel-default tab_drop" data-doctype="Purchase Reciept" data-name="{{data["DN"][j].name}}">
+        <div class="panel-heading row" style="margin: 0;">
+            <div class="col-xs-12 panel-head-title" data-toggle="collapse" data-parent="#accordiondn{{j}}"
+                href="#collapsecmdn{{j}}">
+                <p class="panel-title"> <a style="font-weight: bold">1.</a> <a data-toggle="collapse"
+                        data-parent="#accordiondn{{j}}" href="#collapsecmdn{{j}}"
+                        title="{{data["DN"][j].customer}}/{{data["DN"][j].name}}"> {{data["DN"][j].customer}} </a> </p>
+            </div>
+            <div class="col-xs-12"> <span
+                    style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
+                    class="badge badge-light">{{data["DN"][j].items.length}} Items</span> <span
+                    style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
+                    class="badge badge-light">{{data["DN"][j].status}}</span> </div>
+        </div>
+        <div id="collapsecmdn{{j}}" class="panel-collapse collapse">
+            <div class="panel-body">
+                <table class="table table-bordered" id="example">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Bill Qty</th>
+                            <th>Free Qty</th>
+                            <th>Rate</th>
+                            <th>Discount %</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for(var k=0; k<data["DN"][j].items.length; k++) { %}
+                        <tr>
+                            <td title="{{data["DN"][j].items[k].item_name}}({{data["DN"][j].items[k].item_code}})"> {{data["DN"][j].items[k].item_name}}</td>
+                            <td contenteditable="true" id="dn-qty">{{data["DN"][j].items[k].qty}}</td>
+                            <td contenteditable="true" id="dn-fqty">{{data["DN"][j].items[k].free_qty}}</td>
+                            <td contenteditable="true" id="dn-rate">{{data["DN"][j].items[k].rate}}</td>
+                            <td contenteditable="true" id="dn-dp">{{data["DN"][j].items[k].discount_percentage}}</td>
+                            <td contenteditable="true" id="dn-am">{{data["DN"][j].items[k].amount}}</td>
+                        </tr>
+                        {% } %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% } %}
