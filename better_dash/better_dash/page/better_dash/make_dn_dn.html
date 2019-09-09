@@ -27,17 +27,19 @@
                             <th>Rate</th>
                             <th>Discount %</th>
                             <th>Amount</th>
+                            <th>Batch</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for(var k=0; k<data["DN"][j].items.length; k++) { %}
-                        <tr>
+                        <tr data-itemcode={{data["DN"][j].items[k].item_code}}>
                             <td title="{{data["DN"][j].items[k].item_name}}({{data["DN"][j].items[k].item_code}})"> {{data["DN"][j].items[k].item_name}}</td>
-                            <td contenteditable="true" id="dn-qty">{{data["DN"][j].items[k].qty}}</td>
-                            <td contenteditable="true" id="dn-fqty">{{data["DN"][j].items[k].free_qty}}</td>
-                            <td contenteditable="true" id="dn-rate">{{data["DN"][j].items[k].rate}}</td>
-                            <td contenteditable="true" id="dn-dp">{{data["DN"][j].items[k].discount_percentage}}</td>
-                            <td contenteditable="true" id="dn-am">{{data["DN"][j].items[k].amount}}</td>
+                            <td contenteditable="true" class="dn-qty">{{data["DN"][j].items[k].qty}}</td>
+                            <td contenteditable="true" class="dn-fqty">{{data["DN"][j].items[k].free_qty}}</td>
+                            <td contenteditable="true" class="dn-rate">{{data["DN"][j].items[k].rate}}</td>
+                            <td contenteditable="true" class="dn-dp">{{data["DN"][j].items[k].discount_percentage}}</td>
+                            <td contenteditable="true" class="dn-am">{{data["DN"][j].items[k].amount}}</td>
+                            <td contenteditable="true" class="dn-batch">None</td>
                         </tr>
                         {% } %}
                     </tbody>

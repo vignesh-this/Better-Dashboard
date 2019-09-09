@@ -1,4 +1,4 @@
-<div id="dash-body-main">
+<div id="dash-body-main" id="warehouse" data-warehouse={{data.warehouse}}>
     <div class="row">
         <div class="col-xs-2 gap" id="p1">
             <div class="row" style="margin-right:0">
@@ -147,7 +147,7 @@
             </div>
         </div>
     </div>
-    <div class="row ui" id="dash-body" style="border: 1px solid #ced5db; min-height: -webkit-fill-available;">
+    <div class="row ui" id="dash-body" style="border: 1px solid #ced5db; height: 300px;">
         <div class="col-xs-2 gaps sales-order" id="p1">
 
             <div class="panel-group" id="accordion1" style="margin-top:0px;">
@@ -511,6 +511,24 @@
             </div>
             <div class="modal-body">
                 <div class="row hide riz-col" style="border: 1px solid; border-right: 0; border-left: 0;" data-step="1" data-title="Check and Fill Billed and Free Quantity">
+                    <div class="col-xs-12" style="border-bottom: 1px solid; padding: 5px;">
+                        <span class="col-xs-3 indicator green">
+                            <span class="hidden-xs">Available Qty</span>
+                            <span class="hidden-xs" id="av_qty"></span>
+                        </span>
+                        <span class="col-xs-3 indicator green">
+                            <span class="hidden-xs">Available Free Qty</span>
+                            <span class="hidden-xs" id="av_free_qty"></span>
+                        </span>
+                        <span class="col-xs-3 indicator green">
+                            <span class="hidden-xs">Total Ordered Qty</span>
+                            <span class="hidden-xs"></span>
+                        </span>
+                        <span class="col-xs-3 indicator green">
+                            <span class="hidden-xs">Total Recieved Qty</span>
+                            <span class="hidden-xs"></span>
+                        </span>
+                    </div>
                     <div class="col-xs-4 viz-col" id="saor" style="border-right: 1px solid; padding: 5px;">Sales Orders</div>
                     <div class="col-xs-4 viz-col" id="deno" style="border-right: 1px solid; padding: 5px;">Fill Bills</div>
                     <div class="col-xs-4 viz-col" id="pure" style=" padding: 5px;">Purchase Orders</div>

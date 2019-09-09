@@ -11,10 +11,24 @@ from frappe.model.mapper import make_mapped_doc
 from erpnext.controllers.accounts_controller import get_taxes_and_charges
 import json
 
+global_defaults = frappe.get_doc("Global Defaults")
+company = global_defaults.default_company
+found_company = frappe.get_doc("Company",{"name":company})
+company_abbr = found_company.abbr
+medleydist_id = found_company.medley_dist_id
+proxy_settings = frappe.get_doc("Proxy Setting")
+if proxy_settings.site_mode == "Production" :
+	ip =  proxy_settings.production_ip
+else:
+	ip =  proxy_settings.development_ip
+ware = proxy_settings.virtual_warehouse
+default_ware = proxy_settings.default_warehouse
+free_warehouse = proxy_settings.free_quantity_warehouse
+
 @frappe.whitelist()
-def get_all_data(date=None):
-    if date:
-        filter = {"creation": ["between", [getdate(parse_date(date)), getdate(parse_date(date))]]}
+def get_all_data(from_date=nowdate(),to_date=nowdate()):
+    if from_date:
+        filter = {"creation": ["between", [getdate(parse_date(from_date)), getdate(parse_date(from_date))]]}
     else:
         filter = {}   
     sales_order = frappe.db.get_list("Sales Order", fields=["name", "customer", "status"], filters=filter)
@@ -23,13 +37,13 @@ def get_all_data(date=None):
         i.items = items
         i.item_count = len(items)
         i.title = i.customer[0:20]
-    material_req = frappe.db.get_list("Material Request", fields=["name", "customer_name", "status", "material_request_type"], filters=filter)
+    material_req = frappe.db.get_list("Material Request", fields=["name", "customer_name", "status", "material_request_type", "title"], filters=filter)
     for i in material_req:
         items = frappe.db.get_list("Material Request Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "uom"])
         i.items = items
         i.item_count = len(items)
-        if i.customer_name:
-            i.title = i.customer_name[0:20]
+        if i.title:
+            i.title = i.title[0:20]
         else:
             i.title = ""
     purchase_ord = frappe.db.get_list("Purchase Order", fields=["name", "supplier", "status"], filters=filter)
@@ -68,7 +82,8 @@ def get_all_data(date=None):
                 "purchase_ord_count": len(purchase_ord),
                 "purchase_rec_count": len(purchase_rec),
                 "delivery_note_count": len(delivery_note),
-                "sales_invoice_count": len(sales_invoice)
+                "sales_invoice_count": len(sales_invoice),
+                "warehouse": ware
             }
 
 @frappe.whitelist()
@@ -102,10 +117,34 @@ def get_data_for_delivery_note(sales_orders, purchase_reciepts):
 
     for x in json.loads(sales_orders):
         salesorder = frappe.get_doc("Sales Order", x)
-        SO.append(salesorder)    
+        SO.append(salesorder)
         new_doc = make_mapped_doc(source_name=salesorder.name, method=method)
         DN.append(new_doc)
     for y in json.loads(purchase_reciepts):
         purchasereciept = frappe.get_doc("Purchase Receipt", y)
-        PR.append(purchasereciept)          
+        PR.append(purchasereciept)   
+    
     return {"SO": SO, "PR": PR, "DN": DN}    
+
+
+@frappe.whitelist()
+def get_item_data(item, selected_pr):
+    bin = []
+    free_bin = []
+    bin_name = frappe.db.get_value("Bin", filters={"warehouse": ware, "item_code": item}, fieldname="name")
+    free_bin_name = frappe.db.get_value("Bin", filters={"warehouse": free_warehouse, "item_code": item}, fieldname="name")
+    if bin_name:
+        bin = frappe.db.get_all("Bin",
+		filters={"name": bin_name},
+		fields=["actual_qty", "reserved_qty"])[0]
+    if free_bin_name:
+        free_bin = frappe.db.get_all("Bin",
+		filters={"name": free_bin_name},
+		fields=["actual_qty", "reserved_qty"])[0]
+
+    selected_pr = json.loads(selected_pr)
+    for i in selected_pr:
+        po_name = frappe.db.get_value("Purchase Receipt", i, "purchase_order_no")
+        purchase_order_item = frappe.db.get_list("Purchase Order Item", fields=["name", "qty"], filters={"parent": po_name})    
+
+    return {"bin":bin, "free_bin": free_bin, "purchase_order_item":purchase_order_item}

@@ -104,7 +104,7 @@ frappe.views.BetterDashboard = Class.extend({
 		this.date_field = frappe.ui.form.make_control({
 			df: {
 				fieldtype: 'Date',
-				label: 'Date',
+				label: 'From Date',
 				fieldname: 'date_field',
 				onchange: () => {
 					console.log(this.date_field.get_value());
@@ -112,6 +112,19 @@ frappe.views.BetterDashboard = Class.extend({
 				}
 			},
 			parent: $(page.body.html).find('#date-filter'),
+			render_input: true
+		});
+		this.to_date = frappe.ui.form.make_control({
+			df: {
+				fieldtype: 'Date',
+				label: 'To Date',
+				fieldname: 'to_date_field',
+				onchange: () => {
+					console.log(this.date_field.get_value());
+					me.get_filtered_data();
+				}
+			},
+			parent: $(page.body.html).find('#to-date-filter'),
 			render_input: true
 		});
 		this.supplier_field = frappe.ui.form.make_control({
@@ -164,19 +177,6 @@ frappe.views.BetterDashboard = Class.extend({
 				}
 			},
 			parent: $(page.body.html).find('#medley-masterid-filter'),
-			render_input: true
-		});
-		this.company = frappe.ui.form.make_control({
-			df: {
-				fieldtype: 'Link',
-				label: 'Company',
-				options: 'Company',
-				fieldname: 'company',
-				onchange: () => {
-					console.log(this.company.get_value());
-				}
-			},
-			parent: $(page.body.html).find('#company-filter'),
 			render_input: true
 		});
 	},
@@ -268,7 +268,7 @@ frappe.views.BetterDashboard = Class.extend({
 	},
 	get_filtered_data: function () {
 		var me = this;
-		me.args = {"date": me.date_field.get_value()}
+		me.args = {"from_date": me.date_field.get_value(), "to_date": me.to_date.get_value()}
 		me.get_data();
 		me.render_base_template();
 		me.make_context_menu();
@@ -527,25 +527,22 @@ frappe.views.BetterDashboard = Class.extend({
 										$("#saor").html(frappe.render_template("make_dn_so", {"data": r.message}));
 										$("#pure").html(frappe.render_template("make_dn_pr", {"data": r.message}));
 										$("#deno").html(frappe.render_template("make_dn_dn", {"data": r.message}));
-										var dnqty = document.getElementById('dn-qty');
-										dnqty.addEventListener('input', function() {
-											console.log('Hey, somebody changed something in my text!');
-										});
-										var dnfqty = document.getElementById('dn-fqty');
-										dnfqty.addEventListener('input', function() {
-											console.log('Hey, somebody changed something in my text!');
-										});
-										var dnrate = document.getElementById('dn-rate');
-										dnrate.addEventListener('input', function() {
-											console.log('Hey, somebody changed something in my text!');
-										});
-										var dndp = document.getElementById('dn-dp');
-										dndp.addEventListener('input', function() {
-											console.log('Hey, somebody changed something in my text!');
-										});
-										var dnam = document.getElementById('dn-am');
-										dnam.addEventListener('input', function() {
-											console.log('Hey, somebody changed something in my text!');
+										
+										$(".dn-qty").click(function() {
+											var a = $(this).parent().attr("data-itemcode");
+											frappe.call({
+												"method": "better_dash.better_dash.page.better_dash.better_dash.get_item_data",
+												'args': {
+													'item': a,
+													"selected_pr": selected_pr
+												},
+												callback: function (r) {
+													$("#av_qty").text(" : "+r.message.bin.actual_qty)
+													$("#av_free_qty").text(" : "+r.message.free_bin.actual_qty)
+
+													console.log(r.message)
+												}
+											})
 										});
 									}
 								});

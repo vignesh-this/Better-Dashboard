@@ -26,6 +26,7 @@
                             <th>Free Qty</th>
                             <th>Rate</th>
                             <th>Amount</th>
+                            <th>Batch</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,6 +37,7 @@
                             <td>{{data["PR"][j].items[k].free_qty}}</td>
                             <td>{{data["PR"][j].items[k].rate}}</td>
                             <td>{{data["PR"][j].items[k].amount}}</td>
+                            <td>{{data["PR"][j].items[k].batch_no}}</td>
                         </tr>
                         {% } %}
                     </tbody>
