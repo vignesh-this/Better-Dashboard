@@ -10,6 +10,7 @@ from frappe.model.mapper import map_docs
 from frappe.model.mapper import make_mapped_doc
 from erpnext.controllers.accounts_controller import get_taxes_and_charges
 import json
+from erpnext.stock.doctype.batch.batch import get_batch_qty
 
 global_defaults = frappe.get_doc("Global Defaults")
 company = global_defaults.default_company
@@ -147,4 +148,10 @@ def get_item_data(item, selected_pr):
         po_name = frappe.db.get_value("Purchase Receipt", i, "purchase_order_no")
         purchase_order_item = frappe.db.get_list("Purchase Order Item", fields=["name", "qty"], filters={"parent": po_name})    
 
-    return {"bin":bin, "free_bin": free_bin, "purchase_order_item":purchase_order_item}
+    batch = frappe.db.get_list("Batch", filters={"item": item}, fields=["batch_id", "name", "pts", "ptr", "mrp_", "expiry_date"])
+    for ko in batch:
+        ko.virtual_ware = get_batch_qty(batch_no=ko.batch_id, warehouse=ware, item_code=item)
+        ko.stores_ware = get_batch_qty(batch_no=ko.batch_id, warehouse=default_ware, item_code=item)
+        ko.free_ware = get_batch_qty(batch_no=ko.batch_id, warehouse=free_warehouse, item_code=item)
+
+    return {"bin":bin, "free_bin": free_bin, "purchase_order_item":purchase_order_item, "batch": batch}

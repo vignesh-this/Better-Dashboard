@@ -502,15 +502,16 @@
 
 
 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
-    <div class="modal-dialog" role="document" style="width: 95%">
-        <div class="modal-content">
+    <div class="modal-dialog" role="document" style="width: 99%">
+        <div class="modal-content" style="max-height: 5in; overflow-y: scroll;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
                 <h4 class="js-title-step"></h4>
             </div>
             <div class="modal-body">
-                <div class="row hide riz-col" style="border: 1px solid; border-right: 0; border-left: 0;" data-step="1" data-title="Check and Fill Billed and Free Quantity">
+                <div class="row hide riz-col" style="border: 1px solid; border-right: 0; border-left: 0;" data-step="1"
+                    data-title="Check and Fill Billed and Free Quantity">
                     <div class="col-xs-12" style="border-bottom: 1px solid; padding: 5px;">
                         <span class="col-xs-3 indicator green">
                             <span class="hidden-xs">Available Qty</span>
@@ -529,13 +530,34 @@
                             <span class="hidden-xs"></span>
                         </span>
                     </div>
-                    <div class="col-xs-4 viz-col" id="saor" style="border-right: 1px solid; padding: 5px;">Sales Orders</div>
-                    <div class="col-xs-4 viz-col" id="deno" style="border-right: 1px solid; padding: 5px;">Fill Bills</div>
+                    <div class="col-xs-12" style="border-bottom: 1px solid; padding: 5px;">
+                        <table class="table table-bordered" id="example" style="font-size: 10px; margin: 0; max-height: 100px; overflow-y: scroll;">
+                            <thead>
+                                <tr>
+                                    <th>Batch No.</th>
+                                    <th>Vir. Ware</th>
+                                    <th>Def. Ware</th>
+                                    <th>Free. Ware</th>
+                                    <th>PTS</th>
+                                    <th>PTR</th>
+                                    <th>MRP</th>
+                                    <th>Exp.</th>
+                                </tr>
+                            </thead>
+                            <tbody class="batch_data">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-4 viz-col" id="saor" style="border-right: 1px solid; padding: 5px;">Sales Orders
+                    </div>
+                    <div class="col-xs-4 viz-col" id="deno" style="border-right: 1px solid; padding: 5px;">Fill Bills
+                    </div>
                     <div class="col-xs-4 viz-col" id="pure" style=" padding: 5px;">Purchase Orders</div>
                 </div>
                 <div class="row hide riz-col" data-step="2" data-title="Check Purchase Order and Proceed to Save">
                 </div>
-                <div class="row hide riz-col" data-step="3" data-title="Purchase Order Created Click on the button to view !">
+                <div class="row hide riz-col" data-step="3"
+                    data-title="Purchase Order Created Click on the button to view !">
                 </div>
             </div>
             <div class="modal-footer">
@@ -548,7 +570,9 @@
     </div>
 </div>
 <style>
-    .viz-col{
-        min-height: 4in;
+    .viz-col {
+        min-height: 3in;
+        max-height: 3in;
+        overflow-y: scroll;
     }
 </style>

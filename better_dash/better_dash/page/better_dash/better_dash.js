@@ -528,7 +528,7 @@ frappe.views.BetterDashboard = Class.extend({
 										$("#pure").html(frappe.render_template("make_dn_pr", {"data": r.message}));
 										$("#deno").html(frappe.render_template("make_dn_dn", {"data": r.message}));
 										
-										$(".dn-qty").click(function() {
+										$(".adn").click(function() {
 											var a = $(this).parent().attr("data-itemcode");
 											frappe.call({
 												"method": "better_dash.better_dash.page.better_dash.better_dash.get_item_data",
@@ -539,7 +539,20 @@ frappe.views.BetterDashboard = Class.extend({
 												callback: function (r) {
 													$("#av_qty").text(" : "+r.message.bin.actual_qty)
 													$("#av_free_qty").text(" : "+r.message.free_bin.actual_qty)
-
+													$(".batch_data").empty();
+													for(var y=0; y<r.message.batch.length; y++){
+														let data = r.message.batch[y];
+														$(".batch_data").append(`<tr>
+														<td>`+data.batch_id+`</td>
+														<td>`+data.virtual_ware+`</td>
+														<td>`+data.stores_ware+`</td>
+														<td>`+data.free_ware+`</td>
+														<td>`+data.pts+`</td>
+														<td>`+data.ptr+`</td>
+														<td>`+data.mrp_+`</td>
+														<td>`+data.expiry_date+`</td>
+														</tr>`)
+													}
 													console.log(r.message)
 												}
 											})
