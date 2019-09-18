@@ -103,8 +103,8 @@ frappe.views.BetterDashboard = Class.extend({
 		page = me.page;
 		this.date_field = frappe.ui.form.make_control({
 			df: {
-				fieldtype: 'Date',
-				label: 'From Date',
+				fieldtype: 'DateRange',
+				label: 'Date Range',
 				fieldname: 'date_field',
 				onchange: () => {
 					console.log(this.date_field.get_value());
@@ -114,14 +114,14 @@ frappe.views.BetterDashboard = Class.extend({
 			parent: $(page.body.html).find('#date-filter'),
 			render_input: true
 		});
-		this.to_date = frappe.ui.form.make_control({
+		this.dash_type = frappe.ui.form.make_control({
 			df: {
-				fieldtype: 'Date',
-				label: 'To Date',
-				fieldname: 'to_date_field',
+				fieldtype: 'Select',
+				label: 'Dashboard Type',
+				fieldname: 'dashboard_type',
+				options: ["Sales", "Purchase", "General"],
 				onchange: () => {
-					console.log(this.date_field.get_value());
-					me.get_filtered_data();
+					console.log(this.dash_type.get_value());
 				}
 			},
 			parent: $(page.body.html).find('#to-date-filter'),
@@ -268,7 +268,7 @@ frappe.views.BetterDashboard = Class.extend({
 	},
 	get_filtered_data: function () {
 		var me = this;
-		me.args = {"from_date": me.date_field.get_value(), "to_date": me.to_date.get_value()}
+		me.args = {"from_date": me.date_field.get_value()[0], "to_date": me.date_field.get_value()[1]}
 		me.get_data();
 		me.render_base_template();
 		me.make_context_menu();
@@ -515,6 +515,7 @@ frappe.views.BetterDashboard = Class.extend({
 								selected_pr.push($(this).attr('data-name'));
 							});
 							console.log(selected_so, selected_pr);
+							var dn_data = undefined;
 							var callback1 = function () {
 								frappe.call({
 									method: "better_dash.better_dash.page.better_dash.better_dash.get_data_for_delivery_note",
@@ -522,8 +523,10 @@ frappe.views.BetterDashboard = Class.extend({
 										sales_orders: selected_so,
 										purchase_reciepts: selected_pr
 									},
+									async: false,
 									callback: function (r) {
 										console.log(r.message)
+										dn_data = r.message;
 										$("#saor").html(frappe.render_template("make_dn_so", {"data": r.message}));
 										$("#pure").html(frappe.render_template("make_dn_pr", {"data": r.message}));
 										$("#deno").html(frappe.render_template("make_dn_dn", {"data": r.message}));
@@ -534,11 +537,22 @@ frappe.views.BetterDashboard = Class.extend({
 												"method": "better_dash.better_dash.page.better_dash.better_dash.get_item_data",
 												'args': {
 													'item': a,
-													"selected_pr": selected_pr
+													"selected_pr": selected_pr,
+													"sales_orders": selected_so
 												},
 												callback: function (r) {
+													// $("#example").css("display", "block");
 													$("#av_qty").text(" : "+r.message.bin.actual_qty)
 													$("#av_free_qty").text(" : "+r.message.free_bin.actual_qty)
+													$("#item_name").text(r.message.item);
+													$("#item_data").empty();
+													for (let index = 0; index < r.message.ordered_by.length; index++) {
+														const element = r.message.ordered_by[index];
+														$("#item_data").append(`
+														<l1 class="list-group-item">`+element.customer+` ordered `+element.qty+` nos.</li>
+														`);
+													}
+													
 													$(".batch_data").empty();
 													for(var y=0; y<r.message.batch.length; y++){
 														let data = r.message.batch[y];
@@ -551,6 +565,7 @@ frappe.views.BetterDashboard = Class.extend({
 														<td>`+data.ptr+`</td>
 														<td>`+data.mrp_+`</td>
 														<td>`+data.expiry_date+`</td>
+														<td align='center'><form><input type=submit value="Select" style="width:100%"></form></td>
 														</tr>`)
 													}
 													console.log(r.message)
@@ -561,7 +576,7 @@ frappe.views.BetterDashboard = Class.extend({
 								});
 							};
 							var callback2 = function () {
-								
+								console.log(dn_data)
 							};
 							var callback3 = function () {
 								

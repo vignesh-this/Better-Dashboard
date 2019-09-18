@@ -29,7 +29,7 @@ free_warehouse = proxy_settings.free_quantity_warehouse
 @frappe.whitelist()
 def get_all_data(from_date=nowdate(),to_date=nowdate()):
     if from_date:
-        filter = {"creation": ["between", [getdate(parse_date(from_date)), getdate(parse_date(from_date))]]}
+        filter = {"creation": ["between", [getdate(parse_date(from_date)), getdate(parse_date(to_date))]]}
     else:
         filter = {}   
     sales_order = frappe.db.get_list("Sales Order", fields=["name", "customer", "status"], filters=filter)
@@ -84,7 +84,8 @@ def get_all_data(from_date=nowdate(),to_date=nowdate()):
                 "purchase_rec_count": len(purchase_rec),
                 "delivery_note_count": len(delivery_note),
                 "sales_invoice_count": len(sales_invoice),
-                "warehouse": ware
+                "warehouse": ware,
+                "ware": ware, "default_ware": default_ware, "free_warehouse": free_warehouse
             }
 
 @frappe.whitelist()
@@ -129,7 +130,7 @@ def get_data_for_delivery_note(sales_orders, purchase_reciepts):
 
 
 @frappe.whitelist()
-def get_item_data(item, selected_pr):
+def get_item_data(item, selected_pr, sales_orders):
     bin = []
     free_bin = []
     bin_name = frappe.db.get_value("Bin", filters={"warehouse": ware, "item_code": item}, fieldname="name")
@@ -153,5 +154,16 @@ def get_item_data(item, selected_pr):
         ko.virtual_ware = get_batch_qty(batch_no=ko.batch_id, warehouse=ware, item_code=item)
         ko.stores_ware = get_batch_qty(batch_no=ko.batch_id, warehouse=default_ware, item_code=item)
         ko.free_ware = get_batch_qty(batch_no=ko.batch_id, warehouse=free_warehouse, item_code=item)
+    
+    ordered_by = []
 
-    return {"bin":bin, "free_bin": free_bin, "purchase_order_item":purchase_order_item, "batch": batch}
+    for x in json.loads(sales_orders):
+        salesorder = frappe.get_doc("Sales Order", x)    
+        for i in salesorder.items:
+            if i.item_code == item:
+                ordered_by.append({"customer":salesorder.customer, "qty": i.qty})
+
+    return {"bin":bin, "free_bin": free_bin, 
+            "purchase_order_item":purchase_order_item, "batch": batch, 
+            "ware": ware, "default_ware": default_ware, 
+            "free_warehouse": free_warehouse, "ordered_by": ordered_by, "item": frappe.db.get_value("Item", item, "item_name")}

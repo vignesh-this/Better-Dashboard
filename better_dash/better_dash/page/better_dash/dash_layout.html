@@ -503,7 +503,7 @@
 
 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
     <div class="modal-dialog" role="document" style="width: 99%">
-        <div class="modal-content" style="max-height: 5in; overflow-y: scroll;">
+        <div class="modal-content" style="max-height: 5.5in; overflow-y: scroll;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
@@ -531,22 +531,29 @@
                         </span>
                     </div>
                     <div class="col-xs-12" style="border-bottom: 1px solid; padding: 5px;">
-                        <table class="table table-bordered" id="example" style="font-size: 10px; margin: 0; max-height: 100px; overflow-y: scroll;">
-                            <thead>
-                                <tr>
-                                    <th>Batch No.</th>
-                                    <th>Vir. Ware</th>
-                                    <th>Def. Ware</th>
-                                    <th>Free. Ware</th>
-                                    <th>PTS</th>
-                                    <th>PTR</th>
-                                    <th>MRP</th>
-                                    <th>Exp.</th>
-                                </tr>
-                            </thead>
-                            <tbody class="batch_data">
-                            </tbody>
-                        </table>
+                        <div class="col-xs-8">
+                            <table class="table table-bordered" id="example" style="font-size: 10px; margin: 0; max-height: 100px; overflow-y: scroll;">
+                                <thead>
+                                    <tr>
+                                        <th>Batch No.</th>
+                                        <th style="width: 100px;">Vir. Ware ({{data.ware}})</th>
+                                        <th style="width: 100px;">Def. Ware ({{data.default_ware}})</th>
+                                        <th style="width: 100px;">Free. Ware ({{data.free_warehouse}})</th>
+                                        <th>PTS</th>
+                                        <th>PTR</th>
+                                        <th>MRP</th>
+                                        <th>Exp.</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="batch_data">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-4">
+                            <div style="border: 1px solid; text-align: center; "id="item_name"></div>
+                            <ul class="list-group" id="item_data"></ul>
+                        </div>
+
                     </div>
                     <div class="col-xs-4 viz-col" id="saor" style="border-right: 1px solid; padding: 5px;">Sales Orders
                     </div>
