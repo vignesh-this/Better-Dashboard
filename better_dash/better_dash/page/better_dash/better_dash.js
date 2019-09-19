@@ -7,7 +7,7 @@ frappe.pages['better-dash'].on_page_load = function (wrapper) {
 	new frappe.views.BetterDashboard(page);
 }
 frappe.pages['better-dash'].refresh = function (wrapper) {
-
+	new frappe.views.BetterDashboard(page);
 }
 
 frappe.views.BetterDashboard = Class.extend({
@@ -39,6 +39,7 @@ frappe.views.BetterDashboard = Class.extend({
 	},
 	render_filters_template: function () {
 		var me = this;
+		$("#filter-tab").remove();
 		me.page.body.prepend(frappe.render_template("dash_filters", { "data": me.data }));		
 	},
 	render_base_template: function () {
@@ -70,7 +71,7 @@ frappe.views.BetterDashboard = Class.extend({
 			});
 			console.log(selected_docs);
 			if (["submit", "cancel", "update"].includes(action)) {
-				frappe.confirm(__("Submit Checked Documents ??"), function() {
+				frappe.confirm(__(action+" Checked Documents ??"), function() {
 					frappe.call({
 						method: "frappe.desk.doctype.bulk_update.bulk_update.submit_cancel_or_update_docs",
 						args:{
@@ -85,15 +86,37 @@ frappe.views.BetterDashboard = Class.extend({
 							if (failed.length && !r._server_messages) {
 								frappe.throw(__('Cannot {0} {1}', [action, failed.map(f => f.bold()).join(', ')]));
 							}
-							if (failed.length < docnames.length) {
+							if (failed.length < selected_docs.length) {
 								frappe.utils.play_sound(action);
-								if (done) done();
+								cur_page.page.refresh();			
 							}
 						}
 					});		
 				});
-			} else {
-				frappe.throw("Sorry !!!");
+			} else if (["delete"].includes(action)){
+				frappe.confirm(__(action+" Checked Documents ??"), function() {
+					frappe
+					.call({
+						method: 'frappe.desk.reportview.delete_items',
+						freeze: true,
+						args: {
+							items: selected_docs,
+							doctype: selected_doctype
+						}
+					})
+					.then(function (r) {
+						var failed = r.message;
+						if (!failed) { failed = []; }
+	
+						if (failed.length && !r._server_messages) {
+							frappe.throw(__('Cannot delete {0}', [failed.map(function (f) { return f.bold(); }).join(', ')]));
+						}
+						if (failed.length < selected_docs.length) {
+							frappe.utils.play_sound('delete');
+							cur_page.page.refresh();
+						}
+					});	
+				});
 			}			
 
 		});
@@ -308,6 +331,12 @@ frappe.views.BetterDashboard = Class.extend({
 		me.page.add_menu_item(__("Make Purchase Order"), function() {
 			frappe.confirm(__("Please Select Material Requests to Create a Purchase Order"), function() {
 				$(".gaps:not(.gaps.material-request)").find("input").attr("disabled", true);
+				$(".gaps.material-request").find("input[data-type!='Purchase'][data-doctype='Material Request']").attr("disabled", true);
+				$(".gaps.material-request").find("input[data-status='Stopped']").attr("disabled", true);
+				$(".gaps.material-request").find("input[data-isprocessed='1']").attr("disabled", true);
+				$(".gaps.material-request").find("input[data-docstatus='2'][data-docstatus='0']").attr("disabled", true);
+				$(".gaps.material-request").find("input[data-per_ordered='100']").attr("disabled", true);
+
 				me.page.set_primary_action(__("Select Material Requests"), function() {
 					$(".gaps").find("input").removeAttr("disabled");
 					$(me.page.btn_primary).hide();

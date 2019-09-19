@@ -218,7 +218,9 @@
                     <div class="panel-heading row">
                         <div class="col-xs-2">
                             <input type="checkbox" name="checkbox-1" id="checkbox-1" data-doctype="Material Request"
-                                data-name="{{data.material_req[o].name}}">
+                                data-docstatus="{{data.material_req[o].docstatus}}" data-isprocessed="{{data.material_req[o].is_processed}}"
+                                data-status="{{data.material_req[o].status}}" data-per_ordered="{{data.material_req[o].per_ordered}}"
+                                data-name="{{data.material_req[o].name}}" data-type="{{data.material_req[o].material_request_type}}">
                         </div>
                         <div class="col-xs-10 panel-head-title" data-toggle="collapse" data-parent="#accordion2"
                             href="#collapsecm2{{o}}">
