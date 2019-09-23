@@ -71,7 +71,7 @@ frappe.views.BetterDashboard = Class.extend({
 			});
 			console.log(selected_docs);
 			if (["submit", "cancel", "update"].includes(action)) {
-				frappe.confirm(__(action+" Checked Documents ??"), function() {
+				frappe.confirm(__(action.charAt(0).toUpperCase() + action.slice(1)+" Checked Documents ??"), function() {
 					frappe.call({
 						method: "frappe.desk.doctype.bulk_update.bulk_update.submit_cancel_or_update_docs",
 						args:{
@@ -84,7 +84,9 @@ frappe.views.BetterDashboard = Class.extend({
 							if (!failed) failed = [];
 			
 							if (failed.length && !r._server_messages) {
+								cur_page.page.refresh();
 								frappe.throw(__('Cannot {0} {1}', [action, failed.map(f => f.bold()).join(', ')]));
+								
 							}
 							if (failed.length < selected_docs.length) {
 								frappe.utils.play_sound(action);
@@ -92,9 +94,11 @@ frappe.views.BetterDashboard = Class.extend({
 							}
 						}
 					});		
+				}, function () {
+					cur_page.page.refresh();
 				});
 			} else if (["delete"].includes(action)){
-				frappe.confirm(__(action+" Checked Documents ??"), function() {
+				frappe.confirm(__(action.charAt(0).toUpperCase() + action.slice(1)+" Checked Documents ??"), function() {
 					frappe
 					.call({
 						method: 'frappe.desk.reportview.delete_items',
@@ -102,20 +106,24 @@ frappe.views.BetterDashboard = Class.extend({
 						args: {
 							items: selected_docs,
 							doctype: selected_doctype
-						}
-					})
-					.then(function (r) {
-						var failed = r.message;
-						if (!failed) { failed = []; }
-	
-						if (failed.length && !r._server_messages) {
-							frappe.throw(__('Cannot delete {0}', [failed.map(function (f) { return f.bold(); }).join(', ')]));
-						}
-						if (failed.length < selected_docs.length) {
-							frappe.utils.play_sound('delete');
-							cur_page.page.refresh();
+						},
+						callback: function (r) {
+							var failed = r.message;
+							if (!failed) { failed = []; }
+		
+							if (failed.length && !r._server_messages) {
+								cur_page.page.refresh();
+								frappe.throw(__('Cannot delete {0}', [failed.map(function (f) { return f.bold(); }).join(', ')]));
+								
+							}
+							if (failed.length < selected_docs.length) {
+								frappe.utils.play_sound('delete');
+								cur_page.page.refresh();
+							}
 						}
 					});	
+				}, function () {
+					cur_page.page.refresh();
 				});
 			}			
 
@@ -145,6 +153,64 @@ frappe.views.BetterDashboard = Class.extend({
 				options: ["Sales", "Purchase", "General"],
 				onchange: () => {
 					console.log(this.dash_type.get_value());
+					var type = this.dash_type.get_value();
+					if (type == "Sales") {
+						me.dash_type = "Sales";
+						cur_page.page.refresh();
+
+						$(".gap.material-request").hide();
+						$(".gaps.material-request").hide();
+						$(".gap.purchase-order").hide();
+						$(".gaps.purchase-order").hide();
+
+						$(".gap.sales-order").removeClass("col-xs-2");
+						$(".gaps.sales-order").removeClass("col-xs-2");
+						$(".gap.purchase-receipt").removeClass("col-xs-2");
+						$(".gaps.purchase-receipt").removeClass("col-xs-2");
+						$(".gap.delivery-note").removeClass("col-xs-2");
+						$(".gaps.delivery-note").removeClass("col-xs-2");
+						$(".gap.sales-invoice").removeClass("col-xs-2");
+						$(".gaps.sales-invoice").removeClass("col-xs-2");
+
+						$(".gap.sales-order").addClass("col-xs-3");
+						$(".gaps.sales-order").addClass("col-xs-3");
+						$(".gap.purchase-receipt").addClass("col-xs-3");
+						$(".gaps.purchase-receipt").addClass("col-xs-3");
+						$(".gap.delivery-note").addClass("col-xs-3");
+						$(".gaps.delivery-note").addClass("col-xs-3");
+						$(".gap.sales-invoice").addClass("col-xs-3");
+						$(".gaps.sales-invoice").addClass("col-xs-3");						
+						
+					} else if (type == "Purchase") {
+						me.dash_type = "Purchase";
+
+						cur_page.page.refresh();
+						$(".gap.delivery-note").hide();
+						$(".gaps.delivery-note").hide();
+						$(".gap.sales-invoice").hide();
+						$(".gaps.sales-invoice").hide();
+
+						$(".gap.sales-order").removeClass("col-xs-2");
+						$(".gaps.sales-order").removeClass("col-xs-2");
+						$(".gap.material-request").removeClass("col-xs-2");
+						$(".gaps.material-request").removeClass("col-xs-2");
+						$(".gap.purchase-order").removeClass("col-xs-2");
+						$(".gaps.purchase-order").removeClass("col-xs-2");
+						$(".gap.purchase-receipt").removeClass("col-xs-2");
+						$(".gaps.purchase-receipt").removeClass("col-xs-2");
+
+						$(".gap.sales-order").addClass("col-xs-3");
+						$(".gaps.sales-order").addClass("col-xs-3");
+						$(".gap.material-request").addClass("col-xs-3");
+						$(".gaps.material-request").addClass("col-xs-3");
+						$(".gap.purchase-order").addClass("col-xs-3");
+						$(".gaps.purchase-order").addClass("col-xs-3");
+						$(".gap.purchase-receipt").addClass("col-xs-3");
+						$(".gaps.purchase-receipt").addClass("col-xs-3");	
+						
+					} else {
+						cur_page.page.refresh();
+					}
 				}
 			},
 			parent: $(page.body.html).find('#to-date-filter'),
@@ -514,6 +580,9 @@ frappe.views.BetterDashboard = Class.extend({
 								'1': callback1,
 								'2': callback2,
 								'3': callback3
+							},
+							completeCallback: function () {
+								cur_page.page.refresh();
 							}
 						});						
 						$(cur_dialog.header).find(".btn-primary").attr({"data-toggle":"modal", "data-target":"#myModal"});
@@ -575,6 +644,12 @@ frappe.views.BetterDashboard = Class.extend({
 													$("#av_free_qty").text(" : "+r.message.free_bin.actual_qty)
 													$("#item_name").text(r.message.item);
 													$("#item_data").empty();
+													$("#tot_ord_qty").empty();
+													$("#tot_ord_qty").text(" : "+r.message.ordered_qty);
+													$("#tot_rec_qty").empty();
+													$("#tot_rec_qty").text(" : "+r.message.recieved_qty);
+
+
 													for (let index = 0; index < r.message.ordered_by.length; index++) {
 														const element = r.message.ordered_by[index];
 														$("#item_data").append(`
@@ -594,7 +669,7 @@ frappe.views.BetterDashboard = Class.extend({
 														<td>`+data.ptr+`</td>
 														<td>`+data.mrp_+`</td>
 														<td>`+data.expiry_date+`</td>
-														<td align='center'><form><input type=submit value="Select" style="width:100%"></form></td>
+														<td align='center'><button class="btn btn-default" type="button" style="width:100%">Select!</button>
 														</tr>`)
 													}
 													console.log(r.message)

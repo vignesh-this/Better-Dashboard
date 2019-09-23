@@ -144,10 +144,25 @@ def get_item_data(item, selected_pr, sales_orders):
 		filters={"name": free_bin_name},
 		fields=["actual_qty", "reserved_qty"])[0]
 
+    purchase_order_item = []
+    purchase_reciept_item = []
     selected_pr = json.loads(selected_pr)
     for i in selected_pr:
         po_name = frappe.db.get_value("Purchase Receipt", i, "purchase_order_no")
-        purchase_order_item = frappe.db.get_list("Purchase Order Item", fields=["name", "qty"], filters={"parent": po_name})    
+        purchase_reciept = frappe.db.get_list("Purchase Receipt Item", fields=["name", "qty", "item_code"], filters={"parent": i, "item_code": item}) 
+        purchase_order = frappe.db.get_list("Purchase Order Item", fields=["name", "qty", "item_code"], filters={"parent": po_name, "item_code": item})    
+        for i in purchase_order:
+            purchase_order_item.append(i)
+        for i in purchase_reciept:
+            purchase_reciept_item.append(i)
+
+    ordered_qty = 0
+    for b in purchase_order_item:
+        ordered_qty += b.qty
+
+    recieved_qty = 0
+    for b in purchase_reciept_item:
+        recieved_qty += b.qty
 
     batch = frappe.db.get_list("Batch", filters={"item": item}, fields=["batch_id", "name", "pts", "ptr", "mrp_", "expiry_date"])
     for ko in batch:
@@ -166,4 +181,6 @@ def get_item_data(item, selected_pr, sales_orders):
     return {"bin":bin, "free_bin": free_bin, 
             "purchase_order_item":purchase_order_item, "batch": batch, 
             "ware": ware, "default_ware": default_ware, 
-            "free_warehouse": free_warehouse, "ordered_by": ordered_by, "item": frappe.db.get_value("Item", item, "item_name")}
+            "free_warehouse": free_warehouse, "ordered_by": ordered_by, 
+            "item": frappe.db.get_value("Item", item, "item_name"),
+            "ordered_qty": ordered_qty, "recieved_qty": recieved_qty}
