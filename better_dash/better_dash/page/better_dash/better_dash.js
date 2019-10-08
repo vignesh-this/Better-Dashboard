@@ -97,7 +97,8 @@ frappe.views.BetterDashboard = Class.extend({
 				}, function () {
 					cur_page.page.refresh();
 				});
-			} else if (["delete"].includes(action)){
+			} 
+			else if (["delete"].includes(action)){
 				frappe.confirm(__(action.charAt(0).toUpperCase() + action.slice(1)+" Checked Documents ??"), function() {
 					frappe
 					.call({
@@ -125,6 +126,69 @@ frappe.views.BetterDashboard = Class.extend({
 				}, function () {
 					cur_page.page.refresh();
 				});
+			}
+			else if (["print"].includes(action)) {
+
+				// print(docs) {
+				// 	const print_settings = frappe.model.get_doc(':Print Settings', 'Print Settings');
+				// 	const allow_print_for_draft = cint(print_settings.allow_print_for_draft);
+				// 	const is_submittable = frappe.model.is_submittable(this.doctype);
+				// 	const allow_print_for_cancelled = cint(print_settings.allow_print_for_cancelled);
+			
+				// 	const valid_docs = docs.filter(doc => {
+				// 		return !is_submittable || doc.docstatus === 1 ||
+				// 			(allow_print_for_cancelled && doc.docstatus == 2) ||
+				// 			(allow_print_for_draft && doc.docstatus == 0) ||
+				// 			frappe.user.has_role('Administrator');
+				// 	}).map(doc => doc.name);
+			
+				// 	const invalid_docs = docs.filter(doc => !valid_docs.includes(doc.name));
+			
+				// 	if (invalid_docs.length > 0) {
+				// 		frappe.msgprint(__('You selected Draft or Cancelled documents'));
+				// 		return;
+				// 	}
+			
+				// 	if (valid_docs.length > 0) {
+				// 		const dialog = new frappe.ui.Dialog({
+				// 			title: __('Print Documents'),
+				// 			fields: [{
+				// 				'fieldtype': 'Check',
+				// 				'label': __('With Letterhead'),
+				// 				'fieldname': 'with_letterhead'
+				// 			},
+				// 			{
+				// 				'fieldtype': 'Select',
+				// 				'label': __('Print Format'),
+				// 				'fieldname': 'print_sel',
+				// 				options: frappe.meta.get_print_formats(this.doctype)
+				// 			}]
+				// 		});
+			
+				// 		dialog.set_primary_action(__('Print'), args => {
+				// 			if (!args) return;
+				// 			const default_print_format = frappe.get_meta(this.doctype).default_print_format;
+				// 			const with_letterhead = args.with_letterhead ? 1 : 0;
+				// 			const print_format = args.print_sel ? args.print_sel : default_print_format;
+				// 			const json_string = JSON.stringify(valid_docs);
+			
+				// 			const w = window.open('/api/method/frappe.utils.print_format.download_multi_pdf?' +
+				// 				'doctype=' + encodeURIComponent(this.doctype) +
+				// 				'&name=' + encodeURIComponent(json_string) +
+				// 				'&format=' + encodeURIComponent(print_format) +
+				// 				'&no_letterhead=' + (with_letterhead ? '0' : '1'));
+				// 			if (!w) {
+				// 				frappe.msgprint(__('Please enable pop-ups'));
+				// 				return;
+				// 			}
+				// 		});
+			
+				// 		dialog.show();
+				// 	} else {
+				// 		frappe.msgprint(__('Select atleast 1 record for printing'));
+				// 	}
+				// }				
+				
 			}			
 
 		});
@@ -155,13 +219,22 @@ frappe.views.BetterDashboard = Class.extend({
 					console.log(this.dash_type.get_value());
 					var type = this.dash_type.get_value();
 					if (type == "Sales") {
-						me.dash_type = "Sales";
-						cur_page.page.refresh();
+						// me.dash_type = "Sales";
+						// cur_page.page.refresh();
 
 						$(".gap.material-request").hide();
 						$(".gaps.material-request").hide();
 						$(".gap.purchase-order").hide();
 						$(".gaps.purchase-order").hide();
+
+						$(".gap.sales-order").show();
+						$(".gaps.sales-order").show();
+						$(".gap.purchase-receipt").show();
+						$(".gaps.purchase-receipt").show();
+						$(".gap.delivery-note").show();
+						$(".gaps.delivery-note").show();
+						$(".gap.sales-invoice").show();
+						$(".gaps.sales-invoice").show();						
 
 						$(".gap.sales-order").removeClass("col-xs-2");
 						$(".gaps.sales-order").removeClass("col-xs-2");
@@ -182,14 +255,25 @@ frappe.views.BetterDashboard = Class.extend({
 						$(".gaps.sales-invoice").addClass("col-xs-3");						
 						
 					} else if (type == "Purchase") {
-						me.dash_type = "Purchase";
+						// me.dash_type = "Purchase";
 
-						cur_page.page.refresh();
+						// cur_page.page.refresh();
 						$(".gap.delivery-note").hide();
 						$(".gaps.delivery-note").hide();
 						$(".gap.sales-invoice").hide();
 						$(".gaps.sales-invoice").hide();
 
+						$(".gap.sales-order").show();
+						$(".gap.material-request").show();
+						$(".gap.purchase-order").show();
+						$(".gap.purchase-receipt").show();
+
+						$(".gaps.sales-order").show();
+						$(".gaps.material-request").show();
+						$(".gaps.purchase-order").show();
+						$(".gaps.purchase-receipt").show();
+
+						
 						$(".gap.sales-order").removeClass("col-xs-2");
 						$(".gaps.sales-order").removeClass("col-xs-2");
 						$(".gap.material-request").removeClass("col-xs-2");
@@ -210,6 +294,9 @@ frappe.views.BetterDashboard = Class.extend({
 						
 					} else {
 						cur_page.page.refresh();
+						var from_date = me.date_field.get_value()[0]
+						var to_date = me.date_field.get_value()[1]
+						me.get_filtered_data(from_date=from_date, to_date=to_date, type=type);
 					}
 				}
 			},
@@ -301,6 +388,12 @@ frappe.views.BetterDashboard = Class.extend({
 			$("[data-doctype='" + doctype + "'][data-name='" + docname + "']").find(".panel-heading").css("background-color", "#6ebfa9");
 			me.get_linked_data(doctype, docname);					
 		});
+
+		$("#opendoc").click(function () {
+			var doctype = $(this).parent().parent().parent().attr("data-doctype");
+			var docname = $(this).parent().parent().parent().attr("data-name");
+			window.open('desk#Form/'+doctype+'/'+docname, '_blank');
+		});
 	},
 	get_linked_data: function (doctype, docname) {
 
@@ -355,13 +448,77 @@ frappe.views.BetterDashboard = Class.extend({
 		});		
 		
 	},
-	get_filtered_data: function () {
+	get_filtered_data: function (from_date=null, to_date=null, type=null) {
 		var me = this;
-		me.args = {"from_date": me.date_field.get_value()[0], "to_date": me.date_field.get_value()[1]}
+		if (from_date && to_date) {
+			me.args = {"from_date": from_date, "to_date": to_date}
+		} else {
+			me.args = {"from_date": me.date_field.get_value()[0], "to_date": me.date_field.get_value()[1]}	
+		}
+		
 		me.get_data();
 		me.render_base_template();
 		me.make_context_menu();
 		me.set_linked_docs_action();
+		if (type) {
+
+			if (type == "Sales") {
+				// me.dash_type = "Sales";
+				// cur_page.page.refresh();
+
+				$(".gap.material-request").hide();
+				$(".gaps.material-request").hide();
+				$(".gap.purchase-order").hide();
+				$(".gaps.purchase-order").hide();
+
+				$(".gap.sales-order").removeClass("col-xs-2");
+				$(".gaps.sales-order").removeClass("col-xs-2");
+				$(".gap.purchase-receipt").removeClass("col-xs-2");
+				$(".gaps.purchase-receipt").removeClass("col-xs-2");
+				$(".gap.delivery-note").removeClass("col-xs-2");
+				$(".gaps.delivery-note").removeClass("col-xs-2");
+				$(".gap.sales-invoice").removeClass("col-xs-2");
+				$(".gaps.sales-invoice").removeClass("col-xs-2");
+
+				$(".gap.sales-order").addClass("col-xs-3");
+				$(".gaps.sales-order").addClass("col-xs-3");
+				$(".gap.purchase-receipt").addClass("col-xs-3");
+				$(".gaps.purchase-receipt").addClass("col-xs-3");
+				$(".gap.delivery-note").addClass("col-xs-3");
+				$(".gaps.delivery-note").addClass("col-xs-3");
+				$(".gap.sales-invoice").addClass("col-xs-3");
+				$(".gaps.sales-invoice").addClass("col-xs-3");						
+				
+			} else if (type == "Purchase") {
+				// me.dash_type = "Purchase";
+
+				// cur_page.page.refresh();
+				$(".gap.delivery-note").hide();
+				$(".gaps.delivery-note").hide();
+				$(".gap.sales-invoice").hide();
+				$(".gaps.sales-invoice").hide();
+
+				$(".gap.sales-order").removeClass("col-xs-2");
+				$(".gaps.sales-order").removeClass("col-xs-2");
+				$(".gap.material-request").removeClass("col-xs-2");
+				$(".gaps.material-request").removeClass("col-xs-2");
+				$(".gap.purchase-order").removeClass("col-xs-2");
+				$(".gaps.purchase-order").removeClass("col-xs-2");
+				$(".gap.purchase-receipt").removeClass("col-xs-2");
+				$(".gaps.purchase-receipt").removeClass("col-xs-2");
+
+				$(".gap.sales-order").addClass("col-xs-3");
+				$(".gaps.sales-order").addClass("col-xs-3");
+				$(".gap.material-request").addClass("col-xs-3");
+				$(".gaps.material-request").addClass("col-xs-3");
+				$(".gap.purchase-order").addClass("col-xs-3");
+				$(".gaps.purchase-order").addClass("col-xs-3");
+				$(".gap.purchase-receipt").addClass("col-xs-3");
+				$(".gaps.purchase-receipt").addClass("col-xs-3");	
+				
+			}			
+			
+		}
 	},
 	add_menu_buttons: function () {
 		var me = this;
