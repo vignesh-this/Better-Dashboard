@@ -630,7 +630,9 @@ frappe.views.BetterDashboard = Class.extend({
 										$("#deno").html(frappe.render_template("make_dn_dn", {"data": r.message}));
 										
 										$(".adn").click(function() {
-											var a = $(this).parent().attr("data-itemcode");
+											$("#dn_table").find("tr").removeClass("active");
+											$(this).parent().parent().addClass("active");
+											var a = $(this).parent().parent().attr("data-itemcode");
 											frappe.call({
 												"method": "better_dash.better_dash.page.better_dash.better_dash.get_item_data",
 												'args': {
@@ -661,7 +663,7 @@ frappe.views.BetterDashboard = Class.extend({
 													for(var y=0; y<r.message.batch.length; y++){
 														let data = r.message.batch[y];
 														$(".batch_data").append(`<tr>
-														<td>`+data.batch_id+`</td>
+														<td class="batch">`+data.batch_id+`</td>
 														<td>`+data.virtual_ware+`</td>
 														<td>`+data.stores_ware+`</td>
 														<td>`+data.free_ware+`</td>
@@ -669,27 +671,69 @@ frappe.views.BetterDashboard = Class.extend({
 														<td>`+data.ptr+`</td>
 														<td>`+data.mrp_+`</td>
 														<td>`+data.expiry_date+`</td>
-														<td align='center'><button class="btn btn-default" type="button" style="width:100%">Select!</button>
+														<td align='center'><button class="btn btn-default" id="select_batch" type="button" style="width:100%">Select!</button></td>
 														</tr>`)
 													}
+
+													$("#select_batch").click(function () {
+														console.log(this);
+														var val = $(this).parent().parent().find(".batch").text();
+														$("#dn_table").find("tr.active").find(".adn.dn-batch").val(val);
+														
+													});
+
 													console.log(r.message)
+												}
+											})
+										});
+
+										$(".dn_save").click(function () {
+											var me = this;
+											var data_array = [];
+											var rows = $(this).parent().parent().parent().parent();
+											
+											for(var i=0; i<$(rows).find(".dn_table").find("tr").length; i++){
+												var a = $(rows).find(".dn_table").find("tr")[i];
+												data_array.push({
+													"item_code": $(a).data('itemcode'),
+													"bill_qty": $(a).find(".dn-qty").val(),
+													"free_qty": $(a).find(".dn-fqty").val(),
+													"dis": $(a).find(".dn-dp").val(),
+													"batch": $(a).find(".dn-batch").val()
+												})
+											}
+
+											console.log(data_array)
+											
+
+											frappe.call({
+												method: "better_dash.better_dash.page.better_dash.better_dash.save_dn",
+												args: {
+													path: $(this).attr('data-number'),
+													data: dn_data,
+													new_data: data_array
+												},
+												callback: function (r) {
+													console.log(r.message);
+													// frappe.set_route("Delivery Note", r.message);
+													$(me).text("Saved");
+													$(me).removeClass("btn-success");
+													$(me).addClass("btn-secondary");
+													$(me).parent().parent().parent().find(".dn_edit").removeClass("hidden");
+													// $(me).parent().parent().parent().find(".dn_edit").text(r.message);
+													$(me).parent().parent().parent().find(".dn_edit").click(function () {
+														window.open('desk#Form/Delivery Note/'+r.message, '_blank')
+													});
+													
 												}
 											})
 										});
 									}
 								});
 							};
-							var callback2 = function () {
-								console.log(dn_data)
-							};
-							var callback3 = function () {
-								
-							};
 							$('#myModal1').modalSteps({
 								callbacks: {
-									'1': callback1,
-									'2': callback2,
-									'3': callback3
+									'1': callback1
 								}
 							});
 							$('#myModal1').modal('show');

@@ -25,7 +25,7 @@ else:
 ware = proxy_settings.virtual_warehouse
 default_ware = proxy_settings.default_warehouse
 free_warehouse = proxy_settings.free_quantity_warehouse
-
+del_notes = None
 @frappe.whitelist()
 def get_all_data(from_date=nowdate(),to_date=nowdate()):
     if from_date:
@@ -125,7 +125,7 @@ def get_data_for_delivery_note(sales_orders, purchase_reciepts):
     for y in json.loads(purchase_reciepts):
         purchasereciept = frappe.get_doc("Purchase Receipt", y)
         PR.append(purchasereciept)   
-    
+    del_notes = DN
     return {"SO": SO, "PR": PR, "DN": DN}    
 
 
@@ -184,3 +184,25 @@ def get_item_data(item, selected_pr, sales_orders):
             "free_warehouse": free_warehouse, "ordered_by": ordered_by, 
             "item": frappe.db.get_value("Item", item, "item_name"),
             "ordered_qty": ordered_qty, "recieved_qty": recieved_qty}
+
+@frappe.whitelist()
+def save_dn(path, data, new_data):
+    data = json.loads(data)
+    a = frappe.get_doc(data['DN'][int(path)])
+    new_data = json.loads(new_data)
+    for i in new_data:
+        for j in a.items:
+            if i['item_code'] == j.item_code:
+                j.qty = i['bill_qty']
+                j.free_qty = i['free_qty']
+                j.discount_percentage = i['dis']
+                j.batch_no = i['batch']
+
+    a.taxes_and_charges = "In State GST - "+company_abbr
+    taxes = get_taxes_and_charges('Sales Taxes and Charges Template', "In State GST - C")
+    for tax in taxes:
+        a.append('taxes', tax)
+    a.insert()
+    frappe.db.commit()
+    print(a.name)
+    return a.name
