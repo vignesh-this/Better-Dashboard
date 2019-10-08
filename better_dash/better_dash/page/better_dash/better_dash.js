@@ -599,14 +599,17 @@ frappe.views.BetterDashboard = Class.extend({
 			});
 		});
 		me.page.add_menu_item(__("Make Delivery Notes"), function() {
-			frappe.confirm(__("Please Select Sales Orders to Create a Delivery Note"), function() {
+			frappe.confirm(__("Please Select Sales Orders to Create a Delivery Note"), 
+			function() {
 				$(".gaps:not(.gaps.sales-order)").find("input").attr("disabled", true);
-				me.page.set_primary_action(__("Select Sales Orders"), function() {
+				me.page.set_primary_action(__("Select Sales Orders"), 
+				function() {
 					var selected_so = [];
 					$(".gaps.sales-order").find("input:checked").each(function() {
 						selected_so.push($(this).attr('data-name'));
 					});
-					frappe.confirm(__("Please Select Purchase Receipts against which you want these delivery notes"), function() {
+					frappe.confirm(__("Please Select Purchase Receipts against which you want these delivery notes"), 
+					function() {
 						me.page.set_primary_action(__("Select Purchase Receipts"), function() {
 							var selected_pr = [];
 							$(".gaps.purchase-receipt").find("input:checked").each(function() {
@@ -734,6 +737,9 @@ frappe.views.BetterDashboard = Class.extend({
 							$('#myModal1').modalSteps({
 								callbacks: {
 									'1': callback1
+								},
+								completeCallback: function () {
+									cur_page.page.refresh();
 								}
 							});
 							$('#myModal1').modal('show');
@@ -741,11 +747,47 @@ frappe.views.BetterDashboard = Class.extend({
 						});
 						$(".gaps").find("input").removeAttr("disabled");
 						$(".gaps:not(.gaps.purchase-receipt)").find("input").attr("disabled", true);
+					}, function () {
+						$(".gaps").find("input").removeAttr("disabled");
+						frappe.msgprint("Cancelled");
 					});
 				});
+			}, function () {
+				$(".gaps").find("input").removeAttr("disabled");
+				frappe.msgprint("Cancelled");
 			});
 		});
 		me.page.add_menu_item(__("Make Sales Invoices"), function() {
+
+
+			frappe.confirm(__("Please Select Delivery Notes to Create Sales Inoives"), function() {
+				$(".gaps:not(.gaps.delivery-note)").find("input").attr("disabled", true);
+				me.page.set_primary_action(__("Select Delivery Notes"), function() {
+					$(".gaps").find("input").removeAttr("disabled");
+					$(me.page.btn_primary).hide();
+					var selected_dn = [];
+					$(".gaps.delivery-note").find("input:checked").each(function() {
+						selected_dn.push($(this).attr('data-name'));
+					});
+					frappe.call({
+						method: "better_dash.better_dash.page.better_dash.better_dash.make_sales_invoices",
+						args: {
+							sales_invoices: selected_dn
+						},
+						callback: function (r) {
+							console.log(r.message);
+							cur_page.page.refresh();
+						}
+					});
+				});
+			
+			}, function () {
+					$(".gaps").find("input").removeAttr("disabled");
+					frappe.msgprint("Cancelled");
+				}
+			);
+			
+			
 
 		});
 

@@ -206,3 +206,16 @@ def save_dn(path, data, new_data):
     frappe.db.commit()
     print(a.name)
     return a.name
+
+@frappe.whitelist()
+def make_sales_invoices(sales_invoices):
+    method = "erpnext.stock.doctype.delivery_note.delivery_note.make_sales_invoice"
+    invoices = []
+    sales_invoices = json.loads(sales_invoices)
+    for i in sales_invoices:
+        new_doc = make_mapped_doc(source_name=i, method=method)
+        new_doc.insert()
+        invoices.append(new_doc.name)
+
+    return invoices
+    
