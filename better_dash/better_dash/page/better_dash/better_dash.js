@@ -202,8 +202,9 @@ frappe.views.BetterDashboard = Class.extend({
 				label: 'Date Range',
 				fieldname: 'date_field',
 				onchange: () => {
-					console.log(this.date_field.get_value());
-					me.get_filtered_data();
+					if (this.date_field.get_value()) {
+						me.get_filtered_data();
+					}
 				}
 			},
 			parent: $(page.body.html).find('#date-filter'),
