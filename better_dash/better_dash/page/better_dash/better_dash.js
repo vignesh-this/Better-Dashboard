@@ -720,7 +720,8 @@ frappe.views.BetterDashboard = Class.extend({
 											label: r.message.name,
 											fieldname: 'route',
 											click: () => {
-												frappe.set_route('Form', r.message.doctype, r.message.name);
+												window.open('desk#Form/'+r.message.doctype+'/'+r.message.name, '_blank')
+												// frappe.set_route('Form', r.message.doctype, r.message.name);
 											}
 										},
 										parent: $(state3).find('#route-field'),
