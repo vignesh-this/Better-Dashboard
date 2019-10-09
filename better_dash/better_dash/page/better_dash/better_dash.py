@@ -107,7 +107,26 @@ def get_po_doc(selected_mrs, method, supplier, warehouse, schedule_date, tax, sa
     for tax in taxes:
         new_doc.append('taxes', tax)
     if save_action:
+        data = json.loads(new_items)
+        new_doc.items = []
+        for i in data['items']:
+            if "Sales Order" in i.keys(): 
+                new_doc.append("items", {
+                            "item_code": i['item_code'],
+                            "schedule_date": frappe.utils.add_days(nowdate(), 7),
+                            "qty": i['qty'],
+                            "sales_order": i['sales_order']
+                        })
+            else:
+                new_doc.append("items", {
+                            "item_code": i['item_code'],
+                            "schedule_date": frappe.utils.add_days(nowdate(), 7),
+                            "qty": i['qty']
+                        })
+        new_doc.set_missing_values()
         new_doc.insert()
+        return new_doc
+
     return new_doc
 
 @frappe.whitelist()
