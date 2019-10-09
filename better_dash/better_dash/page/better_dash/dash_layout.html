@@ -361,9 +361,30 @@
                     </div>
                     <div id="collapsecm4{{j}}" class="panel-collapse collapse">
                         <div class="panel-body">
-                            {% for(var k=0; k<data.purchase_rec[j].items.length; k++) { %}
-                            <li class="list-group-item">{{data.purchase_rec[j].items[k].item_name}}</li>
-                            {% } %}
+                            <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>B.Qty</th>
+                                            <th>F.Qty</th>
+                                            <th>Batch</th>
+                                            <th>Rate</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for(var k=0; k<data.purchase_rec[j].items.length; k++) { %}
+                                        <tr>
+                                            <td>{{data.purchase_rec[j].items[k].item_name}}</td>
+                                            <td>{{data.purchase_rec[j].items[k].qty}}</td>
+                                            <td>{{data.purchase_rec[j].items[k].free_qty}}</td>
+                                            <td>{{data.purchase_rec[j].items[k].batch_no}}</td>
+                                            <td>{{data.purchase_rec[j].items[k].rate}}</td>
+                                            <td>{{data.purchase_rec[j].items[k].amount}}</td>
+                                        </tr>
+                                        {% } %}
+                                    </tbody>
+                                </table>
                         </div>
                     </div>
                 </div>
@@ -403,9 +424,32 @@
                     </div>
                     <div id="collapsecm5{{j}}" class="panel-collapse collapse">
                         <div class="panel-body">
-                            {% for(var k=0; k<data.delivery_note[j].items.length; k++) { %}
-                            <li class="list-group-item">{{data.delivery_note[j].items[k].item_name}}</li>
-                            {% } %}
+                            <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>B.Qty</th>
+                                            <th>F.Qty</th>
+                                            <th>Batch</th>
+                                            <th>Exp.</th>
+                                            <th>Rate</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for(var k=0; k<data.delivery_note[j].items.length; k++) { %}
+                                        <tr>
+                                            <td>{{data.delivery_note[j].items[k].item_name}}</td>
+                                            <td>{{data.delivery_note[j].items[k].qty}}</td>
+                                            <td>{{data.delivery_note[j].items[k].free_qty}}</td>
+                                            <td>{{data.delivery_note[j].items[k].batch_no}}</td>
+                                            <td>{{data.delivery_note[j].items[k].expiry_date}}</td>
+                                            <td>{{data.delivery_note[j].items[k].rate}}</td>
+                                            <td>{{data.delivery_note[j].items[k].amount}}</td>
+                                        </tr>
+                                        {% } %}
+                                    </tbody>
+                                </table>
                         </div>
                     </div>
                 </div>
@@ -445,9 +489,32 @@
                     </div>
                     <div id="collapsecm6{{j}}" class="panel-collapse collapse">
                         <div class="panel-body">
-                            {% for(var k=0; k<data.sales_invoice[j].items.length; k++) { %}
-                            <li class="list-group-item">{{data.sales_invoice[j].items[k].item_name}}</li>
-                            {% } %}
+                            <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>B.Qty</th>
+                                            <th>F.Qty</th>
+                                            <th>Batch</th>
+                                            <th>Exp.</th>
+                                            <th>Rate</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for(var k=0; k<data.sales_invoice[j].items.length; k++) { %}
+                                        <tr>
+                                            <td>{{data.sales_invoice[j].items[k].item_name}}</td>
+                                            <td>{{data.sales_invoice[j].items[k].qty}}</td>
+                                            <td>{{data.sales_invoice[j].items[k].free_qty}}</td>
+                                            <td>{{data.sales_invoice[j].items[k].batch_no}}</td>
+                                            <td>{{data.sales_invoice[j].items[k].expiry_date}}</td>
+                                            <td>{{data.sales_invoice[j].items[k].rate}}</td>
+                                            <td>{{data.sales_invoice[j].items[k].amount}}</td>
+                                        </tr>
+                                        {% } %}
+                                    </tbody>
+                                </table>
                         </div>
                     </div>
                 </div>

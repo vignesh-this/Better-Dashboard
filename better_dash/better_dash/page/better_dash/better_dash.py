@@ -55,19 +55,19 @@ def get_all_data(from_date=nowdate(),to_date=nowdate()):
         i.title = i.supplier[0:20]
     purchase_rec = frappe.db.get_list("Purchase Receipt", fields=["name", "supplier", "status"], filters=filter)
     for i in purchase_rec:
-        items = frappe.db.get_list("Purchase Receipt Item", filters={"parent": i.name}, fields=["item_code", "item_name"])
+        items = frappe.db.get_list("Purchase Receipt Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount", "free_qty", "batch_no"])
         i.items = items
         i.item_count = len(items)
         i.title = i.supplier[0:20]
     delivery_note = frappe.db.get_list("Delivery Note", fields=["name", "customer", "status"], filters=filter)
     for i in delivery_note:
-        items = frappe.db.get_list("Delivery Note Item", filters={"parent": i.name}, fields=["item_code", "item_name"])
+        items = frappe.db.get_list("Delivery Note Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount", "free_qty", "batch_no", "expiry_date"])
         i.items = items
         i.item_count = len(items)
         i.title = i.customer[0:20]
     sales_invoice = frappe.db.get_list("Sales Invoice", fields=["name", "customer", "status"], filters=filter)
     for i in sales_invoice:
-        items = frappe.db.get_list("Sales Invoice Item", filters={"parent": i.name}, fields=["item_code", "item_name"])
+        items = frappe.db.get_list("Sales Invoice Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount", "free_qty", "batch_no", "expiry_date"])
         i.items = items
         i.item_count = len(items)
         i.title = i.customer[0:20]
