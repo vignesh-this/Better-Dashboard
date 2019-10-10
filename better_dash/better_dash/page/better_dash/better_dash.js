@@ -635,6 +635,7 @@ frappe.views.BetterDashboard = Class.extend({
 															fieldname: 'supplier',
 															options: 'Supplier',
 															default: data.supplier,
+															reqd: 1,
 															onchange: () => {
 															}
 														},
@@ -644,6 +645,7 @@ frappe.views.BetterDashboard = Class.extend({
 															fieldname: 'target_warehouse',
 															options: 'Warehouse',
 															default: data.target_warehouse,
+															reqd: 1,
 															onchange: () => {
 															}
 														},
@@ -653,6 +655,7 @@ frappe.views.BetterDashboard = Class.extend({
 															label: 'Schedule Date',
 															fieldname: 'schedule_date',
 															default: data.schedule_date,
+															reqd: 1,
 															onchange: () => {
 															}
 														},
@@ -661,6 +664,7 @@ frappe.views.BetterDashboard = Class.extend({
 															label: 'Taxes and Charges Template',
 															fieldname: 'tax',
 															options: 'Sales Taxes and Charges Template',
+															reqd: 1,
 															default: data.tax,
 															onchange: () => {
 															}
