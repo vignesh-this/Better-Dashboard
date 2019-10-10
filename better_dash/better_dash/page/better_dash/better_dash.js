@@ -304,58 +304,58 @@ frappe.views.BetterDashboard = Class.extend({
 			parent: $(page.body.html).find('#to-date-filter'),
 			render_input: true
 		});
-		this.supplier_field = frappe.ui.form.make_control({
-			df: {
-				fieldtype: 'Link',
-				label: 'Supplier',
-				fieldname: 'supplier_field',
-				options: 'Supplier',
-				onchange: () => {
-					console.log(this.supplier_field.get_value());
-				}
-			},
-			parent: $(page.body.html).find('#supplier-filter'),
-			render_input: true
-		});
-		this.customer_field = frappe.ui.form.make_control({
-			df: {
-				fieldtype: 'Link',
-				label: 'Customer',
-				options: 'Customer',
-				fieldname: 'customer_field',
-				onchange: () => {
-					console.log(this.customer_field.get_value());
-				}
-			},
-			parent: $(page.body.html).find('#customer-filter'),
-			render_input: true
-		});
-		this.medley_order_id_field = frappe.ui.form.make_control({
-			df: {
-				fieldtype: 'Link',
-				label: 'Medley Order Id',
-				options: 'Sales Order',
-				fieldname: 'medley_order_id_field',
-				onchange: () => {
-					console.log(this.medley_order_id_field.get_value());
-				} 
-			},
-			parent: $(page.body.html).find('#medley-oi-filter'),
-			render_input: true
-		});
-		this.medley_master_order_id_field = frappe.ui.form.make_control({
-			df: {
-				fieldtype: 'Link',
-				label: 'Medley Master Order Id',
-				options: 'Purchase Receipt',
-				fieldname: 'medley_master_id',
-				onchange: () => {
-					console.log(this.medley_master_order_id_field.get_value());
-				}
-			},
-			parent: $(page.body.html).find('#medley-masterid-filter'),
-			render_input: true
-		});
+		// this.supplier_field = frappe.ui.form.make_control({
+		// 	df: {
+		// 		fieldtype: 'Link',
+		// 		label: 'Supplier',
+		// 		fieldname: 'supplier_field',
+		// 		options: 'Supplier',
+		// 		onchange: () => {
+		// 			console.log(this.supplier_field.get_value());
+		// 		}
+		// 	},
+		// 	parent: $(page.body.html).find('#supplier-filter'),
+		// 	render_input: true
+		// });
+		// this.customer_field = frappe.ui.form.make_control({
+		// 	df: {
+		// 		fieldtype: 'Link',
+		// 		label: 'Customer',
+		// 		options: 'Customer',
+		// 		fieldname: 'customer_field',
+		// 		onchange: () => {
+		// 			console.log(this.customer_field.get_value());
+		// 		}
+		// 	},
+		// 	parent: $(page.body.html).find('#customer-filter'),
+		// 	render_input: true
+		// });
+		// this.medley_order_id_field = frappe.ui.form.make_control({
+		// 	df: {
+		// 		fieldtype: 'Link',
+		// 		label: 'Medley Order Id',
+		// 		options: 'Sales Order',
+		// 		fieldname: 'medley_order_id_field',
+		// 		onchange: () => {
+		// 			console.log(this.medley_order_id_field.get_value());
+		// 		} 
+		// 	},
+		// 	parent: $(page.body.html).find('#medley-oi-filter'),
+		// 	render_input: true
+		// });
+		// this.medley_master_order_id_field = frappe.ui.form.make_control({
+		// 	df: {
+		// 		fieldtype: 'Link',
+		// 		label: 'Medley Master Order Id',
+		// 		options: 'Purchase Receipt',
+		// 		fieldname: 'medley_master_id',
+		// 		onchange: () => {
+		// 			console.log(this.medley_master_order_id_field.get_value());
+		// 		}
+		// 	},
+		// 	parent: $(page.body.html).find('#medley-masterid-filter'),
+		// 	render_input: true
+		// });
 	},
 	make_context_menu: function () {
 		var me = this;
