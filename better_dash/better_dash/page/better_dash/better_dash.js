@@ -223,7 +223,7 @@ frappe.views.BetterDashboard = Class.extend({
 					var type = this.dash_type.get_value();
 					if (type == "Sales") {
 						// me.dash_type = "Sales";
-						window.location.reload()
+						// window.location.reload()
 						cur_page.page.refresh();
 						
 						$(".gap.material-request").hide();
@@ -261,7 +261,7 @@ frappe.views.BetterDashboard = Class.extend({
 					} else if (type == "Purchase") {
 						// me.dash_type = "Purchase";
 
-						window.location.reload()
+						// window.location.reload()
 						cur_page.page.refresh();
 						$(".gap.delivery-note").hide();
 						$(".gaps.delivery-note").hide();
@@ -470,7 +470,7 @@ frappe.views.BetterDashboard = Class.extend({
 
 			if (type == "Sales") {
 				// me.dash_type = "Sales";
-				window.location.reload()
+				// window.location.reload()
 				cur_page.page.refresh();
 				
 				$(".gap.material-request").hide();
@@ -499,7 +499,7 @@ frappe.views.BetterDashboard = Class.extend({
 			} else if (type == "Purchase") {
 				// me.dash_type = "Purchase";
 
-				window.location.reload()
+				// window.location.reload()
 				cur_page.page.refresh();
 				$(".gap.delivery-note").hide();
 				$(".gaps.delivery-note").hide();
@@ -787,19 +787,19 @@ frappe.views.BetterDashboard = Class.extend({
 							},
 							function () {
 								cur_page.page.refresh();
-								window.location.reload()
+								// window.location.reload()
 								cur_page.page.refresh();
 							});	
 						},
 						function () {
 							cur_page.page.refresh();
-								cur_page.page.refresh();window.location.reload();
+								// cur_page.page.refresh();window.location.reload();
 							
 						});
 				},
 				function () {
 					cur_page.page.refresh();
-					window.location.reload()
+					// window.location.reload()
 					cur_page.page.refresh();
 				});
 		});
