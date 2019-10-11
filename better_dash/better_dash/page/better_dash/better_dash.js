@@ -560,6 +560,7 @@ frappe.views.BetterDashboard = Class.extend({
 	make_custom_actions: function () {
 		var me = this;
 		me.page.add_menu_item(__("Make Purchase Order"), function() {
+			$('input:checkbox').removeAttr('checked');
 			frappe.confirm(__("Please Select Material Requests to Create a Purchase Order"), 
 				function() {
 					$(".gaps:not(.gaps.material-request)").find("input").attr("disabled", true);
