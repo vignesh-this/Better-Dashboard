@@ -116,7 +116,8 @@ def get_po_doc(selected_mrs, method, supplier, warehouse, schedule_date, tax, sa
                             "schedule_date": frappe.utils.add_days(nowdate(), 7),
                             "qty": i['qty'],
                             "sales_order": i['sales_order'],
-                            "material_request": i['material_request']
+                            "material_request": i['material_request'],
+                            "material_request_item": i['material_request_item']
                         })
             else:
                 new_doc.append("items", {
