@@ -53,7 +53,7 @@ def get_all_data(from_date=nowdate(),to_date=nowdate()):
         i.items = items
         i.item_count = len(items)
         i.title = i.supplier[0:20]
-    purchase_rec = frappe.db.get_list("Purchase Receipt", fields=["name", "supplier", "status"], filters=filter)
+    purchase_rec = frappe.db.get_list("Purchase Receipt", fields=["name", "supplier", "status", "medley_master_orderid"], filters=filter)
     for i in purchase_rec:
         items = frappe.db.get_list("Purchase Receipt Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount", "free_qty", "batch_no"])
         i.items = items
@@ -220,7 +220,7 @@ def save_dn(path, data, new_data):
                 j.batch_no = i['batch']
 
     a.taxes_and_charges = "In State GST - "+company_abbr
-    taxes = get_taxes_and_charges('Sales Taxes and Charges Template', "In State GST - C")
+    taxes = get_taxes_and_charges('Sales Taxes and Charges Template', a.taxes_and_charges)
     for tax in taxes:
         a.append('taxes', tax)
     a.insert()
