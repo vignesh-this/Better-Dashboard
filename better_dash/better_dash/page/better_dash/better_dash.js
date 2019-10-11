@@ -879,7 +879,7 @@ frappe.views.BetterDashboard = Class.extend({
 														<td>`+data.ptr+`</td>
 														<td>`+data.mrp_+`</td>
 														<td>`+data.expiry_date+`</td>
-														<td align='center'><button class="btn btn-default" class="select_batch" type="button" style="width:100%">Select!</button></td>
+														<td align='center'><button class="btn btn-default select_batch" type="button" style="width:100%">Select!</button></td>
 														</tr>`)
 													}
 
