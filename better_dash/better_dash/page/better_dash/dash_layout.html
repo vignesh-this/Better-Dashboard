@@ -147,7 +147,7 @@
             </div>
         </div>
     </div>
-    <div class="row ui" id="dash-body" style="border: 1px solid #ced5db; height: 300px;">
+    <div class="row ui" id="dash-body" style="border: 1px solid #ced5db; height: 4in;">
         <div class="col-xs-2 gaps sales-order" id="p1">
 
             <div class="panel-group" id="accordion1" style="margin-top:0px;">
@@ -175,6 +175,8 @@
                                 class="badge badge-light">{{data.sales_order[j].item_count}} Items</span>
                             <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
                                 class="badge badge-light">{{data.sales_order[j].status}}</span>
+                            <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
+                                class="badge badge-light">{{data.sales_order[j].medley_orderid}}</span>    
                         </div>
                     </div>
                     <div id="collapsecm1{{j}}" class="panel-collapse collapse">
@@ -240,6 +242,8 @@
                                 class="badge badge-light">{{data.material_req[o].status}}</span>
                             <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
                                 class="badge badge-light">{{data.material_req[o].material_request_type}}</span>
+                            <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
+                                class="badge badge-light">{{data.material_req[o].medleyorderid}}</span>        
                         </div>
                     </div>
                     <div id="collapsecm2{{o}}" class="panel-collapse collapse">
@@ -420,6 +424,8 @@
                                 class="badge badge-light">{{data.delivery_note[j].item_count}} Items</span>
                             <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
                                 class="badge badge-light">{{data.delivery_note[j].status}}</span>
+                            <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
+                                class="badge badge-light">{{data.delivery_note[j].medley_orderid}}</span>  
                         </div>
                     </div>
                     <div id="collapsecm5{{j}}" class="panel-collapse collapse">
@@ -485,6 +491,8 @@
                                 class="badge badge-light">{{data.sales_invoice[j].item_count}} Items</span>
                             <span style="background-color: #abaeaf; font-size:10px; font-weight: 100; color: black;"
                                 class="badge badge-light">{{data.sales_invoice[j].status}}</span>
+                            <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
+                                class="badge badge-light">{{data.sales_invoice[j].medley_orderid}}</span>  
                         </div>
                     </div>
                     <div id="collapsecm6{{j}}" class="panel-collapse collapse">

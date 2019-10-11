@@ -32,13 +32,13 @@ def get_all_data(from_date=nowdate(),to_date=nowdate()):
         filter = {"creation": ["between", [getdate(parse_date(from_date)), getdate(parse_date(to_date))]]}
     else:
         filter = {}   
-    sales_order = frappe.db.get_list("Sales Order", fields=["name", "customer", "status"], filters=filter)
+    sales_order = frappe.db.get_list("Sales Order", fields=["name", "customer", "status", "medley_orderid"], filters=filter)
     for i in sales_order:
         items = frappe.db.get_list("Sales Order Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount"])
         i.items = items
         i.item_count = len(items)
         i.title = i.customer[0:20]
-    material_req = frappe.db.get_list("Material Request", fields=["name", "customer_name", "status", "material_request_type", "title", "docstatus", "is_processed", "per_ordered"], filters=filter)
+    material_req = frappe.db.get_list("Material Request", fields=["name", "customer_name", "status", "material_request_type", "title", "docstatus", "is_processed", "per_ordered", "medleyorderid"], filters=filter)
     for i in material_req:
         items = frappe.db.get_list("Material Request Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "uom"])
         i.items = items
@@ -59,13 +59,13 @@ def get_all_data(from_date=nowdate(),to_date=nowdate()):
         i.items = items
         i.item_count = len(items)
         i.title = i.supplier[0:20]
-    delivery_note = frappe.db.get_list("Delivery Note", fields=["name", "customer", "status"], filters=filter)
+    delivery_note = frappe.db.get_list("Delivery Note", fields=["name", "customer", "status", "medley_orderid"], filters=filter)
     for i in delivery_note:
         items = frappe.db.get_list("Delivery Note Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount", "free_qty", "batch_no", "expiry_date"])
         i.items = items
         i.item_count = len(items)
         i.title = i.customer[0:20]
-    sales_invoice = frappe.db.get_list("Sales Invoice", fields=["name", "customer", "status"], filters=filter)
+    sales_invoice = frappe.db.get_list("Sales Invoice", fields=["name", "customer", "status", "medley_orderid"], filters=filter)
     for i in sales_invoice:
         items = frappe.db.get_list("Sales Invoice Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount", "free_qty", "batch_no", "expiry_date"])
         i.items = items
@@ -110,12 +110,13 @@ def get_po_doc(selected_mrs, method, supplier, warehouse, schedule_date, tax, sa
         data = json.loads(new_items)
         new_doc.items = []
         for i in data['items']:
-            if "Sales Order" in i.keys(): 
+            if "sales_order" in i.keys(): 
                 new_doc.append("items", {
                             "item_code": i['item_code'],
                             "schedule_date": frappe.utils.add_days(nowdate(), 7),
                             "qty": i['qty'],
-                            "sales_order": i['sales_order']
+                            "sales_order": i['sales_order'],
+                            "material_request": i['material_request']
                         })
             else:
                 new_doc.append("items", {

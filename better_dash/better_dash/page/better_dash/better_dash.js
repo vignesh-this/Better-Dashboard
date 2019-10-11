@@ -12,6 +12,8 @@ frappe.pages['better-dash'].refresh = function (wrapper) {
 
 frappe.views.BetterDashboard = Class.extend({
 	init: function(page) {
+		$(".main-sidebar").hide();
+		$("#body_div").attr('style', 'margin-left: 0px !important');
 		this.page = page;
 		this.data = undefined;
 		this.args = undefined;
@@ -221,8 +223,9 @@ frappe.views.BetterDashboard = Class.extend({
 					var type = this.dash_type.get_value();
 					if (type == "Sales") {
 						// me.dash_type = "Sales";
-						// cur_page.page.refresh();
-
+						window.location.reload()
+						cur_page.page.refresh();
+						
 						$(".gap.material-request").hide();
 						$(".gaps.material-request").hide();
 						$(".gap.purchase-order").hide();
@@ -258,7 +261,8 @@ frappe.views.BetterDashboard = Class.extend({
 					} else if (type == "Purchase") {
 						// me.dash_type = "Purchase";
 
-						// cur_page.page.refresh();
+						window.location.reload()
+						cur_page.page.refresh();
 						$(".gap.delivery-note").hide();
 						$(".gaps.delivery-note").hide();
 						$(".gap.sales-invoice").hide();
@@ -294,6 +298,7 @@ frappe.views.BetterDashboard = Class.extend({
 						$(".gaps.purchase-receipt").addClass("col-xs-3");	
 						
 					} else {
+						// window.location.reload()
 						cur_page.page.refresh();
 						var from_date = me.date_field.get_value()[0]
 						var to_date = me.date_field.get_value()[1]
@@ -465,8 +470,9 @@ frappe.views.BetterDashboard = Class.extend({
 
 			if (type == "Sales") {
 				// me.dash_type = "Sales";
-				// cur_page.page.refresh();
-
+				window.location.reload()
+				cur_page.page.refresh();
+				
 				$(".gap.material-request").hide();
 				$(".gaps.material-request").hide();
 				$(".gap.purchase-order").hide();
@@ -493,7 +499,8 @@ frappe.views.BetterDashboard = Class.extend({
 			} else if (type == "Purchase") {
 				// me.dash_type = "Purchase";
 
-				// cur_page.page.refresh();
+				window.location.reload()
+				cur_page.page.refresh();
 				$(".gap.delivery-note").hide();
 				$(".gaps.delivery-note").hide();
 				$(".gap.sales-invoice").hide();
@@ -561,7 +568,7 @@ frappe.views.BetterDashboard = Class.extend({
 					$(".gaps.material-request").find("input[data-isprocessed='1']").attr("disabled", true);
 					$(".gaps.material-request").find("input[data-docstatus='2'][data-docstatus='0']").attr("disabled", true);
 					$(".gaps.material-request").find("input[data-per_ordered='100']").attr("disabled", true);
-
+					$(me.page.btn_primary).show();
 					me.page.set_primary_action(__("Select Material Requests"), function() {
 						$(".gaps").find("input").removeAttr("disabled");
 						$(me.page.btn_primary).hide();
@@ -763,6 +770,7 @@ frappe.views.BetterDashboard = Class.extend({
 															callback: function (r) {
 																me.hide();
 																console.log(r.message);
+																// window.location.reload()
 																cur_page.page.refresh();
 															}
 														});
@@ -779,13 +787,19 @@ frappe.views.BetterDashboard = Class.extend({
 							},
 							function () {
 								cur_page.page.refresh();
+								window.location.reload()
+								cur_page.page.refresh();
 							});	
 						},
 						function () {
 							cur_page.page.refresh();
+								cur_page.page.refresh();window.location.reload();
+							
 						});
 				},
 				function () {
+					cur_page.page.refresh();
+					window.location.reload()
 					cur_page.page.refresh();
 				});
 		});

@@ -42,7 +42,10 @@
                     <tbody id="dn_table">
                         {% for(var k=0; k<data["DN"][j].items.length; k++) { %}
                         <tr data-itemcode={{data["DN"][j].items[k].item_code}}>
-                            <td title="{{data["DN"][j].items[k].item_name}}({{data["DN"][j].items[k].item_code}})"> {{data["DN"][j].items[k].item_name}}</td>
+                            <!-- <td title="{{data["DN"][j].items[k].item_name}}({{data["DN"][j].items[k].item_code}})"> {{data["DN"][j].items[k].item_name}}</td> -->
+                            <td style="padding: 0;">
+                                <input readonly class="adn dn-qty" type="text" style="width:100%; padding: 10px;" value="{{data["DN"][j].items[k].item_name}}"/>
+                            </td>
                             <td style="padding: 0;">
                                 <input class="adn dn-qty" type="text" style="width:100%; padding: 10px;" value="{{data["DN"][j].items[k].qty}}"/>
                                 <!-- {{data["DN"][j].items[k].qty}} -->
