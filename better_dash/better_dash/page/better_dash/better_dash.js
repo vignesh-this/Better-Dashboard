@@ -879,11 +879,11 @@ frappe.views.BetterDashboard = Class.extend({
 														<td>`+data.ptr+`</td>
 														<td>`+data.mrp_+`</td>
 														<td>`+data.expiry_date+`</td>
-														<td align='center'><button class="btn btn-default" id="select_batch" type="button" style="width:100%">Select!</button></td>
+														<td align='center'><button class="btn btn-default" class="select_batch" type="button" style="width:100%">Select!</button></td>
 														</tr>`)
 													}
 
-													$("#select_batch").click(function () {
+													$(".select_batch").click(function () {
 														console.log(this);
 														var val = $(this).parent().parent().find(".batch").text();
 														$("#dn_table").find("tr.active").find("input.dn-batch").val(val);
