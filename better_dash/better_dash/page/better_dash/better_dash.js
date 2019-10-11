@@ -886,7 +886,7 @@ frappe.views.BetterDashboard = Class.extend({
 													$("#select_batch").click(function () {
 														console.log(this);
 														var val = $(this).parent().parent().find(".batch").text();
-														$("#dn_table").find("tr.active").find(".adn.dn-batch").val(val);
+														$("#dn_table").find("tr.active").find("input.dn-batch").val(val);
 														
 													});
 
