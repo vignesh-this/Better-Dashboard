@@ -490,9 +490,9 @@ frappe.views.BetterDashboard = Class.extend({
 																	var me = this;
 																	var data_array = [];
 																	var rows = $(this).parent().parent().parent().parent();
-																	console.log(rows)
-																	for(var i=0; i<$(rows).find(".dn_table").find("tr").length; i++){
-																		var a = $(rows).find(".dn_table").find("tr")[i];
+																	console.log($(rows).find("#dn_table").find("tr"))
+																	for(var i=0; i<$(rows).find("#dn_table").find("tr").length; i++){
+																		var a = $(rows).find("#dn_table").find("tr")[i];
 																		data_array.push({
 																			"item_code": $(a).data('itemcode'),
 																			"bill_qty": $(a).find(".dn-qty").val(),
@@ -514,15 +514,14 @@ frappe.views.BetterDashboard = Class.extend({
 																		},
 																		callback: function (r) {
 																			console.log(r.message);
-																			// frappe.set_route("Delivery Note", r.message);
-																			// $(me).text("Saved");
-																			// $(me).removeClass("btn-success");
-																			// $(me).addClass("btn-secondary");
-																			// $(me).parent().parent().parent().find(".dn_edit").removeClass("hidden");
-																			// // $(me).parent().parent().parent().find(".dn_edit").text(r.message);
-																			// $(me).parent().parent().parent().find(".dn_edit").click(function () {
-																			// 	window.open('desk#Form/Delivery Note/'+r.message, '_blank')
-																			// });
+																			$(me).text("Saved");
+																			$(me).removeClass("btn-success");
+																			$(me).addClass("btn-secondary");
+																			$(me).attr("disabled");
+																			$(me).parent().parent().parent().find(".dn_edit").removeClass("hidden");
+																			$(me).parent().parent().parent().find(".dn_edit").click(function () {
+																				window.open('desk#Form/Delivery Note/'+r.message, '_blank')
+																			});
 																			
 																		}
 																	})
