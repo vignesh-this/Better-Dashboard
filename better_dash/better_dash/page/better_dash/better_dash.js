@@ -517,7 +517,7 @@ frappe.views.BetterDashboard = Class.extend({
 																			$(me).text("Saved");
 																			$(me).removeClass("btn-success");
 																			$(me).addClass("btn-secondary");
-																			$(me).attr("disabled");
+																			$(me).attr("disabled", true);
 																			$(me).parent().parent().parent().find(".dn_edit").removeClass("hidden");
 																			$(me).parent().parent().parent().find(".dn_edit").click(function () {
 																				window.open('desk#Form/Delivery Note/'+r.message, '_blank')
