@@ -1,6 +1,6 @@
-<div id="dash-body-main" id="warehouse" data-warehouse={{data.warehouse}} style="padding-left: 5px; padding-right: 5px;">
+<div id="dash-body-main" id="warehouse" data-warehouse={{data.warehouse}}>
     <div class="row">
-        <div class="col-xs-2 gap sales-order" id="p1">
+        <div class="col-xs-3 gap sales-order" id="p1">
             <div class="row" style="margin-right:0">
                 <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
                     <h5>Sales Order</h5>
@@ -26,55 +26,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-xs-2 gap material-request" id="p1">
-            <div class="row" style="margin-right:0">
-                <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
-                    <h5>Material Request</h5>
-                </div>
-                <h6 class="col-xs-2">
-                    <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                        class="badge badge-light">{{data.material_req_count}}</span>
-                </h6>
-                <a class="col-xs-2 doc-filter dropdown-toggle" id="material_req_menu" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-cog" aria-hidden="true"></i>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="material_req_menu" style="left: 26px;">
-                    <li><a class="list-action" id="mr-submit">Submit</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a class="list-action" id="mr-cancel">Cancel</a></li>
-                    <li role="separator" class="divider"></li>
-                    <!-- <li><a class="list-action" id="mr-print">Print</a></li>
-                    <li role="separator" class="divider"></li> -->
-                    <li><a class="list-action" id="mr-delete">Delete</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-xs-2 gap purchase-order" id="p1">
-            <div class="row" style="margin-right:0">
-                <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
-                    <h5>Purchase Order</h5>
-                </div>
-                <h6 class="col-xs-2">
-                    <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                        class="badge badge-light">{{data.purchase_ord_count}}</span>
-                </h6>
-                <a class="col-xs-2 doc-filter dropdown-toggle" id="purchase_ord_menu" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-cog" aria-hidden="true"></i>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="purchase_ord_menu" style="left: 26px;">
-                    <li><a class="list-action" id="po-submit">Submit</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a class="list-action" id="po-cancel">Cancel</a></li>
-                    <li role="separator" class="divider"></li>
-                    <!-- <li><a class="list-action" id="po-print">Print</a></li>
-                    <li role="separator" class="divider"></li> -->
-                    <li><a class="list-action" id="po-delete">Delete</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-xs-2 gap purchase-receipt" id="p1">
+        <div class="col-xs-3 gap purchase-receipt" id="p1">
             <div class="row" style="margin-right:0">
                 <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
                     <h5>Purchase Receipt</h5>
@@ -98,7 +50,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-xs-2 gap delivery-note" id="p1">
+        <div class="col-xs-3 gap delivery-note" id="p1">
             <div class="row" style="margin-right:0">
                 <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
                     <h5>Delivery Note</h5>
@@ -122,7 +74,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-xs-2 gap sales-invoice" id="p1">
+        <div class="col-xs-3 gap sales-invoice" id="p1">
             <div class="row" style="margin-right:0">
                 <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
                     <h5>Sales Invoice</h5>
@@ -148,7 +100,7 @@
         </div>
     </div>
     <div class="row ui" id="dash-body" style="border: 1px solid #ced5db; height: 4in;">
-        <div class="col-xs-2 gaps sales-order" id="p1">
+        <div class="col-xs-3 gaps sales-order" id="p1">
 
             <div class="panel-group" id="accordion1" style="margin-top:0px;">
                 {% for(var j=0; j<data.sales_order.length; j++) { %}
@@ -211,130 +163,7 @@
 
 
         </div>
-        <div class="col-xs-2 gaps material-request" id="p1">
-
-            <div class="panel-group" id="accordion2">
-                {% for(var o=0; o<data.material_req.length; o++) { %}
-                <div class="panel panel-default tab_drop" data-doctype="Material Request"
-                    data-name="{{data.material_req[o].name}}">
-                    <div class="panel-heading row">
-                        <div class="col-xs-2">
-                            <input type="checkbox" name="checkbox-1" id="checkbox-1" data-doctype="Material Request"
-                                data-docstatus="{{data.material_req[o].docstatus}}" data-isprocessed="{{data.material_req[o].is_processed}}"
-                                data-status="{{data.material_req[o].status}}" data-per_ordered="{{data.material_req[o].per_ordered}}"
-                                data-name="{{data.material_req[o].name}}" data-type="{{data.material_req[o].material_request_type}}">
-                        </div>
-                        <div class="col-xs-10 panel-head-title" data-toggle="collapse" data-parent="#accordion2"
-                            href="#collapsecm2{{o}}">
-                            <p class="panel-title">
-                                <a style="font-weight: bold">{{o+1}}.</a>
-                                <a data-toggle="collapse" data-parent="#accordion2" data-toggle="tooltip"
-                                    title="{{data.material_req[o].customer_name}}/{{data.material_req[o].name}}"
-                                    href="#collapsecm2{{o}}">
-                                    {{data.material_req[o].title}}
-                                </a>
-                            </p>
-                        </div>
-                        <div class="col-xs-12">
-                            <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                                class="badge badge-light">{{data.material_req[o].item_count}} Items</span>
-                            <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                                class="badge badge-light">{{data.material_req[o].status}}</span>
-                            <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                                class="badge badge-light">{{data.material_req[o].material_request_type}}</span>
-                            <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                                class="badge badge-light">{{data.material_req[o].medleyorderid}}</span>        
-                        </div>
-                    </div>
-                    <div id="collapsecm2{{o}}" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Item</th>
-                                        <th>Qty</th>
-                                        <th>UOM</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for(var k=0; k<data.material_req[o].items.length; k++) { %}
-                                    <tr>
-                                        <td>{{data.material_req[o].items[k].item_name}}({{data.material_req[o].items[k].item_code}})
-                                        </td>
-                                        <td>{{data.material_req[o].items[k].qty}}</td>
-                                        <td>{{data.material_req[o].items[k].uom}}</td>
-                                    </tr>
-                                    {% } %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                {% } %}
-            </div>
-
-
-        </div>
-        <div class="col-xs-2 gaps purchase-order" id="p1">
-
-            <div class="panel-group" id="accordion3">
-                {% for(var j=0; j<data.purchase_ord.length; j++) { %}
-                <div class="panel panel-default tab_drop" data-doctype="Purchase Order"
-                    data-name="{{data.purchase_ord[j].name}}">
-                    <div class="panel-heading row">
-                        <div class="col-xs-2">
-                            <input type="checkbox" name="checkbox-1" id="checkbox-1" data-doctype="Purchase Order"
-                                data-name="{{data.purchase_ord[j].name}}">
-                        </div>
-                        <div class="col-xs-10 panel-head-title" data-toggle="collapse" data-parent="#accordion3"
-                            href="#collapsecm3{{j}}">
-                            <p class="panel-title">
-                                <a style="font-weight: bold">{{j+1}}.</a>
-                                <a data-toggle="collapse" data-parent="#accordion3" data-toggle="tooltip"
-                                    title="{{data.purchase_ord[j].supplier}}/{{data.purchase_ord[j].name}}"
-                                    href="#collapsecm3{{j}}">
-                                    {{data.purchase_ord[j].title}}
-                                </a>
-                            </p>
-                        </div>
-                        <div class="col-xs-12">
-                            <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                                class="badge badge-light">{{data.purchase_ord[j].item_count}} Items</span>
-                            <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                                class="badge badge-light">{{data.purchase_ord[j].status}}</span>
-                        </div>
-                    </div>
-                    <div id="collapsecm3{{j}}" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Item</th>
-                                        <th>Qty</th>
-                                        <th>Rate</th>
-                                        <th>Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for(var k=0; k<data.purchase_ord[j].items.length; k++) { %}
-                                    <tr>
-                                        <td>{{data.purchase_ord[j].items[k].item_name}}</td>
-                                        <td>{{data.purchase_ord[j].items[k].qty}}</td>
-                                        <td>{{data.purchase_ord[j].items[k].rate}}</td>
-                                        <td>{{data.purchase_ord[j].items[k].amount}}</td>
-                                    </tr>
-                                    {% } %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                {% } %}
-            </div>
-
-
-        </div>
-        <div class="col-xs-2 gaps purchase-receipt" id="p1">
+        <div class="col-xs-3 gaps purchase-receipt" id="p1">
 
             <div class="panel-group" id="accordion4">
                 {% for(var j=0; j<data.purchase_rec.length; j++) { %}
@@ -399,7 +228,7 @@
 
 
         </div>
-        <div class="col-xs-2 gaps delivery-note" id="p1">
+        <div class="col-xs-3 gaps delivery-note" id="p1">
 
             <div class="panel-group" id="accordion5">
                 {% for(var j=0; j<data.delivery_note.length; j++) { %}
@@ -466,7 +295,7 @@
 
 
         </div>
-        <div class="col-xs-2 gaps sales-invoice" id="p1">
+        <div class="col-xs-3 gaps sales-invoice" id="p1">
 
             <div class="panel-group" id="accordion6">
                 {% for(var j=0; j<data.sales_invoice.length; j++) { %}
@@ -547,6 +376,37 @@
     </div>
 </div>
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 70%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="js-title-step"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row hide" data-step="1" data-title="Fill Details For Purchase Order">
+                    <div class="col-xs-6" id="supplier-field"></div>
+                    <div class="col-xs-6" id="warehouse-field"></div>
+                    <div class="col-xs-6" id="schedule-date-field"></div>
+                    <div class="col-xs-6" id="taxes-field"></div>
+                </div>
+                <div class="row hide" data-step="2" data-title="Check Purchase Order and Proceed to Save">
+                    <div class="col-xs-12" id="preview-field"></div>
+                </div>
+                <div class="row hide" data-step="3" data-title="Purchase Order Created Click on the button to view !">
+                    <div class="col-xs-12" id="route-field"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default js-btn-step pull-left" data-orientation="cancel"
+                    data-dismiss="modal"></button>
+                <button type="button" class="btn btn-warning js-btn-step" data-orientation="previous"></button>
+                <button type="button" class="btn btn-success js-btn-step" data-orientation="next"></button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
@@ -603,15 +463,21 @@
                         </div>
 
                     </div>
-                    <div class="col-xs-6 viz-col" id="deno" style="border-right: 1px solid; padding: 5px;">Fill Bills
+                    <div class="col-xs-4 viz-col" id="saor" style="border-right: 1px solid; padding: 5px;">Sales Orders
                     </div>
-                    <div class="col-xs-6 viz-col" id="pure" style=" padding: 5px;">Purchase Orders</div>
+                    <div class="col-xs-4 viz-col" id="deno" style="border-right: 1px solid; padding: 5px;">Fill Bills
+                    </div>
+                    <div class="col-xs-4 viz-col" id="pure" style=" padding: 5px;">Purchase Orders</div>
                 </div>
                 <div class="row hide riz-col" data-step="2"
                     data-title="Delivery Notes Created Click on the button to view !">
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-default js-btn-step pull-left" data-orientation="cancel"
+                    data-dismiss="modal"></button>
+                <button type="button" class="btn btn-warning js-btn-step" data-orientation="previous"></button>
+                <button type="button" class="btn btn-success js-btn-step" data-orientation="next"></button>
             </div>
         </div>
     </div>

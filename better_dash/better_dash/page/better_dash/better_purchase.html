@@ -1,6 +1,6 @@
-<div id="dash-body-main" id="warehouse" data-warehouse={{data.warehouse}} style="padding-left: 5px; padding-right: 5px;">
+<div id="dash-body-main" id="warehouse" data-warehouse={{data.warehouse}}>
     <div class="row">
-        <div class="col-xs-2 gap sales-order" id="p1">
+        <div class="col-xs-3 gap sales-order" id="p1">
             <div class="row" style="margin-right:0">
                 <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
                     <h5>Sales Order</h5>
@@ -26,7 +26,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-xs-2 gap material-request" id="p1">
+        <div class="col-xs-3 gap material-request" id="p1">
             <div class="row" style="margin-right:0">
                 <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
                     <h5>Material Request</h5>
@@ -50,7 +50,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-xs-2 gap purchase-order" id="p1">
+        <div class="col-xs-3 gap purchase-order" id="p1">
             <div class="row" style="margin-right:0">
                 <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
                     <h5>Purchase Order</h5>
@@ -74,7 +74,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-xs-2 gap purchase-receipt" id="p1">
+        <div class="col-xs-3 gap purchase-receipt" id="p1">
             <div class="row" style="margin-right:0">
                 <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
                     <h5>Purchase Receipt</h5>
@@ -98,57 +98,9 @@
                 </ul>
             </div>
         </div>
-        <div class="col-xs-2 gap delivery-note" id="p1">
-            <div class="row" style="margin-right:0">
-                <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
-                    <h5>Delivery Note</h5>
-                </div>
-                <h6 class="col-xs-2">
-                    <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                        class="badge badge-light">{{data.delivery_note_count}}</span>
-                </h6>
-                <a class="col-xs-2 doc-filter dropdown-toggle" id="delivery_note_menu" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-cog" aria-hidden="true"></i>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="delivery_note_menu" style="left: 26px;">
-                    <li><a class="list-action" id="dn-submit">Submit</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a class="list-action" id="dn-cancel">Cancel</a></li>
-                    <li role="separator" class="divider"></li>
-                    <!-- <li><a class="list-action" id="dn-print">Print</a></li>
-                    <li role="separator" class="divider"></li> -->
-                    <li><a class="list-action" id="dn-delete">Delete</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-xs-2 gap sales-invoice" id="p1">
-            <div class="row" style="margin-right:0">
-                <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
-                    <h5>Sales Invoice</h5>
-                </div>
-                <h6 class="col-xs-2">
-                    <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                        class="badge badge-light">{{data.sales_invoice_count}}</span>
-                </h6>
-                <a class="col-xs-2 doc-filter dropdown-toggle" id="sales_invoice_menu" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-cog" aria-hidden="true"></i>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="sales_invoice_menu" style="left: 26px;">
-                    <li><a class="list-action" id="si-submit">Submit</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a class="list-action" id="si-cancel">Cancel</a></li>
-                    <li role="separator" class="divider"></li>
-                    <!-- <li><a class="list-action" id="si-print">Print</a></li>
-                    <li role="separator" class="divider"></li> -->
-                    <li><a class="list-action" id="si-delete">Delete</a></li>
-                </ul>
-            </div>
-        </div>
     </div>
     <div class="row ui" id="dash-body" style="border: 1px solid #ced5db; height: 4in;">
-        <div class="col-xs-2 gaps sales-order" id="p1">
+        <div class="col-xs-3 gaps sales-order" id="p1">
 
             <div class="panel-group" id="accordion1" style="margin-top:0px;">
                 {% for(var j=0; j<data.sales_order.length; j++) { %}
@@ -211,7 +163,7 @@
 
 
         </div>
-        <div class="col-xs-2 gaps material-request" id="p1">
+        <div class="col-xs-3 gaps material-request" id="p1">
 
             <div class="panel-group" id="accordion2">
                 {% for(var o=0; o<data.material_req.length; o++) { %}
@@ -275,7 +227,7 @@
 
 
         </div>
-        <div class="col-xs-2 gaps purchase-order" id="p1">
+        <div class="col-xs-3 gaps purchase-order" id="p1">
 
             <div class="panel-group" id="accordion3">
                 {% for(var j=0; j<data.purchase_ord.length; j++) { %}
@@ -334,7 +286,7 @@
 
 
         </div>
-        <div class="col-xs-2 gaps purchase-receipt" id="p1">
+        <div class="col-xs-3 gaps purchase-receipt" id="p1">
 
             <div class="panel-group" id="accordion4">
                 {% for(var j=0; j<data.purchase_rec.length; j++) { %}
@@ -387,140 +339,6 @@
                                             <td>{{data.purchase_rec[j].items[k].batch_no}}</td>
                                             <td>{{data.purchase_rec[j].items[k].rate}}</td>
                                             <td>{{data.purchase_rec[j].items[k].amount}}</td>
-                                        </tr>
-                                        {% } %}
-                                    </tbody>
-                                </table>
-                        </div>
-                    </div>
-                </div>
-                {% } %}
-            </div>
-
-
-        </div>
-        <div class="col-xs-2 gaps delivery-note" id="p1">
-
-            <div class="panel-group" id="accordion5">
-                {% for(var j=0; j<data.delivery_note.length; j++) { %}
-                <div class="panel panel-default tab_drop" data-doctype="Delivery Note"
-                    data-name="{{data.delivery_note[j].name}}">
-                    <div class="panel-heading row">
-                        <div class="col-xs-2">
-                            <input type="checkbox" name="checkbox-1" id="checkbox-1" data-doctype="Delivery Note"
-                                data-name="{{data.delivery_note[j].name}}">
-                        </div>
-                        <div class="col-xs-10 panel-head-title" data-toggle="collapse" data-parent="#accordion5"
-                            href="#collapsecm5{{j}}">
-                            <p class="panel-title">
-                                <a style="font-weight: bold">{{j+1}}.</a>
-                                <a data-toggle="collapse" data-parent="#accordion5" data-toggle="tooltip"
-                                    title="{{data.delivery_note[j].customer}}/{{data.delivery_note[j].name}}"
-                                    href="#collapsecm5{{j}}">
-                                    {{data.delivery_note[j].title}}
-                                </a>
-                            </p>
-                        </div>
-                        <div class="col-xs-12">
-                            <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                                class="badge badge-light">{{data.delivery_note[j].item_count}} Items</span>
-                            <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                                class="badge badge-light">{{data.delivery_note[j].status}}</span>
-                            <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                                class="badge badge-light">{{data.delivery_note[j].medley_orderid}}</span>  
-                        </div>
-                    </div>
-                    <div id="collapsecm5{{j}}" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>B.Qty</th>
-                                            <th>F.Qty</th>
-                                            <th>Batch</th>
-                                            <th>Exp.</th>
-                                            <th>Rate</th>
-                                            <th>Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for(var k=0; k<data.delivery_note[j].items.length; k++) { %}
-                                        <tr>
-                                            <td>{{data.delivery_note[j].items[k].item_name}}</td>
-                                            <td>{{data.delivery_note[j].items[k].qty}}</td>
-                                            <td>{{data.delivery_note[j].items[k].free_qty}}</td>
-                                            <td>{{data.delivery_note[j].items[k].batch_no}}</td>
-                                            <td>{{data.delivery_note[j].items[k].expiry_date}}</td>
-                                            <td>{{data.delivery_note[j].items[k].rate}}</td>
-                                            <td>{{data.delivery_note[j].items[k].amount}}</td>
-                                        </tr>
-                                        {% } %}
-                                    </tbody>
-                                </table>
-                        </div>
-                    </div>
-                </div>
-                {% } %}
-            </div>
-
-
-        </div>
-        <div class="col-xs-2 gaps sales-invoice" id="p1">
-
-            <div class="panel-group" id="accordion6">
-                {% for(var j=0; j<data.sales_invoice.length; j++) { %}
-                <div class="panel panel-default tab_drop" data-doctype="Sales Invoice"
-                    data-name="{{data.sales_invoice[j].name}}">
-                    <div class="panel-heading row">
-                        <div class="col-xs-2">
-                            <input type="checkbox" name="checkbox-1" id="checkbox-1" data-doctype="Sales Invoice"
-                                data-name="{{data.sales_invoice[j].name}}">
-                        </div>
-                        <div class="col-xs-10 panel-head-title" data-toggle="collapse" data-parent="#accordion6"
-                            href="#collapsecm6{{j}}">
-                            <p class="panel-title">
-                                <a style="font-weight: bold">{{j+1}}.</a>
-                                <a data-toggle="collapse" data-parent="#accordion6" data-toggle="tooltip"
-                                    title="{{data.sales_invoice[j].customer}}/{{data.sales_invoice[j].name}}"
-                                    href="#collapsecm6{{j}}">
-                                    {{data.sales_invoice[j].title}}
-                                </a>
-                            </p>
-                        </div>
-                        <div class="col-xs-12">
-                            <span style="background-color: #abaeaf; font-size:10px; font-weight: 100; color: black;"
-                                class="badge badge-light">{{data.sales_invoice[j].item_count}} Items</span>
-                            <span style="background-color: #abaeaf; font-size:10px; font-weight: 100; color: black;"
-                                class="badge badge-light">{{data.sales_invoice[j].status}}</span>
-                            <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                                class="badge badge-light">{{data.sales_invoice[j].medley_orderid}}</span>  
-                        </div>
-                    </div>
-                    <div id="collapsecm6{{j}}" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>B.Qty</th>
-                                            <th>F.Qty</th>
-                                            <th>Batch</th>
-                                            <th>Exp.</th>
-                                            <th>Rate</th>
-                                            <th>Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for(var k=0; k<data.sales_invoice[j].items.length; k++) { %}
-                                        <tr>
-                                            <td>{{data.sales_invoice[j].items[k].item_name}}</td>
-                                            <td>{{data.sales_invoice[j].items[k].qty}}</td>
-                                            <td>{{data.sales_invoice[j].items[k].free_qty}}</td>
-                                            <td>{{data.sales_invoice[j].items[k].batch_no}}</td>
-                                            <td>{{data.sales_invoice[j].items[k].expiry_date}}</td>
-                                            <td>{{data.sales_invoice[j].items[k].rate}}</td>
-                                            <td>{{data.sales_invoice[j].items[k].amount}}</td>
                                         </tr>
                                         {% } %}
                                     </tbody>
@@ -603,15 +421,21 @@
                         </div>
 
                     </div>
-                    <div class="col-xs-6 viz-col" id="deno" style="border-right: 1px solid; padding: 5px;">Fill Bills
+                    <div class="col-xs-4 viz-col" id="saor" style="border-right: 1px solid; padding: 5px;">Sales Orders
                     </div>
-                    <div class="col-xs-6 viz-col" id="pure" style=" padding: 5px;">Purchase Orders</div>
+                    <div class="col-xs-4 viz-col" id="deno" style="border-right: 1px solid; padding: 5px;">Fill Bills
+                    </div>
+                    <div class="col-xs-4 viz-col" id="pure" style=" padding: 5px;">Purchase Orders</div>
                 </div>
                 <div class="row hide riz-col" data-step="2"
                     data-title="Delivery Notes Created Click on the button to view !">
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-default js-btn-step pull-left" data-orientation="cancel"
+                    data-dismiss="modal"></button>
+                <button type="button" class="btn btn-warning js-btn-step" data-orientation="previous"></button>
+                <button type="button" class="btn btn-success js-btn-step" data-orientation="next"></button>
             </div>
         </div>
     </div>

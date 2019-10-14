@@ -31,6 +31,7 @@
                     <thead>
                         <tr>
                             <th>Item</th>
+                            <th>Ord Qty</th>
                             <th>Bill Qty</th>
                             <th>Free Qty</th>
                             <th>Rate</th>
@@ -45,6 +46,9 @@
                             <!-- <td title="{{data["DN"][j].items[k].item_name}}({{data["DN"][j].items[k].item_code}})"> {{data["DN"][j].items[k].item_name}}</td> -->
                             <td style="padding: 0;">
                                 <input readonly class="adn dn-qty" type="text" style="width:100%; padding: 10px;" value="{{data["DN"][j].items[k].item_name}}"/>
+                            </td>
+                            <td style="padding: 0;">
+                                <input readonly class="adn dn-qty" type="text" style="width:100%; padding: 10px;" value="{{data["SO"][j].items[k].qty}}"/>
                             </td>
                             <td style="padding: 0;">
                                 <input class="adn dn-qty" type="text" style="width:100%; padding: 10px;" value="{{data["DN"][j].items[k].qty}}"/>
