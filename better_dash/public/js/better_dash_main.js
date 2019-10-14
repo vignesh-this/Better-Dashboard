@@ -1,9 +1,9 @@
 $(document).on('page-change', function(e) {
 	if (frappe.get_route_str() == "better-dash") {
-		// $(".main-sidebar").hide();
+		$(".main-sidebar").hide();
 		$("#body_div").attr('style', 'margin-left: 0px !important');
 	} else {
-		// $(".main-sidebar").show();
+		$(".main-sidebar").show();
 		$("#body_div").attr('style', 'margin-left: 50px !important');
 	}
 	
