@@ -414,7 +414,7 @@ frappe.views.BetterDashboard = Class.extend({
 																$("#deno").html(frappe.render_template("make_dn_dn", {"data": r.message}));
 																
 																$(".adn").click(function() {
-																	$("#dn_table").find("tr").removeClass("active");
+																	$("table").find("tr").removeClass("active");
 																	$(this).parent().parent().addClass("active");
 																	var a = $(this).parent().parent().attr("data-itemcode");
 																	frappe.call({
@@ -462,7 +462,7 @@ frappe.views.BetterDashboard = Class.extend({
 																			$(".select_batch").click(function () {
 																				console.log(this);
 																				var val = $(this).parent().parent().find(".batch").text();
-																				$("#dn_table").find("tr.active").find("input.dn-batch").val(val);
+																				$("table").find("tr.active").find("input.dn-batch").val(val);
 																				
 																			});
 
@@ -475,13 +475,23 @@ frappe.views.BetterDashboard = Class.extend({
 																					// top: e.pageY - 130,
 																					background: "#FFFFFF"
 																				});
+																				var me = this;
+																				$("#split_batch").click(function () {
+																					console.log(me);
+																				});
+																				$("#delete_dn_item").click(function () {
+																					console.log(me);
+																				});
+
 																				return false;
+
+
 																			});
 
 																			$('html').click(function () {
 																				$contextMenu1.hide();
 																			});		
-																			console.log(r.message)
+																			
 																		}
 																	})
 																});
