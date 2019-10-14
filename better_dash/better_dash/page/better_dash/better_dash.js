@@ -856,8 +856,8 @@ frappe.views.BetterDashboard = Class.extend({
 					me.list_actions();
 				});
 			}
-			else if (["print"].includes(action)) {				
-				
+			else if (["select-all"].includes(action)) {				
+				$(id_mapper[id].div).find("input").attr("checked", true);
 			}			
 
 		});
