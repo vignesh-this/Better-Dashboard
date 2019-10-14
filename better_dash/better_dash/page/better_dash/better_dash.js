@@ -350,17 +350,17 @@ frappe.views.BetterDashboard = Class.extend({
 											dialog.show();	
 										},
 										function () {
-											frappe.msgprint("Cancelled.")
+											frappe.show_alert({message:"Cancelled", indicator:'red'});
 										}
 									)
 								} else {
-									frappe.msgprint("No Material Requests Selected.");
+									frappe.show_alert({message:"No Material Requests Selected.", indicator:'red'});
 								}
 							}
 						);		
 					},
 					function () {
-						frappe.msgprint("Cancelled.");
+						frappe.show_alert({message:"Cancelled", indicator:'red'});
 					}
 				);
 			}
@@ -519,6 +519,7 @@ frappe.views.BetterDashboard = Class.extend({
 																			$(me).addClass("btn-secondary");
 																			$(me).attr("disabled", true);
 																			$(me).parent().parent().parent().find(".dn_edit").removeClass("hidden");
+																			$(me).parent().parent().parent().find(".dn_edit").text("Open in new tab");																			
 																			$(me).parent().parent().parent().find(".dn_edit").click(function () {
 																				window.open('desk#Form/Delivery Note/'+r.message, '_blank')
 																			});
@@ -539,18 +540,18 @@ frappe.views.BetterDashboard = Class.extend({
 											);	
 										},
 										function () {
-											frappe.msgprint("Cancelled.");	
+											frappe.show_alert({message:"Cancelled", indicator:'red'});
 										}
 									);	
 
 								} else {
-									frappe.msgprint("No Sales Orders Were Selected.");
+									frappe.show_alert({message:"No Sales Orders Were Selected.", indicator:'red'});
 								}
 							}
 						);	
 					},
 					function () {
-						frappe.msgprint("Cancelled.");
+						frappe.show_alert({message:"Cancelled", indicator:'red'});
 					}
 				);	
 			}
@@ -596,13 +597,13 @@ frappe.views.BetterDashboard = Class.extend({
 									});	
 								}
 								else{
-									frappe.throw("No Delivery Notes Were Selected.");
+									frappe.show_alert({message:"No Delivery Notes Were Selected.", indicator:'red'});
 								}
 							}
 						)
 					},
 					function () {
-						frappe.msgprint("Cancelled.")
+						frappe.show_alert({message:"Cancelled", indicator:'red'});
 					}
 				)
 			}
@@ -866,6 +867,7 @@ frappe.views.BetterDashboard = Class.extend({
 			}
 			me.make_context_menu();
 			me.list_actions();
+			frappe.show_alert({message:"Data Refreshed", indicator:'green'});
 		}, null, __("Please Wait..."))
 	},
 });

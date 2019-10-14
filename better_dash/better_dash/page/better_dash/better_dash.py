@@ -61,7 +61,7 @@ def get_all_data(from_date=nowdate(),to_date=nowdate()):
         i.title = i.supplier[0:20]
     delivery_note = frappe.db.get_list("Delivery Note", fields=["name", "customer", "status", "medley_orderid"], filters=filter)
     for i in delivery_note:
-        items = frappe.db.get_list("Delivery Note Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount", "free_qty", "batch_no", "expiry_date"])
+        items = frappe.db.get_list("Delivery Note Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount", "free_qty", "batch_no", "expiry_date", "discount_percentage"])
         i.items = items
         i.item_count = len(items)
         i.title = i.customer[0:20]

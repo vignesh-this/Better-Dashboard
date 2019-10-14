@@ -270,6 +270,7 @@
                                             <th>Batch</th>
                                             <th>Exp.</th>
                                             <th>Rate</th>
+                                            <th>Dis %</th>
                                             <th>Amount</th>
                                         </tr>
                                     </thead>
@@ -282,6 +283,7 @@
                                             <td>{{data.delivery_note[j].items[k].batch_no}}</td>
                                             <td>{{data.delivery_note[j].items[k].expiry_date}}</td>
                                             <td>{{data.delivery_note[j].items[k].rate}}</td>
+                                            <td>{{data.delivery_note[j].items[k].discount_percentage}}</td>
                                             <td>{{data.delivery_note[j].items[k].amount}}</td>
                                         </tr>
                                         {% } %}
