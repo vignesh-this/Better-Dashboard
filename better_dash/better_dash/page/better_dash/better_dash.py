@@ -219,12 +219,13 @@ def save_dn(path, data, new_data):
                 j.discount_percentage = i['dis']
                 j.batch_no = i['batch']
 
-    # a.taxes_and_charges = "In State GST - "+company_abbr
-    taxes = get_taxes_and_charges('Sales Taxes and Charges Template', "In State GST - "+company_abbr)
-    for tax in taxes:
-        a.append('taxes', tax)
+    a.taxes_and_charges = "In State GST - "+company_abbr
+    # taxes = get_taxes_and_charges('Sales Taxes and Charges Template', "In State GST - "+company_abbr)
+    # for tax in taxes:
+    #     a.append('taxes', tax)
     # a.taxes_and_charges = "In State GST - "+company_abbr    
     a.insert()
+
     frappe.db.commit()
     print(a.name)
     return a.name
