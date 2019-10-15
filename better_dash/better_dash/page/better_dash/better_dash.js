@@ -856,11 +856,12 @@ frappe.views.BetterDashboard = Class.extend({
 					me.list_actions();
 				});
 			}
-			else if (["select-all"].includes(action)) {				
+			else if (["select-all"].includes(action)) {		
+				console.log(id_mapper[id].div)		
 				$(id_mapper[id].div).find("input").attr("checked", true);
 			}
 			else if (["print"].includes(action)) {				
-				$(id_mapper[id].div).find("input").attr("checked", true);
+				// $(id_mapper[id].div).find("input").attr("checked", true);
 			}			
 
 		});
