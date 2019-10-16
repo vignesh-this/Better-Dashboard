@@ -877,6 +877,7 @@ frappe.views.BetterDashboard = Class.extend({
 						'label': __('Print Format'),
 						'fieldname': 'print_sel',
 						'options': "Print Format",
+						'reqd': 1,
 						"get_query": function () {
 							return {
 								filters: {'doc_type': selected_doctype, "standard": "Yes", "disabled": "0"}
@@ -887,20 +888,25 @@ frappe.views.BetterDashboard = Class.extend({
 				});
 
 				dialog.set_primary_action(__('Print'), function (args) {
-					if (!args) { return; }
-					var with_letterhead = args.with_letterhead ? 1 : 0;
-					var print_format = args.print_sel;
-					var json_string = JSON.stringify(selected_docs);
+					if (selected_docs.length > 0) {
+						if (!args) { return; }
+						var with_letterhead = args.with_letterhead ? 1 : 0;
+						var print_format = args.print_sel;
+						var json_string = JSON.stringify(selected_docs);
 
-					var w = window.open('/api/method/frappe.utils.print_format.download_multi_pdf?' +
-						'doctype=' + encodeURIComponent(selected_doctype) +
-						'&name=' + encodeURIComponent(json_string) +
-						'&format=' + encodeURIComponent(print_format) +
-						'&no_letterhead=' + (with_letterhead ? '0' : '1'));
-					if (!w) {
-						frappe.msgprint(__('Please enable pop-ups'));
-						return;
-					}					
+						var w = window.open('/api/method/frappe.utils.print_format.download_multi_pdf?' +
+							'doctype=' + encodeURIComponent(selected_doctype) +
+							'&name=' + encodeURIComponent(json_string) +
+							'&format=' + encodeURIComponent(print_format) +
+							'&no_letterhead=' + (with_letterhead ? '0' : '1'));
+						if (!w) {
+							frappe.msgprint(__('Please enable pop-ups'));
+							return;
+						}							
+					} else {
+						frappe.show_alert({"message": "No Documents were selected", "indicator": "red"});	
+					}
+					this.hide();
 				});
 
 				dialog.show();
