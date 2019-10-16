@@ -276,10 +276,9 @@ frappe.views.BetterDashboard = Class.extend({
 																			{
 																				label: 'Item Name',
 																				fieldname: 'item_name',
-																				fieldtype: 'Data',
+																				fieldtype: 'Read Only',
 																				in_list_view: 1,
-																				columns: 2,
-																				read_only: 1
+																				columns: 2
 																			},
 																			{
 																				label: 'Quantity',
