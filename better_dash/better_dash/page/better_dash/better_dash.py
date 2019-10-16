@@ -32,42 +32,42 @@ def get_all_data(from_date=nowdate(),to_date=nowdate()):
         filter = {"creation": ["between", [getdate(parse_date(from_date)), getdate(parse_date(to_date))]]}
     else:
         filter = {}   
-    sales_order = frappe.db.get_list("Sales Order", fields=["name", "customer", "status", "medley_orderid"], filters=filter)
+    sales_order = frappe.db.get_list("Sales Order", fields=["name", "customer", "status", "medley_orderid"], filters=filter, order_by="modified desc")
     for i in sales_order:
-        items = frappe.db.get_list("Sales Order Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount"])
+        items = frappe.db.get_list("Sales Order Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount"], order_by="item_name asc")
         i.items = items
         i.item_count = len(items)
         i.title = i.customer[0:20]
-    material_req = frappe.db.get_list("Material Request", fields=["name", "customer_name", "status", "material_request_type", "title", "docstatus", "is_processed", "per_ordered", "medleyorderid"], filters=filter)
+    material_req = frappe.db.get_list("Material Request", fields=["name", "customer_name", "status", "material_request_type", "title", "docstatus", "is_processed", "per_ordered", "medleyorderid"], filters=filter, order_by="modified desc")
     for i in material_req:
-        items = frappe.db.get_list("Material Request Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "uom"])
+        items = frappe.db.get_list("Material Request Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "uom"], order_by="item_name asc")
         i.items = items
         i.item_count = len(items)
         if i.title:
             i.title = i.title[0:20]
         else:
             i.title = ""
-    purchase_ord = frappe.db.get_list("Purchase Order", fields=["name", "supplier", "status"], filters=filter)
+    purchase_ord = frappe.db.get_list("Purchase Order", fields=["name", "supplier", "status"], filters=filter, order_by="modified desc")
     for i in purchase_ord:
-        items = frappe.db.get_list("Purchase Order Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount", "uom"])
+        items = frappe.db.get_list("Purchase Order Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount", "uom"], order_by="item_name asc")
         i.items = items
         i.item_count = len(items)
         i.title = i.supplier[0:20]
-    purchase_rec = frappe.db.get_list("Purchase Receipt", fields=["name", "supplier", "status", "medley_master_orderid"], filters=filter)
+    purchase_rec = frappe.db.get_list("Purchase Receipt", fields=["name", "supplier", "status", "medley_master_orderid"], filters=filter, order_by="modified desc")
     for i in purchase_rec:
-        items = frappe.db.get_list("Purchase Receipt Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount", "free_qty", "batch_no"])
+        items = frappe.db.get_list("Purchase Receipt Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount", "free_qty", "batch_no"], order_by="item_name asc")
         i.items = items
         i.item_count = len(items)
         i.title = i.supplier[0:20]
-    delivery_note = frappe.db.get_list("Delivery Note", fields=["name", "customer", "status", "medley_orderid"], filters=filter)
+    delivery_note = frappe.db.get_list("Delivery Note", fields=["name", "customer", "status", "medley_orderid"], filters=filter, order_by="modified desc")
     for i in delivery_note:
-        items = frappe.db.get_list("Delivery Note Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount", "free_qty", "batch_no", "expiry_date", "discount_percentage"])
+        items = frappe.db.get_list("Delivery Note Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount", "free_qty", "batch_no", "expiry_date", "discount_percentage"], order_by="item_name asc")
         i.items = items
         i.item_count = len(items)
         i.title = i.customer[0:20]
-    sales_invoice = frappe.db.get_list("Sales Invoice", fields=["name", "customer", "status", "medley_orderid"], filters=filter)
+    sales_invoice = frappe.db.get_list("Sales Invoice", fields=["name", "customer", "status", "medley_orderid"], filters=filter, order_by="modified desc")
     for i in sales_invoice:
-        items = frappe.db.get_list("Sales Invoice Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount", "free_qty", "batch_no", "expiry_date"])
+        items = frappe.db.get_list("Sales Invoice Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount", "free_qty", "batch_no", "expiry_date"], order_by="item_name asc")
         i.items = items
         i.item_count = len(items)
         i.title = i.customer[0:20]
