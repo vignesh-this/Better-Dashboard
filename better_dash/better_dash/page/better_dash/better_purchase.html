@@ -5,27 +5,30 @@
                 <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
                     <h5>Sales Order</h5>
                 </div>
-                <h6 class="col-xs-2">
-                    <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                        class="badge badge-light">{{data.sales_order_count}}</span>
-                </h6>
-                <a class="col-xs-2 doc-filter dropdown-toggle" id="sales_order_menu" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-cog" aria-hidden="true"></i>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="sales_order_menu" style="left: 26px;">
-                    <li><a id="so-submit" class="list-action">Submit</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a id="so-cancel" class="list-action">Cancel</a></li>
-                    <li role="separator" class="divider"></li>
-                    <!-- <li><a id="so-print" class="list-action">Print</a></li>
-                    <li role="separator" class="divider"></li> -->
-                    <li><a id="so-delete" class="list-action">Delete</a></li>
-                    <!-- <li role="separator" class="divider"></li> -->
-                    <!-- <li><a id="so-dn">Make Delivery Note for Checked Orders</a></li> -->
-                    <li role="separator" class="divider"></li>
-                    <li><a class="list-action" id="so-select-all">Select All</a></li>
-                </ul>
+                <div class="col-xs-4">
+                    <div class="row align-middle">
+                        <div class="col-xs-7 text-right prl-0">
+                                <p class="badge badge-ligh bdg_bg">{{data.sales_order_count}}</p>
+                        </div>
+                        <div class="col-xs-5 pl-0">
+                            <a class="col-xs-12 doc-filter dropdown-toggle" id="sales_order_menu" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-cog" aria-hidden="true"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="sales_order_menu" style="left: -166px;">
+                                <li><a id="so-submit" class="list-action">Submit</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a id="so-cancel" class="list-action">Cancel</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a id="so-delete" class="list-action">Delete</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a id="so-print" class="list-action">Print</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a class="list-action" id="so-select-all">Select All</a></li>
+                            </ul> 
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-xs-3 gap material-request" id="p1">
@@ -33,25 +36,30 @@
                 <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
                     <h5>Material Request</h5>
                 </div>
-                <h6 class="col-xs-2">
-                    <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                        class="badge badge-light">{{data.material_req_count}}</span>
-                </h6>
-                <a class="col-xs-2 doc-filter dropdown-toggle" id="material_req_menu" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-cog" aria-hidden="true"></i>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="material_req_menu" style="left: 26px;">
-                    <li><a class="list-action" id="mr-submit">Submit</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a class="list-action" id="mr-cancel">Cancel</a></li>
-                    <li role="separator" class="divider"></li>
-                    <!-- <li><a class="list-action" id="mr-print">Print</a></li>
-                    <li role="separator" class="divider"></li> -->
-                    <li><a class="list-action" id="mr-delete">Delete</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a class="list-action" id="mr-select-all">Select All</a></li>
-                </ul>
+                <div class="col-xs-4">
+                    <div class="row align-middle">
+                        <div class="col-xs-7 text-right prl-0">
+                                <p class="badge badge-ligh bdg_bg">{{data.material_req_count}}</p>
+                        </div>
+                        <div class="col-xs-5 pl-0">
+                            <a class="col-xs-2 doc-filter dropdown-toggle" id="material_req_menu" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-cog" aria-hidden="true"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="material_req_menu" style="left: -166px;">
+                                <li><a class="list-action" id="mr-submit">Submit</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a class="list-action" id="mr-cancel">Cancel</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a class="list-action" id="mr-delete">Delete</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a id="mr-print" class="list-action">Print</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a class="list-action" id="mr-select-all">Select All</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-xs-3 gap purchase-order" id="p1">
@@ -59,25 +67,30 @@
                 <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
                     <h5>Purchase Order</h5>
                 </div>
-                <h6 class="col-xs-2">
-                    <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                        class="badge badge-light">{{data.purchase_ord_count}}</span>
-                </h6>
-                <a class="col-xs-2 doc-filter dropdown-toggle" id="purchase_ord_menu" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-cog" aria-hidden="true"></i>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="purchase_ord_menu" style="left: 26px;">
-                    <li><a class="list-action" id="po-submit">Submit</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a class="list-action" id="po-cancel">Cancel</a></li>
-                    <li role="separator" class="divider"></li>
-                    <!-- <li><a class="list-action" id="po-print">Print</a></li>
-                    <li role="separator" class="divider"></li> -->
-                    <li><a class="list-action" id="po-delete">Delete</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a class="list-action" id="po-select-all">Select All</a></li>
-                </ul>
+                <div class="col-xs-4">
+                    <div class="row align-middle">
+                        <div class="col-xs-7 text-right prl-0">
+                            <p class="badge badge-ligh bdg_bg">{{data.purchase_ord_count}}</p>
+                        </div>
+                        <div class="col-xs-5 pl-0">
+                            <a class="col-xs-2 doc-filter dropdown-toggle" id="purchase_ord_menu" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-cog" aria-hidden="true"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="purchase_ord_menu" style="left: -166px;">
+                                <li><a class="list-action" id="po-submit">Submit</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a class="list-action" id="po-cancel">Cancel</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a class="list-action" id="po-delete">Delete</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a id="po-print" class="list-action">Print</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a class="list-action" id="po-select-all">Select All</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-xs-3 gap purchase-receipt" id="p1">
@@ -85,25 +98,30 @@
                 <div class="col-xs-8" style="text-align: left;padding-left: 30px;">
                     <h5>Purchase Receipt</h5>
                 </div>
-                <h6 class="col-xs-2">
-                    <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                        class="badge badge-light">{{data.purchase_rec_count}}</span>
-                </h6>
-                <a class="col-xs-2 doc-filter dropdown-toggle" id="purchase_rec_menu" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-cog" aria-hidden="true"></i>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="purchase_rec_menu" style="left: 26px;">
-                    <li><a class="list-action" id="pr-submit">Submit</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a class="list-action" id="pr-cancel">Cancel</a></li>
-                    <li role="separator" class="divider"></li>
-                    <!-- <li><a class="list-action" id="pr-print">Print</a></li>
-                    <li role="separator" class="divider"></li> -->
-                    <li><a class="list-action" id="pr-delete">Delete</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a class="list-action" id="pr-select-all">Select All</a></li>
-                </ul>
+                <div class="col-xs-4">
+                    <div class="row align-middle">
+                        <div class="col-xs-7 text-right prl-0">
+                            <p class="badge badge-ligh bdg_bg">{{data.purchase_rec_count}}</p>
+                        </div>
+                        <div class="col-xs-5 pl-0">
+                            <a class="col-xs-2 doc-filter dropdown-toggle" id="purchase_rec_menu" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-cog" aria-hidden="true"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="purchase_rec_menu" style="left: -166px;">
+                                <li><a class="list-action" id="pr-submit">Submit</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a class="list-action" id="pr-cancel">Cancel</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a class="list-action" id="pr-delete">Delete</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a id="pr-print" class="list-action">Print</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a class="list-action" id="pr-select-all">Select All</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -156,9 +174,9 @@
                                         <td
                                             title="{{data.sales_order[j].items[k].item_name}}({{data.sales_order[j].items[k].item_code}})">
                                             {{data.sales_order[j].items[k].item_name}}</td>
-                                        <td>{{data.sales_order[j].items[k].qty}}</td>
-                                        <td>{{data.sales_order[j].items[k].rate}}</td>
-                                        <td>{{data.sales_order[j].items[k].amount}}</td>
+                                        <td class="ag_right">{{data.sales_order[j].items[k].qty}}</td>
+                                        <td class="ag_right">{{data.sales_order[j].items[k].rate}}</td>
+                                        <td class="ag_right">{{data.sales_order[j].items[k].amount}}</td>
                                     </tr>
                                     {% } %}
                                 </tbody>
@@ -221,8 +239,8 @@
                                     <tr>
                                         <td>{{data.material_req[o].items[k].item_name}}({{data.material_req[o].items[k].item_code}})
                                         </td>
-                                        <td>{{data.material_req[o].items[k].qty}}</td>
-                                        <td>{{data.material_req[o].items[k].uom}}</td>
+                                        <td class="ag_right">{{data.material_req[o].items[k].qty}}</td>
+                                        <td class="ag_right">{{data.material_req[o].items[k].uom}}</td>
                                     </tr>
                                     {% } %}
                                 </tbody>
@@ -278,10 +296,10 @@
                                 <tbody>
                                     {% for(var k=0; k<data.purchase_ord[j].items.length; k++) { %}
                                     <tr>
-                                        <td>{{data.purchase_ord[j].items[k].item_name}}</td>
-                                        <td>{{data.purchase_ord[j].items[k].qty}}</td>
-                                        <td>{{data.purchase_ord[j].items[k].rate}}</td>
-                                        <td>{{data.purchase_ord[j].items[k].amount}}</td>
+                                        <td class="ag_right">{{data.purchase_ord[j].items[k].item_name}}</td>
+                                        <td class="ag_right">{{data.purchase_ord[j].items[k].qty}}</td>
+                                        <td class="ag_right">{{data.purchase_ord[j].items[k].rate}}</td>
+                                        <td class="ag_right">{{data.purchase_ord[j].items[k].amount}}</td>
                                     </tr>
                                     {% } %}
                                 </tbody>
@@ -342,11 +360,11 @@
                                         {% for(var k=0; k<data.purchase_rec[j].items.length; k++) { %}
                                         <tr>
                                             <td>{{data.purchase_rec[j].items[k].item_name}}</td>
-                                            <td>{{data.purchase_rec[j].items[k].qty}}</td>
-                                            <td>{{data.purchase_rec[j].items[k].free_qty}}</td>
-                                            <td>{{data.purchase_rec[j].items[k].batch_no}}</td>
-                                            <td>{{data.purchase_rec[j].items[k].rate}}</td>
-                                            <td>{{data.purchase_rec[j].items[k].amount}}</td>
+                                            <td class="ag_right">{{data.purchase_rec[j].items[k].qty}}</td>
+                                            <td class="ag_right">{{data.purchase_rec[j].items[k].free_qty}}</td>
+                                            <td class="ag_right">{{data.purchase_rec[j].items[k].batch_no}}</td>
+                                            <td class="ag_right">{{data.purchase_rec[j].items[k].rate}}</td>
+                                            <td class="ag_right">{{data.purchase_rec[j].items[k].amount}}</td>
                                         </tr>
                                         {% } %}
                                     </tbody>

@@ -622,6 +622,11 @@ frappe.views.BetterDashboard = Class.extend({
 				)
 			}
 		);
+		me.wrapper.page.add_menu_item(__("Inventory Analysis"),		
+			function () {
+				window.open('desk#query-report/Medley%20Order%20Tracking', '_blank');
+			}
+		);
 	},
 	make_context_menu: function () {
 		var me = this;
