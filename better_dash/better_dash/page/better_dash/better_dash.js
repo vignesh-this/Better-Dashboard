@@ -260,12 +260,12 @@ frappe.views.BetterDashboard = Class.extend({
 																						args: {
 																							doctype: "Item Price",
 																							filters: {"item_code": this.get_value(), "price_list": "Standard Buying"},
-																							fieldname: "price_list_rate"
+																							fieldname: ["price_list_rate", "item_name"]
 																						},
 																						callback: function(r){
 																							console.log(r.message);
 																							me.grid_row.on_grid_fields_dict.rate.set_value(r.message.price_list_rate);
-																							me.grid_row.on_grid_fields_dict.item_name.set_value(r.message.price_list_rate);
+																							me.grid_row.on_grid_fields_dict.item_name.set_value(r.message.item_name);
 																							if (me.grid_row.on_grid_fields_dict.qty.get_value() == null) {
 																								me.grid_row.on_grid_fields_dict.qty.set_value("0");
 																							}
@@ -276,13 +276,10 @@ frappe.views.BetterDashboard = Class.extend({
 																			{
 																				label: 'Item Name',
 																				fieldname: 'item_name',
-																				fieldtype: 'data',
+																				fieldtype: 'Data',
 																				in_list_view: 1,
 																				columns: 2,
-																				read_only: 1,
-																				change: function () {
-
-																				}
+																				read_only: 1
 																			},
 																			{
 																				label: 'Quantity',
