@@ -571,9 +571,7 @@ frappe.views.BetterDashboard = Class.extend({
 					}
 				);	
 			}
-		);
-
-		
+		);		
 		me.wrapper.page.add_menu_item(__("Make Sales Invoices"), 
 			function () {
 				$('input:checkbox').removeAttr('checked');
