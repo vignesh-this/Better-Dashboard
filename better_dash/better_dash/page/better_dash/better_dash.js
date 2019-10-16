@@ -329,7 +329,7 @@ frappe.views.BetterDashboard = Class.extend({
 																			"method": "erpnext.stock.doctype.material_request.material_request.make_purchase_order"
 																		},
 																		callback: function (r) {
-																			frappe.msgprint("Purchase Order Created.");
+																			frappe.show_alert({message:"Purchase Order Created.", indicator:'green'});
 																			me.get_data();
 																			if (me.dash_type.get_value() == "Sales") {
 																				$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_sales", {"data": me.data}));
@@ -865,6 +865,45 @@ frappe.views.BetterDashboard = Class.extend({
 				$(div).find("input").prop("checked", true);
 			}
 			else if (["print"].includes(action)) {	
+				var dialog = new frappe.ui.Dialog({
+					title: __('Print Documents'),
+					fields: [{
+						'fieldtype': 'Check',
+						'label': __('With Letterhead'),
+						'fieldname': 'with_letterhead'
+					},
+					{
+						'fieldtype': 'Link',
+						'label': __('Print Format'),
+						'fieldname': 'print_sel',
+						'options': "Print Format",
+						"get_query": function () {
+							return {
+								filters: {'doc_type': selected_doctype, "standard": "Yes", "disabled": "0"}
+							};
+						},
+
+					}]
+				});
+
+				dialog.set_primary_action(__('Print'), function (args) {
+					if (!args) { return; }
+					var with_letterhead = args.with_letterhead ? 1 : 0;
+					var print_format = args.print_sel;
+					var json_string = JSON.stringify(selected_docs);
+
+					var w = window.open('/api/method/frappe.utils.print_format.download_multi_pdf?' +
+						'doctype=' + encodeURIComponent(selected_doctype) +
+						'&name=' + encodeURIComponent(json_string) +
+						'&format=' + encodeURIComponent(print_format) +
+						'&no_letterhead=' + (with_letterhead ? '0' : '1'));
+					if (!w) {
+						frappe.msgprint(__('Please enable pop-ups'));
+						return;
+					}					
+				});
+
+				dialog.show();
 			}			
 
 		});
