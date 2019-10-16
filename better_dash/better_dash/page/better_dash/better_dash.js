@@ -1,7 +1,7 @@
 frappe.pages['better-dash'].on_page_load = function (wrapper) {
 	var page = frappe.ui.make_app_page({
 		parent: wrapper,
-		title: 'A Better Dashboard',
+		title: 'Business Dashboard',
 		single_column: true
 	});
 	// new frappe.views.BetterDashboard(page);
@@ -37,6 +37,7 @@ frappe.views.BetterDashboard = Class.extend({
 				fieldtype: 'DateRange',
 				label: 'Date Range',
 				fieldname: 'date_field',
+				default: [frappe.datetime.get_today(), frappe.datetime.get_today()],
 				onchange: () => {
 					if (this.date_field.get_value()) {
 						me.get_filtered_data();
@@ -54,9 +55,10 @@ frappe.views.BetterDashboard = Class.extend({
 					}
 				}
 			},
-			parent: $(me.wrapper).find('#date-filter'),
-			render_input: true
+			parent: $(me.wrapper).find('#date-filter')
 		});
+		this.date_field.make_input();
+		this.date_field.set_value([frappe.datetime.get_today(), frappe.datetime.get_today()]);
 		this.dash_type = frappe.ui.form.make_control({
 			df: {
 				fieldtype: 'Select',
@@ -67,12 +69,15 @@ frappe.views.BetterDashboard = Class.extend({
 					console.log(this.dash_type.get_value());
 					if (this.dash_type.get_value() == "Sales") {
 						$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_sales", {"data": me.data}));
+						$(".ellipsis.title-text").text("Sales Dashboard");
 					} 
 					else if (this.dash_type.get_value() == "Purchase"){
 						$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_purchase", {"data": me.data}));
+						$(".ellipsis.title-text").text("Purchase Dashboard");
 					}
 					else{
 						$(me.wrapper).find(".better-dash-body").html(frappe.render_template("dash_layout", {"data": me.data}));
+						$(".ellipsis.title-text").text("Business Dashboard");
 					}
 					me.make_context_menu();
 					me.list_actions();
@@ -81,6 +86,7 @@ frappe.views.BetterDashboard = Class.extend({
 			parent: $(me.wrapper).find('#to-date-filter'),
 			render_input: true
 		});
+		this.dash_type.set_value("General");
 	},
 	get_data: function () {
 		var me = this;
@@ -860,8 +866,7 @@ frappe.views.BetterDashboard = Class.extend({
 				var div = String(id_mapper[id].div);
 				$(div).find("input").prop("checked", true);
 			}
-			else if (["print"].includes(action)) {				
-				// $(id_mapper[id].div).find("input").attr("checked", true);
+			else if (["print"].includes(action)) {	
 			}			
 
 		});
