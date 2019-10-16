@@ -150,7 +150,7 @@
                         </div>
                         <div class="col-xs-12">
                             <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                                class="badge badge-light">{{data.sales_order[j].item_count}} Items</span>
+                                class="badge badge-light">{{data.sales_order[j].item_count}} Item(s)</span>
                             <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
                                 class="badge badge-light">{{data.sales_order[j].status}}</span>
                             <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
@@ -173,7 +173,7 @@
                                     <tr>
                                         <td
                                             title="{{data.sales_order[j].items[k].item_name}}({{data.sales_order[j].items[k].item_code}})">
-                                            {{data.sales_order[j].items[k].item_name}}</td>
+                                            {{k+1}}.{{data.sales_order[j].items[k].item_name}}</td>
                                         <td class="ag_right">{{data.sales_order[j].items[k].qty}}</td>
                                         <td class="ag_right">{{data.sales_order[j].items[k].rate}}</td>
                                         <td class="ag_right">{{data.sales_order[j].items[k].amount}}</td>
@@ -215,7 +215,7 @@
                         </div>
                         <div class="col-xs-12">
                             <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                                class="badge badge-light">{{data.material_req[o].item_count}} Items</span>
+                                class="badge badge-light">{{data.material_req[o].item_count}} Item(s)</span>
                             <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
                                 class="badge badge-light">{{data.material_req[o].status}}</span>
                             <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
@@ -237,7 +237,7 @@
                                 <tbody>
                                     {% for(var k=0; k<data.material_req[o].items.length; k++) { %}
                                     <tr>
-                                        <td>{{data.material_req[o].items[k].item_name}}({{data.material_req[o].items[k].item_code}})
+                                        <td>{{k+1}}.{{data.material_req[o].items[k].item_name}}({{data.material_req[o].items[k].item_code}})
                                         </td>
                                         <td class="ag_right">{{data.material_req[o].items[k].qty}}</td>
                                         <td class="ag_right">{{data.material_req[o].items[k].uom}}</td>
@@ -277,7 +277,7 @@
                         </div>
                         <div class="col-xs-12">
                             <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                                class="badge badge-light">{{data.purchase_ord[j].item_count}} Items</span>
+                                class="badge badge-light">{{data.purchase_ord[j].item_count}} Item(s)</span>
                             <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
                                 class="badge badge-light">{{data.purchase_ord[j].status}}</span>
                         </div>
@@ -296,7 +296,7 @@
                                 <tbody>
                                     {% for(var k=0; k<data.purchase_ord[j].items.length; k++) { %}
                                     <tr>
-                                        <td class="ag_right">{{data.purchase_ord[j].items[k].item_name}}</td>
+                                        <td>{{k+1}}.{{data.purchase_ord[j].items[k].item_name}}</td>
                                         <td class="ag_right">{{data.purchase_ord[j].items[k].qty}}</td>
                                         <td class="ag_right">{{data.purchase_ord[j].items[k].rate}}</td>
                                         <td class="ag_right">{{data.purchase_ord[j].items[k].amount}}</td>
@@ -336,7 +336,7 @@
                         </div>
                         <div class="col-xs-12">
                             <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                                class="badge badge-light">{{data.purchase_rec[j].item_count}} Items</span>
+                                class="badge badge-light">{{data.purchase_rec[j].item_count}} Item(s)</span>
                             <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
                                 class="badge badge-light">{{data.purchase_rec[j].status}}</span>
                             <span style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
@@ -359,7 +359,7 @@
                                     <tbody>
                                         {% for(var k=0; k<data.purchase_rec[j].items.length; k++) { %}
                                         <tr>
-                                            <td>{{data.purchase_rec[j].items[k].item_name}}</td>
+                                            <td>{{k+1}}.{{data.purchase_rec[j].items[k].item_name}}</td>
                                             <td class="ag_right">{{data.purchase_rec[j].items[k].qty}}</td>
                                             <td class="ag_right">{{data.purchase_rec[j].items[k].free_qty}}</td>
                                             <td class="ag_right">{{data.purchase_rec[j].items[k].batch_no}}</td>

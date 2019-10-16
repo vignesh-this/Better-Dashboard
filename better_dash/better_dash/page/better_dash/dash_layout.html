@@ -258,7 +258,7 @@
                                     {% for(var k=0; k<data.sales_order[j].items.length; k++) { %}
                                     <tr>
                                         <td title="{{data.sales_order[j].items[k].item_name}}({{data.sales_order[j].items[k].item_code}})">
-                                            {{data.sales_order[j].items[k].item_name}}
+                                            {{k+1}}.{{data.sales_order[j].items[k].item_name}}
                                         </td>
                                         <td class="ag_right">{{data.sales_order[j].items[k].qty}}</td>
                                         <td class="ag_right">{{data.sales_order[j].items[k].rate}}</td>
@@ -323,7 +323,7 @@
                                 <tbody>
                                     {% for(var k=0; k<data.material_req[o].items.length; k++) { %}
                                     <tr>
-                                        <td>{{data.material_req[o].items[k].item_name}}({{data.material_req[o].items[k].item_code}})
+                                        <td>{{k+1}}.{{data.material_req[o].items[k].item_name}}({{data.material_req[o].items[k].item_code}})
                                         </td>
                                         <td class="ag_right">{{data.material_req[o].items[k].qty}}</td>
                                         <td class="ag_right">{{data.material_req[o].items[k].uom}}</td>
@@ -382,7 +382,7 @@
                                 <tbody>
                                     {% for(var k=0; k<data.purchase_ord[j].items.length; k++) { %}
                                     <tr>
-                                        <td>{{data.purchase_ord[j].items[k].item_name}}</td>
+                                        <td>{{k+1}}.{{data.purchase_ord[j].items[k].item_name}}</td>
                                         <td class="ag_right">{{data.purchase_ord[j].items[k].qty}}</td>
                                         <td class="ag_right">{{data.purchase_ord[j].items[k].rate}}</td>
                                         <td class="ag_right">{{data.purchase_ord[j].items[k].amount}}</td>
@@ -445,7 +445,7 @@
                                     <tbody>
                                         {% for(var k=0; k<data.purchase_rec[j].items.length; k++) { %}
                                         <tr>
-                                            <td>{{data.purchase_rec[j].items[k].item_name}}</td>
+                                            <td>{{k+1}}.{{data.purchase_rec[j].items[k].item_name}}</td>
                                             <td class="ag_right">{{data.purchase_rec[j].items[k].qty}}</td>
                                             <td class="ag_right">{{data.purchase_rec[j].items[k].free_qty}}</td>
                                             <td class="ag_right">{{data.purchase_rec[j].items[k].batch_no}}</td>
@@ -512,7 +512,7 @@
                                     <tbody>
                                         {% for(var k=0; k<data.delivery_note[j].items.length; k++) { %}
                                         <tr>
-                                            <td>{{data.delivery_note[j].items[k].item_name}}</td>
+                                            <td>{{k+1}}.{{data.delivery_note[j].items[k].item_name}}</td>
                                             <td class="ag_right">{{data.delivery_note[j].items[k].qty}}</td>
                                             <td class="ag_right">{{data.delivery_note[j].items[k].free_qty}}</td>
                                             <td class="ag_right">{{data.delivery_note[j].items[k].batch_no}}</td>
@@ -580,7 +580,7 @@
                                     <tbody>
                                         {% for(var k=0; k<data.sales_invoice[j].items.length; k++) { %}
                                         <tr>
-                                            <td>{{data.sales_invoice[j].items[k].item_name}}</td>
+                                            <td>{{k+1}}.{{data.sales_invoice[j].items[k].item_name}}</td>
                                             <td class="ag_right">{{data.sales_invoice[j].items[k].qty}}</td>
                                             <td class="ag_right">{{data.sales_invoice[j].items[k].free_qty}}</td>
                                             <td class="ag_right">{{data.sales_invoice[j].items[k].batch_no}}</td>

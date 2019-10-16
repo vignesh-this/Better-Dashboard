@@ -251,7 +251,7 @@ frappe.views.BetterDashboard = Class.extend({
 																				fieldtype: 'Link',
 																				options: 'Item',
 																				in_list_view: 1,
-																				columns: 3,
+																				columns: 2,
 																				change: function () {
 																					console.log(this);
 																					var me = this;
@@ -265,11 +265,23 @@ frappe.views.BetterDashboard = Class.extend({
 																						callback: function(r){
 																							console.log(r.message);
 																							me.grid_row.on_grid_fields_dict.rate.set_value(r.message.price_list_rate);
+																							me.grid_row.on_grid_fields_dict.item_name.set_value(r.message.price_list_rate);
 																							if (me.grid_row.on_grid_fields_dict.qty.get_value() == null) {
 																								me.grid_row.on_grid_fields_dict.qty.set_value("0");
 																							}
 																						}
 																					});
+																				}
+																			},
+																			{
+																				label: 'Item Name',
+																				fieldname: 'item_name',
+																				fieldtype: 'data',
+																				in_list_view: 1,
+																				columns: 2,
+																				read_only: 1,
+																				change: function () {
+
 																				}
 																			},
 																			{
@@ -345,8 +357,10 @@ frappe.views.BetterDashboard = Class.extend({
 																		}
 																	});
 																},
-																primary_action_label: __('Save')
+																primary_action_label: __('Save'),
+																size: "large"
 															});	
+															console.log(dialog)
 															dialog.show();
 														}
 													});
