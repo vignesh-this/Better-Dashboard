@@ -380,208 +380,7 @@ frappe.views.BetterDashboard = Class.extend({
 					}
 				);
 			}
-		);
-		me.wrapper.page.add_menu_item(__("Make Delivery Notes"),
-			function () {
-				$('input:checkbox').removeAttr('checked');
-				frappe.confirm(__("Please Select Sales Orders to Create a Delivery Note"),
-					function () {
-						$(".gaps:not(.gaps.sales-order)").find("input").attr("disabled", true);
-						$(me.wrapper.page.btn_primary).show();
-						me.wrapper.page.set_primary_action(__("Select Sales Orders"), 
-							function () {
-								$(me.wrapper.page.btn_primary).hide();
-								var selected_so = [];
-								$(".gaps.sales-order").find("input:checked").each(function() {
-									selected_so.push($(this).attr('data-name'));
-								});
-								$(".gaps").find("input").removeAttr("disabled");
-								$('input:checkbox').removeAttr('checked');
-								if (selected_so.length > 0) {
-									
-									frappe.confirm(__("Please Select Purchase Receipts against which you want these delivery notes"),
-										function () {
-											$(".gaps:not(.gaps.purchase-receipt)").find("input").attr("disabled", true);
-											$(me.wrapper.page.btn_primary).show();
-											me.wrapper.page.set_primary_action(__("Select Purchase Receipts"), 
-												function() {
-													$(me.wrapper.page.btn_primary).hide();
-													var selected_pr = [];
-													$(".gaps.purchase-receipt").find("input:checked").each(function() {
-														selected_pr.push($(this).attr('data-name'));
-													});
-													$(".gaps").find("input").removeAttr("disabled");
-													$('input:checkbox').removeAttr('checked');
-													console.log(selected_so, selected_pr);
-													var dn_data = undefined;
-													var callback1 = function () {
-														frappe.call({
-															method: "better_dash.better_dash.page.better_dash.better_dash.get_data_for_delivery_note",
-															args: {
-																sales_orders: selected_so,
-																purchase_reciepts: selected_pr
-															},
-															async: false,
-															callback: function (r) {
-																console.log(r.message)
-																dn_data = r.message;
-																$("#saor").html(frappe.render_template("make_dn_so", {"data": r.message}));
-																$("#pure").html(frappe.render_template("make_dn_pr", {"data": r.message}));
-																$("#deno").html(frappe.render_template("make_dn_dn", {"data": r.message}));
-																
-																$(".adn").click(function() {
-																	$("table").find("tr").removeClass("active");
-																	$(this).parent().parent().addClass("active");
-																	var a = $(this).parent().parent().attr("data-itemcode");
-																	frappe.call({
-																		"method": "better_dash.better_dash.page.better_dash.better_dash.get_item_data",
-																		'args': {
-																			'item': a,
-																			"selected_pr": selected_pr,
-																			"sales_orders": selected_so
-																		},
-																		callback: function (r) {
-																			// $("#example").css("display", "block");
-																			$("#av_qty").text(" : "+r.message.bin.actual_qty)
-																			$("#av_free_qty").text(" : "+r.message.free_bin.actual_qty)
-																			$("#item_name").text(r.message.item);
-																			$("#item_data").empty();
-																			$("#tot_ord_qty").empty();
-																			$("#tot_ord_qty").text(" : "+r.message.ordered_qty);
-																			$("#tot_rec_qty").empty();
-																			$("#tot_rec_qty").text(" : "+r.message.recieved_qty);
-
-
-																			for (let index = 0; index < r.message.ordered_by.length; index++) {
-																				const element = r.message.ordered_by[index];
-																				$("#item_data").append(`
-																				<l1 class="list-group-item">`+element.customer+` ordered `+element.qty+` nos.</li>
-																				`);
-																			}
-																			
-																			$(".batch_data").empty();
-																			for(var y=0; y<r.message.batch.length; y++){
-																				let data = r.message.batch[y];
-																				$(".batch_data").append(`<tr>
-																				<td class="batch">`+data.batch_id+`</td>
-																				<td>`+data.virtual_ware+`</td>
-																				<td>`+data.stores_ware+`</td>
-																				<td>`+data.free_ware+`</td>
-																				<td>`+data.pts+`</td>
-																				<td>`+data.ptr+`</td>
-																				<td>`+data.mrp_+`</td>
-																				<td>`+data.expiry_date+`</td>
-																				<td align='center'><button class="btn btn-default select_batch" type="button" style="width:100%">Select!</button></td>
-																				</tr>`)
-																			}
-
-																			$(".select_batch").click(function () {
-																				console.log(this);
-																				var val = $(this).parent().parent().find(".batch").text();
-																				$("table").find("tr.active").find("input.dn-batch").val(val);
-																				
-																			});
-
-																			var $contextMenu1 = $("#contextMenu1");
-																			$(".dn_row").contextmenu(function (e) {
-
-																				$contextMenu1.css({
-																					display: "block",
-																					// left: e.pageX,
-																					// top: e.pageY - 130,
-																					background: "#FFFFFF"
-																				});
-																				var me = this;
-																				$("#split_batch").click(function () {
-																					console.log(me);
-																				});
-																				$("#delete_dn_item").click(function () {
-																					console.log(me);
-																				});
-
-																				return false;
-
-
-																			});
-
-																			$('html').click(function () {
-																				$contextMenu1.hide();
-																			});		
-																			
-																		}
-																	})
-																});
-
-																$(".dn_save").click(function () {
-																	var me = this;
-																	var data_array = [];
-																	var rows = $(this).parent().parent().parent().parent();
-																	console.log($(rows).find("#dn_table").find("tr"))
-																	for(var i=0; i<$(rows).find("#dn_table").find("tr").length; i++){
-																		var a = $(rows).find("#dn_table").find("tr")[i];
-																		data_array.push({
-																			"item_code": $(a).data('itemcode'),
-																			"bill_qty": $(a).find(".dn-qty").val(),
-																			"free_qty": $(a).find(".dn-fqty").val(),
-																			"dis": $(a).find(".dn-dp").val(),
-																			"batch": $(a).find(".dn-batch").val()
-																		})
-																	}
-
-																	console.log(data_array)
-																	
-
-																	frappe.call({
-																		method: "better_dash.better_dash.page.better_dash.better_dash.save_dn",
-																		args: {
-																			path: $(this).attr('data-number'),
-																			data: dn_data,
-																			new_data: data_array
-																		},
-																		callback: function (r) {
-																			console.log(r.message);
-																			$(me).text("Saved");
-																			$(me).removeClass("btn-success");
-																			$(me).addClass("btn-secondary");
-																			$(me).attr("disabled", true);
-																			$(me).parent().parent().parent().find(".dn_edit").removeClass("hidden");
-																			$(me).parent().parent().parent().find(".dn_edit").text("Open in new tab");																			
-																			$(me).parent().parent().parent().find(".dn_edit").click(function () {
-																				window.open('desk#Form/Delivery Note/'+r.message, '_blank')
-																			});
-																			
-																		}
-																	})
-																});
-															}
-														});
-													};
-													$('#myModal1').modalSteps({
-														callbacks: {
-															'1': callback1
-														}
-													});
-													$('#myModal1').modal('show');
-												}
-											);	
-										},
-										function () {
-											frappe.show_alert({message:"Cancelled", indicator:'red'});
-										}
-									);	
-
-								} else {
-									frappe.show_alert({message:"No Sales Orders Were Selected.", indicator:'red'});
-								}
-							}
-						);	
-					},
-					function () {
-						frappe.show_alert({message:"Cancelled", indicator:'red'});
-					}
-				);	
-			}
-		);		
+		);	
 		me.wrapper.page.add_menu_item(__("Make Sales Invoices"), 
 			function () {
 				$('input:checkbox').removeAttr('checked');
@@ -635,6 +434,65 @@ frappe.views.BetterDashboard = Class.extend({
 		me.wrapper.page.add_menu_item(__("Inventory Analysis"),		
 			function () {
 				window.open('desk#query-report/Medley%20Order%20Tracking', '_blank');
+			}
+		);
+		me.wrapper.page.add_menu_item(__("Make Delivery Notes"),
+			function () {
+				$('input:checkbox').removeAttr('checked');
+				frappe.confirm(__("Please Select Sales Orders to Create a Delivery Note"),
+					function () {
+						$(".gaps:not(.gaps.sales-order)").find("input").attr("disabled", true);
+						$(me.wrapper.page.btn_primary).show();
+						me.wrapper.page.set_primary_action(__("Select Sales Orders"), 
+							function () {
+								$(me.wrapper.page.btn_primary).hide();
+								var selected_so = [];
+								$(".gaps.sales-order").find("input:checked").each(function() {
+									selected_so.push($(this).attr('data-name'));
+								});
+								$(".gaps").find("input").removeAttr("disabled");
+								$('input:checkbox').removeAttr('checked');
+								if (selected_so.length > 0) {
+									
+									frappe.confirm(__("Please Select Purchase Receipts against which you want these delivery notes"),
+										function () {
+											$(".gaps:not(.gaps.purchase-receipt)").find("input").attr("disabled", true);
+											$(me.wrapper.page.btn_primary).show();
+											me.wrapper.page.set_primary_action(__("Select Purchase Receipts"), 
+												function() {
+													$(me.wrapper.page.btn_primary).hide();
+													var selected_pr = [];
+													$(".gaps.purchase-receipt").find("input:checked").each(function() {
+														selected_pr.push($(this).attr('data-name'));
+													});
+													$(".gaps").find("input").removeAttr("disabled");
+													$('input:checkbox').removeAttr('checked');
+													console.log(selected_so, selected_pr);
+													var dn_data = undefined;
+													$('#myModal1').modalSteps({
+														callbacks: {
+															'1': me.delivery_note_main(selected_so, selected_pr)
+														}
+													});
+													$('#myModal1').modal('show');
+												}
+											);	
+										},
+										function () {
+											frappe.show_alert({message:"Cancelled", indicator:'red'});
+										}
+									);	
+			
+								} else {
+									frappe.show_alert({message:"No Sales Orders Were Selected.", indicator:'red'});
+								}
+							}
+						);	
+					},
+					function () {
+						frappe.show_alert({message:"Cancelled", indicator:'red'});
+					}
+				);				
 			}
 		);
 	},
@@ -929,7 +787,7 @@ frappe.views.BetterDashboard = Class.extend({
 
 		});
 	},
-	set_secondary_action() {
+	set_secondary_action: function() {
 		var me = this;
 		me.wrapper.page.set_secondary_action(__("Refresh Data"), function() {
 			me.get_data();
@@ -947,4 +805,271 @@ frappe.views.BetterDashboard = Class.extend({
 			frappe.show_alert({message:"Data Refreshed", indicator:'green'});
 		}, null, __("Please Wait..."))
 	},
+	delivery_note_main: function (selected_so, selected_pr) {
+		var me = this;
+		frappe.call({
+			method: "better_dash.better_dash.page.better_dash.better_dash.get_data_for_delivery_note",
+			args: {
+				sales_orders: selected_so,
+				purchase_reciepts: selected_pr
+			},
+			async: false,
+			callback: function (r) {
+				console.log(r.message)
+				me.dn_data = r.message;
+				$("#saor").html(frappe.render_template("make_dn_so", {"data": r.message}));
+				$("#pure").html(frappe.render_template("make_dn_pr", {"data": r.message}));
+				$("#deno").html(frappe.render_template("make_dn_dn", {"data": r.message}));
+
+			}
+		});		
+		me.get_item_details(selected_so, selected_pr);
+		me.delivery_note_split_batch(selected_so, selected_pr)
+		me.delivery_note_remove_item(selected_so, selected_pr)
+		me.save_delivery_note();
+	},
+	get_item_details: function (selected_so, selected_pr) {
+		$(".adn").click(function() {
+			$("table").find("tr").removeClass("active");
+			$(this).parent().parent().addClass("active");
+			var a = $(this).parent().parent().attr("data-itemcode");
+			frappe.call({
+				"method": "better_dash.better_dash.page.better_dash.better_dash.get_item_data",
+				'args': {
+					'item': a,
+					"selected_pr": selected_pr,
+					"sales_orders": selected_so
+				},
+				callback: function (r) {
+					// $("#example").css("display", "block");
+					$("#av_qty").text(" : "+r.message.bin.actual_qty)
+					$("#av_free_qty").text(" : "+r.message.free_bin.actual_qty)
+					$("#item_name").text(r.message.item);
+					$("#item_data").empty();
+					$("#tot_ord_qty").empty();
+					$("#tot_ord_qty").text(" : "+r.message.ordered_qty);
+					$("#tot_rec_qty").empty();
+					$("#tot_rec_qty").text(" : "+r.message.recieved_qty);
+
+
+					for (let index = 0; index < r.message.ordered_by.length; index++) {
+						const element = r.message.ordered_by[index];
+						$("#item_data").append(`
+						<l1 class="list-group-item">`+element.customer+` ordered `+element.qty+` nos.</li>
+						`);
+					}
+					
+					$(".batch_data").empty();
+					for(var y=0; y<r.message.batch.length; y++){
+						let data = r.message.batch[y];
+						$(".batch_data").append(`<tr>
+						<td class="batch">`+data.batch_id+`</td>
+						<td>`+data.virtual_ware+`</td>
+						<td>`+data.stores_ware+`</td>
+						<td>`+data.free_ware+`</td>
+						<td>`+data.pts+`</td>
+						<td>`+data.ptr+`</td>
+						<td>`+data.mrp_+`</td>
+						<td>`+data.expiry_date+`</td>
+						<td align='center'><button class="btn btn-default select_batch" type="button" style="width:100%">Select!</button></td>
+						</tr>`)
+					}
+
+					$(".select_batch").click(function () {
+						console.log(this);
+						var val = $(this).parent().parent().find(".batch").text();
+						$("table").find("tr.active").find("input.dn-batch").val(val);
+						
+					});
+
+					var $contextMenu1 = $("#contextMenu1");
+					$(".dn_row").contextmenu(function (e) {
+						var dn_no = $(this).attr("data-dn-number");
+						var item_no = $(this).attr("data-item-number");
+						var item_code = $(this).attr("data-itemcode");
+						$(contextMenu1).attr('data-dn_no', dn_no);
+						$(contextMenu1).attr('data-item_no', item_no);
+						$(contextMenu1).attr('data-item_code', item_code);
+						
+						$contextMenu1.css({
+							display: "block",
+							// left: e.pageX,
+							// top: e.pageY - 130,
+							background: "#FFFFFF"
+						});
+
+						return false;
+					});
+
+					$('html').click(function () {
+						$contextMenu1.hide();
+					});		
+					
+				}
+			})
+		});		
+	},
+	delivery_note_split_batch: function (selected_so, selected_pr) {
+		var me = this;
+		$("#split_batch").click(function () {
+			var path = parseInt($(this).parent().parent().parent().attr('data-dn_no'));
+			frappe.call({
+				method: "better_dash.better_dash.page.better_dash.better_dash.split_batch",
+				args:{
+					"data": me.dn_data,
+					"path": parseInt(path),
+					"item_code": $(this).parent().parent().parent().attr('data-item_code')
+				},
+				callback: function (r) {																			
+					console.log(r.message);
+					me.dn_data = r.message;
+					var div = undefined;
+					for (let index = 0; index < r.message['DN'][path].items.length; index++) {
+						const element = r.message['DN'][path].items[index];
+						div += `
+						<tr class="dn_row" data-itemcode="`+element.item_code+`" data-item-number="`+index+`" data-dn-number="`+path+`">
+							<td style="padding: 0;">
+								<input readonly class="adn dn-item-code" type="text" style="width:100%; padding: 10px;"
+									value="`+element.item_name+`" />
+							</td>
+							<td style="padding: 0;">
+								<input readonly class="adn dn-oqty" type="text" style="width:100%; padding: 10px;"
+									value="`+element.qty+`" />
+							</td>
+							<td style="padding: 0;">
+								<input class="adn dn-qty" type="text" style="width:100%; padding: 10px;"
+									value="`+element.qty+`" />
+							</td>
+							<td style="padding: 0;">
+								<input class="adn dn-fqty" type="text" style="width:100%; padding: 10px;"
+									value="`+element.free_qty+`" />
+							</td>
+							<td style="padding: 0;">
+								<input readonly class="adn dn-rate" type="text" style="width:100%; padding: 10px;"
+									value="`+element.rate+`" />
+							</td>
+							<td style="padding: 0;">
+								<input class="adn dn-dp" type="text" style="width:100%; padding: 10px;"
+									value="`+element.discount_percentage+`" />
+							</td>
+							<td style="padding: 0;">
+								<input readonly class="adn dn-am" type="text" style="width:100%; padding: 10px;"
+									value="`+element.amount+`" />
+							</td>
+							<td style="padding: 0;">
+								<input readonly class="adn dn-batch" type="text" style="width:100%; padding: 10px;" value="None" />
+							</td>
+						</tr>																				
+						`
+					}
+					$(".dn_row.active").parent().html(div);		
+					me.get_item_details(selected_so, selected_pr);
+				}
+			});
+		});		
+	},
+	delivery_note_remove_item:function (selected_so, selected_pr) {
+		var me = this;
+		$("#delete_dn_item").click(function () {
+			var path = parseInt($(this).parent().parent().parent().attr('data-dn_no'));
+			frappe.call({
+				method: "better_dash.better_dash.page.better_dash.better_dash.delte_item",
+				args:{
+					"data": me.dn_data,
+					"path": parseInt(path),
+					"item_code": $(this).parent().parent().parent().attr('data-item_code')
+				},
+				callback: function (r) {																			
+					console.log(r.message);
+					me.dn_data = r.message;
+					var div = undefined;
+					for (let index = 0; index < r.message['DN'][path].items.length; index++) {
+						const element = r.message['DN'][path].items[index];
+						div += `
+						<tr class="dn_row" data-itemcode="`+element.item_code+`" data-item-number="`+index+`" data-dn-number="`+path+`">
+							<td style="padding: 0;">
+								<input readonly class="adn dn-item-code" type="text" style="width:100%; padding: 10px;"
+									value="`+element.item_name+`" />
+							</td>
+							<td style="padding: 0;">
+								<input readonly class="adn dn-oqty" type="text" style="width:100%; padding: 10px;"
+									value="`+element.qty+`" />
+							</td>
+							<td style="padding: 0;">
+								<input class="adn dn-qty" type="text" style="width:100%; padding: 10px;"
+									value="`+element.qty+`" />
+							</td>
+							<td style="padding: 0;">
+								<input class="adn dn-fqty" type="text" style="width:100%; padding: 10px;"
+									value="`+element.free_qty+`" />
+							</td>
+							<td style="padding: 0;">
+								<input readonly class="adn dn-rate" type="text" style="width:100%; padding: 10px;"
+									value="`+element.rate+`" />
+							</td>
+							<td style="padding: 0;">
+								<input class="adn dn-dp" type="text" style="width:100%; padding: 10px;"
+									value="`+element.discount_percentage+`" />
+							</td>
+							<td style="padding: 0;">
+								<input readonly class="adn dn-am" type="text" style="width:100%; padding: 10px;"
+									value="`+element.amount+`" />
+							</td>
+							<td style="padding: 0;">
+								<input readonly class="adn dn-batch" type="text" style="width:100%; padding: 10px;" value="None" />
+							</td>
+						</tr>																				
+						`
+					}
+					$(".dn_row.active").parent().html(div);		
+					me.get_item_details(selected_so, selected_pr);
+				}
+			});
+		});			
+	},
+	save_delivery_note: function () {
+		var you = this;
+		$(".dn_save").click(function () {
+			var me = this;
+			var data_array = [];
+			var rows = $(this).parent().parent().parent().parent();
+			console.log($(rows).find("#dn_table").find("tr"))
+			for(var i=0; i<$(rows).find("#dn_table").find("tr").length; i++){
+				var a = $(rows).find("#dn_table").find("tr")[i];
+				data_array.push({
+					"item_code": $(a).data('itemcode'),
+					"bill_qty": $(a).find(".dn-qty").val(),
+					"free_qty": $(a).find(".dn-fqty").val(),
+					"dis": $(a).find(".dn-dp").val(),
+					"batch": $(a).find(".dn-batch").val()
+				})
+			}
+
+			console.log(you.dn_data)
+			
+
+			frappe.call({
+				method: "better_dash.better_dash.page.better_dash.better_dash.save_dn",
+				args: {
+					path: $(this).attr('data-number'),
+					data: you.dn_data,
+					new_data: data_array
+				},
+				async: false,
+				callback: function (r) {
+					console.log(r.message);
+					$(me).text("Saved");
+					$(me).removeClass("btn-success");
+					$(me).addClass("btn-secondary");
+					$(me).attr("disabled", true);
+					$(me).parent().parent().parent().find(".dn_edit").removeClass("hidden");
+					$(me).parent().parent().parent().find(".dn_edit").text("Open in new tab");																			
+					$(me).parent().parent().parent().find(".dn_edit").click(function () {
+						window.open('desk#Form/Delivery Note/'+r.message, '_blank')
+					});
+					
+				}
+			})
+		});		
+	}
 });

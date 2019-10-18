@@ -34,6 +34,8 @@ def get_all_data(from_date=nowdate(),to_date=nowdate()):
         filter = {}   
     sales_order = frappe.db.get_list("Sales Order", fields=["name", "customer", "status", "medley_orderid"], filters=filter, order_by="modified desc")
     for i in sales_order:
+        if i.status == "To Deliver and Bill":
+            i.status = "Processing"
         items = frappe.db.get_list("Sales Order Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount"], order_by="item_name asc")
         i.items = items
         i.item_count = len(items)
@@ -146,7 +148,6 @@ def get_data_for_delivery_note(sales_orders, purchase_reciepts):
     for y in json.loads(purchase_reciepts):
         purchasereciept = frappe.get_doc("Purchase Receipt", y)
         PR.append(purchasereciept)   
-    del_notes = DN
     return {"SO": SO, "PR": PR, "DN": DN}    
 
 
@@ -255,3 +256,34 @@ def make_sales_invoices(sales_invoices):
 
     return invoices
     
+@frappe.whitelist()
+def split_batch(data, path, item_code):
+
+
+    data = json.loads(data)
+    
+    a = frappe.get_doc(data['DN'][int(path)])
+    clock = 0
+    for i in a.items:
+        if i.item_code == item_code and clock == 0:
+            a.append('items', i)
+            clock = clock + 1
+    data['DN'][int(path)] = a       
+    return data
+
+@frappe.whitelist()
+def delte_item(data, path, item_code):
+    data = json.loads(data)
+    
+    a = frappe.get_doc(data['DN'][int(path)])
+    clock = 0
+    new_stack = []
+    for i in a.items:
+        new_stack.append(i)
+    for i in new_stack:
+        if i.item_code == item_code and clock == 0:
+            new_stack.remove(i)
+            clock = 1
+    a.items = new_stack
+    data['DN'][int(path)] = a       
+    return data
