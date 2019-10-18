@@ -242,7 +242,7 @@ def save_dn(path, data, new_data):
     a.taxes_and_charges = "In State GST - "+company_abbr 
     a.save()
     frappe.db.commit()
-    return a.items
+    return a.name
 
 @frappe.whitelist()
 def make_sales_invoices(sales_invoices):
