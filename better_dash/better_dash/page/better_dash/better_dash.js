@@ -1028,9 +1028,9 @@ frappe.views.BetterDashboard = Class.extend({
 		});			
 	},
 	save_delivery_note: function () {
-		var you = this;
+		var me = this;
 		$(".dn_save").click(function () {
-			var me = this;
+			var you = this;
 			var data_array = [];
 			var rows = $(this).parent().parent().parent().parent();
 			console.log($(rows).find("#dn_table").find("tr"))
@@ -1045,26 +1045,26 @@ frappe.views.BetterDashboard = Class.extend({
 				})
 			}
 
-			console.log(you.dn_data)
+			console.log(me.dn_data)
 			
 
 			frappe.call({
 				method: "better_dash.better_dash.page.better_dash.better_dash.save_dn",
 				args: {
 					path: $(this).attr('data-number'),
-					data: you.dn_data,
+					data: me.dn_data,
 					new_data: data_array
 				},
 				async: false,
 				callback: function (r) {
 					console.log(r.message);
-					$(me).text("Saved");
-					$(me).removeClass("btn-success");
-					$(me).addClass("btn-secondary");
-					$(me).attr("disabled", true);
-					$(me).parent().parent().parent().find(".dn_edit").removeClass("hidden");
-					$(me).parent().parent().parent().find(".dn_edit").text("Open in new tab");																			
-					$(me).parent().parent().parent().find(".dn_edit").click(function () {
+					$(you).text("Saved");
+					$(you).removeClass("btn-success");
+					$(you).addClass("btn-secondary");
+					$(you).attr("disabled", true);
+					$(you).parent().parent().parent().find(".dn_edit").removeClass("hidden");
+					$(you).parent().parent().parent().find(".dn_edit").text("Open in new tab");																			
+					$(you).parent().parent().parent().find(".dn_edit").click(function () {
 						window.open('desk#Form/Delivery Note/'+r.message, '_blank')
 					});
 					

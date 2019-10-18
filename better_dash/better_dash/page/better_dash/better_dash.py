@@ -220,14 +220,15 @@ def save_dn(path, data, new_data):
     data = json.loads(data)
     a = frappe.get_doc(data['DN'][int(path)])
     new_data = json.loads(new_data)
-    for i in new_data:
-        for j in a.items:
-            if i['item_code'] == j.item_code:
-                j.qty = i['bill_qty']
-                j.free_qty = i['free_qty']
-                j.discount_percentage = i['dis']
-                j.batch_no = i['batch']
 
+    for (m, b) in zip(a.items, new_data): 
+        print(a, b['batch'])
+        m.item_code = b['item_code']
+        m.qty = b['bill_qty']
+        m.free_qty = b['free_qty']
+        m.discount_percentage = b['dis']
+        m.batch_no = b['batch']            
+    
     a.taxes_and_charges = "In State GST - "+company_abbr
     taxes = get_taxes_and_charges('Sales Taxes and Charges Template', "In State GST - "+company_abbr)
     for tax in taxes:
@@ -241,8 +242,7 @@ def save_dn(path, data, new_data):
     a.taxes_and_charges = "In State GST - "+company_abbr 
     a.save()
     frappe.db.commit()
-    print(a.name)
-    return a.name
+    return a.items
 
 @frappe.whitelist()
 def make_sales_invoices(sales_invoices):
