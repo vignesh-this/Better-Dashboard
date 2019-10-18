@@ -137,241 +137,255 @@ frappe.views.BetterDashboard = Class.extend({
 								});
 								$(".gaps").find("input").removeAttr("disabled");
 								$('input:checkbox').removeAttr('checked');
-								if (selected_mrs.length > 0) {
-									frappe.confirm(__("You have selected "+String(selected_mrs)),
-										function () {
-											const dialog = new frappe.ui.Dialog({
-												title: __("Fill Details For Purchase Orders"),
-												fields: [
-													{
-														fieldtype: 'Link',
-														label: 'Supplier',
-														fieldname: 'supplier',
-														options: 'Supplier',
-														reqd: 1,
-														onchange: () => {
-														}
-													},
-													{
-														fieldtype: 'Link',
-														label: 'Set Target Warehouse',
-														fieldname: 'target_warehouse',
-														options: 'Warehouse',
-														reqd: 1,
-														onchange: () => {
-														}
-													},
-													{fieldtype:'Column Break'},
-													{
-														fieldtype: 'Date',
-														label: 'Schedule Date',
-														fieldname: 'schedule_date',
-														reqd: 1,
-														onchange: () => {
-														}
-													},
-													{
-														fieldtype: 'Link',
-														label: 'Taxes and Charges Template',
-														fieldname: 'tax',
-														options: 'Sales Taxes and Charges Template',
-														reqd: 1,
-														onchange: () => {
-														}
-													},
-												],
-												primary_action: function() {
-													this.hide();
-													const data = this.get_values();
-													frappe.call({
-														method: "better_dash.better_dash.page.better_dash.better_dash.get_po_doc",
-														args: {
-															"selected_mrs": selected_mrs,
-															"supplier": data.supplier,
-															"warehouse": data.target_warehouse,
-															"schedule_date": data.schedule_date,
-															"tax": data.tax,
-															"method": "erpnext.stock.doctype.material_request.material_request.make_purchase_order"
-														},
-														callback: function (r) {
-															// console.log(r.message);
-															const dialog = new frappe.ui.Dialog({
-																title: __("Check Purchase Order Items"),
-																fields: [
-																	{
-																		fieldtype: 'Link',
-																		label: 'Supplier',
-																		fieldname: 'supplier',
-																		options: 'Supplier',
-																		default: data.supplier,
-																		reqd: 1,
-																		onchange: () => {
-																		}
-																	},
-																	{
-																		fieldtype: 'Link',
-																		label: 'Set Target Warehouse',
-																		fieldname: 'target_warehouse',
-																		options: 'Warehouse',
-																		default: data.target_warehouse,
-																		reqd: 1,
-																		onchange: () => {
-																		}
-																	},
-																	{fieldtype:'Column Break'},
-																	{
-																		fieldtype: 'Date',
-																		label: 'Schedule Date',
-																		fieldname: 'schedule_date',
-																		default: data.schedule_date,
-																		reqd: 1,
-																		onchange: () => {
-																		}
-																	},
-																	{
-																		fieldtype: 'Link',
-																		label: 'Taxes and Charges Template',
-																		fieldname: 'tax',
-																		options: 'Sales Taxes and Charges Template',
-																		reqd: 1,
-																		default: data.tax,
-																		onchange: () => {
-																		}
-																	},
-																	{fieldtype:'Section Break'},
-																	{
-																		fieldname: "items", 
-																		fieldtype: "Table", 
-																		in_place_edit: true, 
-																		fields: 
-																		[
+								frappe.call({
+									method: "better_dash.better_dash.page.better_dash.better_dash.get_po_details",
+									args:{
+									},
+									callback: function (r) {
+										console.log(r.message);
+										var defaults = r.message;
+										if (selected_mrs.length > 0) {
+											frappe.confirm(__("You have selected "+String(selected_mrs)),
+												function () {
+													const dialog = new frappe.ui.Dialog({
+														title: __("Fill Details For Purchase Orders"),
+														fields: [
+															{
+																fieldtype: 'Link',
+																label: 'Supplier',
+																fieldname: 'supplier',
+																options: 'Supplier',
+																reqd: 1,
+																default: defaults["supplier"],
+																onchange: () => {
+																}
+															},
+															{
+																fieldtype: 'Link',
+																label: 'Set Target Warehouse',
+																fieldname: 'target_warehouse',
+																options: 'Warehouse',
+																reqd: 1,
+																default: defaults["target_warehouse"],
+																onchange: () => {
+																}
+															},
+															{fieldtype:'Column Break'},
+															{
+																fieldtype: 'Date',
+																label: 'Schedule Date',
+																fieldname: 'schedule_date',
+																reqd: 1,
+																default: frappe.datetime.get_today(),
+																onchange: () => {
+																}
+															},
+															{
+																fieldtype: 'Link',
+																label: 'Taxes and Charges Template',
+																fieldname: 'tax',
+																options: 'Sales Taxes and Charges Template',
+																reqd: 1,
+																default: defaults['tax'],
+																onchange: () => {
+																}
+															},
+														],
+														primary_action: function() {
+															this.hide();
+															const data = this.get_values();
+															frappe.call({
+																method: "better_dash.better_dash.page.better_dash.better_dash.get_po_doc",
+																args: {
+																	"selected_mrs": selected_mrs,
+																	"supplier": data.supplier,
+																	"warehouse": data.target_warehouse,
+																	"schedule_date": data.schedule_date,
+																	"tax": data.tax,
+																	"method": "erpnext.stock.doctype.material_request.material_request.make_purchase_order"
+																},
+																callback: function (r) {
+																	// console.log(r.message);
+																	const dialog = new frappe.ui.Dialog({
+																		title: __("Check Purchase Order Items"),
+																		fields: [
 																			{
-																				label: 'Item Code',
-																				fieldname: 'item_code',
 																				fieldtype: 'Link',
-																				options: 'Item',
-																				in_list_view: 1,
-																				columns: 2,
-																				change: function () {
-																					console.log(this);
-																					var me = this;
-																					frappe.call({
-																						method: "frappe.client.get_value",
-																						args: {
-																							doctype: "Item Price",
-																							filters: {"item_code": this.get_value(), "price_list": "Standard Buying"},
-																							fieldname: ["price_list_rate", "item_name"]
-																						},
-																						callback: function(r){
-																							console.log(r.message);
-																							me.grid_row.on_grid_fields_dict.rate.set_value(r.message.price_list_rate);
-																							me.grid_row.on_grid_fields_dict.item_name.set_value(r.message.item_name);
-																							if (me.grid_row.on_grid_fields_dict.qty.get_value() == null) {
-																								me.grid_row.on_grid_fields_dict.qty.set_value("0");
-																							}
+																				label: 'Supplier',
+																				fieldname: 'supplier',
+																				options: 'Supplier',
+																				default: data.supplier,
+																				reqd: 1,
+																				onchange: () => {
+																				}
+																			},
+																			{
+																				fieldtype: 'Link',
+																				label: 'Set Target Warehouse',
+																				fieldname: 'target_warehouse',
+																				options: 'Warehouse',
+																				default: data.target_warehouse,
+																				reqd: 1,
+																				onchange: () => {
+																				}
+																			},
+																			{fieldtype:'Column Break'},
+																			{
+																				fieldtype: 'Date',
+																				label: 'Schedule Date',
+																				fieldname: 'schedule_date',
+																				default: data.schedule_date,
+																				reqd: 1,
+																				onchange: () => {
+																				}
+																			},
+																			{
+																				fieldtype: 'Link',
+																				label: 'Taxes and Charges Template',
+																				fieldname: 'tax',
+																				options: 'Sales Taxes and Charges Template',
+																				reqd: 1,
+																				default: data.tax,
+																				onchange: () => {
+																				}
+																			},
+																			{fieldtype:'Section Break'},
+																			{
+																				fieldname: "items", 
+																				fieldtype: "Table", 
+																				in_place_edit: true, 
+																				fields: 
+																				[
+																					{
+																						label: 'Item Code',
+																						fieldname: 'item_code',
+																						fieldtype: 'Link',
+																						options: 'Item',
+																						in_list_view: 1,
+																						columns: 2,
+																						change: function () {
+																							console.log(this);
+																							var me = this;
+																							frappe.call({
+																								method: "frappe.client.get_value",
+																								args: {
+																									doctype: "Item Price",
+																									filters: {"item_code": this.get_value(), "price_list": "Standard Buying"},
+																									fieldname: ["price_list_rate", "item_name"]
+																								},
+																								callback: function(r){
+																									console.log(r.message);
+																									me.grid_row.on_grid_fields_dict.rate.set_value(r.message.price_list_rate);
+																									me.grid_row.on_grid_fields_dict.item_name.set_value(r.message.item_name);
+																									if (me.grid_row.on_grid_fields_dict.qty.get_value() == null) {
+																										me.grid_row.on_grid_fields_dict.qty.set_value("0");
+																									}
+																								}
+																							});
 																						}
-																					});
-																				}
-																			},
-																			{
-																				label: 'Item Name',
-																				fieldname: 'item_name',
-																				fieldtype: 'Read Only',
-																				in_list_view: 1,
-																				columns: 2
-																			},
-																			{
-																				label: 'Quantity',
-																				fieldname: 'qty',
-																				fieldtype: 'Float',
-																				in_list_view: 1,
-																				columns: 1,
-																				change: function () {
-																					var me = this;
-																					var rate = parseFloat(me.grid_row.on_grid_fields_dict.rate.get_value());
-																					var qty = parseFloat(me.get_value());
-																					me.grid_row.on_grid_fields_dict.amount.set_value(String(rate*qty));
-																				}
-																			},
-																			{
-																				label: 'Rate',
-																				fieldname: 'rate',
-																				fieldtype: 'Currency',
-																				in_list_view: 1,
-																				columns: 2,
-																				change: function () {
-																					var me = this;
-																					var qty = parseFloat(me.grid_row.on_grid_fields_dict.qty.get_value());
-																					var rate = parseFloat(me.get_value());
-																					me.grid_row.on_grid_fields_dict.amount.set_value(String(rate*qty));
-																				}
-																			},
-																			{
-																				label: 'Amount',
-																				fieldname: 'amount',
-																				fieldtype: 'Currency',
-																				in_list_view: 1,
-																				columns: 2
+																					},
+																					{
+																						label: 'Item Name',
+																						fieldname: 'item_name',
+																						fieldtype: 'Read Only',
+																						in_list_view: 1,
+																						columns: 2
+																					},
+																					{
+																						label: 'Quantity',
+																						fieldname: 'qty',
+																						fieldtype: 'Float',
+																						in_list_view: 1,
+																						columns: 1,
+																						change: function () {
+																							var me = this;
+																							var rate = parseFloat(me.grid_row.on_grid_fields_dict.rate.get_value());
+																							var qty = parseFloat(me.get_value());
+																							me.grid_row.on_grid_fields_dict.amount.set_value(String(rate*qty));
+																						}
+																					},
+																					{
+																						label: 'Rate',
+																						fieldname: 'rate',
+																						fieldtype: 'Currency',
+																						in_list_view: 1,
+																						columns: 2,
+																						change: function () {
+																							var me = this;
+																							var qty = parseFloat(me.grid_row.on_grid_fields_dict.qty.get_value());
+																							var rate = parseFloat(me.get_value());
+																							me.grid_row.on_grid_fields_dict.amount.set_value(String(rate*qty));
+																						}
+																					},
+																					{
+																						label: 'Amount',
+																						fieldname: 'amount',
+																						fieldtype: 'Currency',
+																						in_list_view: 1,
+																						columns: 2
+																					}
+																				],
+																				data: r.message.items,
+																				get_data: () => {
+																					return r.message.items;
+																				},
 																			}
 																		],
-																		data: r.message.items,
-																		get_data: () => {
-																			return r.message.items;
+																		primary_action: function() {
+																			this.hide();
+																			const data = this.get_values();
+																			console.log(data);
+																			frappe.call({
+																				method: "better_dash.better_dash.page.better_dash.better_dash.get_po_doc",
+																				args: {
+																					"selected_mrs": selected_mrs,
+																					"supplier": data.supplier,
+																					"warehouse": data.target_warehouse,
+																					"schedule_date": data.schedule_date,
+																					"tax": data.tax,
+																					"save_action": true,
+																					"new_items": data,
+																					"method": "erpnext.stock.doctype.material_request.material_request.make_purchase_order"
+																				},
+																				callback: function (r) {
+																					frappe.show_alert({message:"Purchase Order Created.", indicator:'green'});
+																					me.get_data();
+																					if (me.dash_type.get_value() == "Sales") {
+																						$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_sales", {"data": me.data}));
+																					} 
+																					else if (me.dash_type.get_value() == "Purchase"){
+																						$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_purchase", {"data": me.data}));
+																					}
+																					else{
+																						$(me.wrapper).find(".better-dash-body").html(frappe.render_template("dash_layout", {"data": me.data}));
+																					}
+																					me.make_context_menu();
+																					me.list_actions();
+																				}
+																			});
 																		},
-																	}
-																],
-																primary_action: function() {
-																	this.hide();
-																	const data = this.get_values();
-																	console.log(data);
-																	frappe.call({
-																		method: "better_dash.better_dash.page.better_dash.better_dash.get_po_doc",
-																		args: {
-																			"selected_mrs": selected_mrs,
-																			"supplier": data.supplier,
-																			"warehouse": data.target_warehouse,
-																			"schedule_date": data.schedule_date,
-																			"tax": data.tax,
-																			"save_action": true,
-																			"new_items": data,
-																			"method": "erpnext.stock.doctype.material_request.material_request.make_purchase_order"
-																		},
-																		callback: function (r) {
-																			frappe.show_alert({message:"Purchase Order Created.", indicator:'green'});
-																			me.get_data();
-																			if (me.dash_type.get_value() == "Sales") {
-																				$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_sales", {"data": me.data}));
-																			} 
-																			else if (me.dash_type.get_value() == "Purchase"){
-																				$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_purchase", {"data": me.data}));
-																			}
-																			else{
-																				$(me.wrapper).find(".better-dash-body").html(frappe.render_template("dash_layout", {"data": me.data}));
-																			}
-																			me.make_context_menu();
-																			me.list_actions();
-																		}
-																	});
-																},
-																primary_action_label: __('Save'),
-																size: "large"
-															});	
-															console.log(dialog)
-															dialog.show();
-														}
+																		primary_action_label: __('Save'),
+																		size: "large"
+																	});	
+																	console.log(dialog)
+																	dialog.show();
+																}
+															});
+														},
+														primary_action_label: __('Update')
 													});
+													dialog.show();	
 												},
-												primary_action_label: __('Update')
-											});
-											dialog.show();	
-										},
-										function () {
-											frappe.show_alert({message:"Cancelled", indicator:'red'});
+												function () {
+													frappe.show_alert({message:"Cancelled", indicator:'red'});
+												}
+											)
+										} else {
+											frappe.show_alert({message:"No Material Requests Selected.", indicator:'red'});
 										}
-									)
-								} else {
-									frappe.show_alert({message:"No Material Requests Selected.", indicator:'red'});
-								}
+									}
+								});
+								
 							}
 						);		
 					},
@@ -381,61 +395,7 @@ frappe.views.BetterDashboard = Class.extend({
 				);
 			}
 		);	
-		me.wrapper.page.add_menu_item(__("Make Sales Invoices"), 
-			function () {
-				$('input:checkbox').removeAttr('checked');
-				frappe.confirm(__("Please Select Delivery Notes to Create Sales Inoives"),
-					function () {
-						$(".gaps:not(.gaps.delivery-note)").find("input").attr("disabled", true);
-						$(me.wrapper.page.btn_primary).show();
-						me.wrapper.page.set_primary_action(__("Select Delivery Notes"),
-							function () {
-								$(".gaps").find("input").removeAttr("disabled");
-								$(me.wrapper.page.btn_primary).hide();
-								var selected_dn = [];
-								$(".gaps.delivery-note").find("input:checked").each(function() {
-									selected_dn.push($(this).attr('data-name'));
-								});
-								if (selected_dn.length > 0) {
-									frappe.call({
-										method: "better_dash.better_dash.page.better_dash.better_dash.make_sales_invoices",
-										args: {
-											sales_invoices: selected_dn
-										},
-										callback: function (r) {
-											console.log(r.message);
-											me.get_data();
-											if (me.dash_type.get_value() == "Sales") {
-												$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_sales", {"data": me.data}));
-											} 
-											else if (me.dash_type.get_value() == "Purchase"){
-												$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_purchase", {"data": me.data}));
-											}
-											else{
-												$(me.wrapper).find(".better-dash-body").html(frappe.render_template("dash_layout", {"data": me.data}));
-											}
-											me.make_context_menu();
-											me.list_actions();
-										}
-									});	
-								}
-								else{
-									frappe.show_alert({message:"No Delivery Notes Were Selected.", indicator:'red'});
-								}
-							}
-						)
-					},
-					function () {
-						frappe.show_alert({message:"Cancelled", indicator:'red'});
-					}
-				)
-			}
-		);
-		me.wrapper.page.add_menu_item(__("Inventory Analysis"),		
-			function () {
-				window.open('desk#query-report/Medley%20Order%20Tracking', '_blank');
-			}
-		);
+
 		me.wrapper.page.add_menu_item(__("Make Delivery Notes"),
 			function () {
 				$('input:checkbox').removeAttr('checked');
@@ -495,6 +455,64 @@ frappe.views.BetterDashboard = Class.extend({
 				);				
 			}
 		);
+
+		me.wrapper.page.add_menu_item(__("Make Sales Invoices"), 
+			function () {
+				$('input:checkbox').removeAttr('checked');
+				frappe.confirm(__("Please Select Delivery Notes to Create Sales Inoives"),
+					function () {
+						$(".gaps:not(.gaps.delivery-note)").find("input").attr("disabled", true);
+						$(me.wrapper.page.btn_primary).show();
+						me.wrapper.page.set_primary_action(__("Select Delivery Notes"),
+							function () {
+								$(".gaps").find("input").removeAttr("disabled");
+								$(me.wrapper.page.btn_primary).hide();
+								var selected_dn = [];
+								$(".gaps.delivery-note").find("input:checked").each(function() {
+									selected_dn.push($(this).attr('data-name'));
+								});
+								if (selected_dn.length > 0) {
+									frappe.call({
+										method: "better_dash.better_dash.page.better_dash.better_dash.make_sales_invoices",
+										args: {
+											sales_invoices: selected_dn
+										},
+										callback: function (r) {
+											console.log(r.message);
+											me.get_data();
+											if (me.dash_type.get_value() == "Sales") {
+												$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_sales", {"data": me.data}));
+											} 
+											else if (me.dash_type.get_value() == "Purchase"){
+												$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_purchase", {"data": me.data}));
+											}
+											else{
+												$(me.wrapper).find(".better-dash-body").html(frappe.render_template("dash_layout", {"data": me.data}));
+											}
+											me.make_context_menu();
+											me.list_actions();
+										}
+									});	
+								}
+								else{
+									frappe.show_alert({message:"No Delivery Notes Were Selected.", indicator:'red'});
+								}
+							}
+						)
+					},
+					function () {
+						frappe.show_alert({message:"Cancelled", indicator:'red'});
+					}
+				)
+			}
+		);
+
+		me.wrapper.page.add_menu_item(__("Inventory Analysis"),		
+			function () {
+				window.open('desk#query-report/Medley%20Order%20Tracking', '_blank');
+			}
+		);
+
 	},
 	make_context_menu: function () {
 		var me = this;

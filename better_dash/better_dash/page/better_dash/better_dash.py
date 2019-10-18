@@ -287,3 +287,7 @@ def delte_item(data, path, item_code):
     a.items = new_stack
     data['DN'][int(path)] = a       
     return data
+
+@frappe.whitelist()
+def get_po_details():
+    return {"supplier": proxy_settings.default_supplier, "target_warehouse": proxy_settings.virtual_warehouse, "tax": "In State GST - "+company_abbr}
