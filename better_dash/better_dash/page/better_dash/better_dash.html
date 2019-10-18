@@ -107,11 +107,14 @@
     margin-bottom: 0;
 }
 .panel-body table:hover{
-    position: fixed;
+    position: absolute;
     z-index: 99;
     background: #fff;
     width:420px;
     overflow-x: auto;
+}
+.panel,.panel-collapse {
+    position: relative!important;
 }
 .panel-body .sales-invoice table:hover{
     right:100px;

@@ -509,9 +509,15 @@ frappe.views.BetterDashboard = Class.extend({
 
 		me.wrapper.page.add_menu_item(__("Inventory Analysis"),		
 			function () {
-				window.open('desk#query-report/Medley%20Order%20Tracking', '_blank');
+				window.open('desk#query-report/Inventory Analysis', '_blank');
 			}
 		);
+
+		// me.wrapper.page.add_menu_item(__("Consolidated Inventory Analysis"),		
+		// 	function () {
+		// 		window.open('desk#query-report/Consolidated Inventory Analysis', '_blank');
+		// 	}
+		// );
 
 	},
 	make_context_menu: function () {
