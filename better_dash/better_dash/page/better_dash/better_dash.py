@@ -231,7 +231,6 @@ def save_dn(path, data, new_data):
     new_data = json.loads(new_data)
 
     for (m, b) in zip(a.items, new_data): 
-        print(a, b['batch'])
         m.item_code = b['item_code']
         m.qty = b['bill_qty']
         m.free_qty = b['free_qty']

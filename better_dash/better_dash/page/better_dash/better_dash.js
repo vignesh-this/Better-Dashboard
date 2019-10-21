@@ -66,7 +66,6 @@ frappe.views.BetterDashboard = Class.extend({
 				fieldname: 'dashboard_type',
 				options: ["Sales", "Purchase", "General"],
 				onchange: () => {
-					console.log(this.dash_type.get_value());
 					if (this.dash_type.get_value() == "Sales") {
 						$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_sales", {"data": me.data}));
 						$(".ellipsis.title-text").text("Sales Dashboard");
@@ -95,7 +94,6 @@ frappe.views.BetterDashboard = Class.extend({
 			args: me.args,
 			async: false,
 			callback: function (r) {
-				console.log(r.message);
 				me.data = r.message;
 			}
 		});
@@ -142,7 +140,6 @@ frappe.views.BetterDashboard = Class.extend({
 									args:{
 									},
 									callback: function (r) {
-										console.log(r.message);
 										var defaults = r.message;
 										if (selected_mrs.length > 0) {
 											frappe.confirm(__("You have selected "+String(selected_mrs)),
@@ -205,7 +202,6 @@ frappe.views.BetterDashboard = Class.extend({
 																	"method": "erpnext.stock.doctype.material_request.material_request.make_purchase_order"
 																},
 																callback: function (r) {
-																	// console.log(r.message);
 																	const dialog = new frappe.ui.Dialog({
 																		title: __("Check Purchase Order Items"),
 																		fields: [
@@ -264,7 +260,6 @@ frappe.views.BetterDashboard = Class.extend({
 																						in_list_view: 1,
 																						columns: 2,
 																						change: function () {
-																							console.log(this);
 																							var me = this;
 																							frappe.call({
 																								method: "frappe.client.get_value",
@@ -274,7 +269,6 @@ frappe.views.BetterDashboard = Class.extend({
 																									fieldname: ["price_list_rate", "item_name"]
 																								},
 																								callback: function(r){
-																									console.log(r.message);
 																									me.grid_row.on_grid_fields_dict.rate.set_value(r.message.price_list_rate);
 																									me.grid_row.on_grid_fields_dict.item_name.set_value(r.message.item_name);
 																									if (me.grid_row.on_grid_fields_dict.qty.get_value() == null) {
@@ -334,7 +328,6 @@ frappe.views.BetterDashboard = Class.extend({
 																		primary_action: function() {
 																			this.hide();
 																			const data = this.get_values();
-																			console.log(data);
 																			frappe.call({
 																				method: "better_dash.better_dash.page.better_dash.better_dash.get_po_doc",
 																				args: {
@@ -367,7 +360,6 @@ frappe.views.BetterDashboard = Class.extend({
 																		primary_action_label: __('Save'),
 																		size: "large"
 																	});	
-																	console.log(dialog)
 																	dialog.show();
 																}
 															});
@@ -427,7 +419,6 @@ frappe.views.BetterDashboard = Class.extend({
 													});
 													$(".gaps").find("input").removeAttr("disabled");
 													$('input:checkbox').removeAttr('checked');
-													console.log(selected_so, selected_pr);
 													var dn_data = undefined;
 													$('#myModal1').modalSteps({
 														callbacks: {
@@ -478,7 +469,6 @@ frappe.views.BetterDashboard = Class.extend({
 											sales_invoices: selected_dn
 										},
 										callback: function (r) {
-											console.log(r.message);
 											me.get_data();
 											if (me.dash_type.get_value() == "Sales") {
 												$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_sales", {"data": me.data}));
@@ -576,7 +566,6 @@ frappe.views.BetterDashboard = Class.extend({
 						linkinfo: r.message,
 					},
 					callback: (r) => {
-						console.log(r.message)
 						$.each(r.message, function (key, value) {
 
 							for (let index = 0; index < r.message[key].length; index++) {
@@ -633,7 +622,6 @@ frappe.views.BetterDashboard = Class.extend({
 			$(id_mapper[id].div).find("input:checked").each(function() {
 				selected_docs.push($(this).attr('data-name'));
 			});
-			console.log(selected_docs);
 			if (["submit", "cancel", "update"].includes(action)) {
 				frappe.confirm(__(action.charAt(0).toUpperCase() + action.slice(1)+" Checked Documents ??"), function() {
 					frappe.call({
@@ -839,7 +827,6 @@ frappe.views.BetterDashboard = Class.extend({
 			},
 			async: false,
 			callback: function (r) {
-				console.log(r.message)
 				me.dn_data = r.message;
 				$("#saor").html(frappe.render_template("make_dn_so", {"data": r.message}));
 				$("#pure").html(frappe.render_template("make_dn_pr", {"data": r.message}));
@@ -900,7 +887,6 @@ frappe.views.BetterDashboard = Class.extend({
 					}
 
 					$(".select_batch").click(function () {
-						console.log(this);
 						var val = $(this).parent().parent().find(".batch").text();
 						$("table").find("tr.active").find("input.dn-batch").val(val);
 						
@@ -945,7 +931,6 @@ frappe.views.BetterDashboard = Class.extend({
 					"item_code": $(this).parent().parent().parent().attr('data-item_code')
 				},
 				callback: function (r) {																			
-					console.log(r.message);
 					me.dn_data = r.message;
 					var div = undefined;
 					for (let index = 0; index < r.message['DN'][path].items.length; index++) {
@@ -1004,7 +989,6 @@ frappe.views.BetterDashboard = Class.extend({
 					"item_code": $(this).parent().parent().parent().attr('data-item_code')
 				},
 				callback: function (r) {																			
-					console.log(r.message);
 					me.dn_data = r.message;
 					var div = undefined;
 					for (let index = 0; index < r.message['DN'][path].items.length; index++) {
@@ -1057,7 +1041,6 @@ frappe.views.BetterDashboard = Class.extend({
 			var you = this;
 			var data_array = [];
 			var rows = $(this).parent().parent().parent().parent();
-			console.log($(rows).find("#dn_table").find("tr"))
 			for(var i=0; i<$(rows).find("#dn_table").find("tr").length; i++){
 				var a = $(rows).find("#dn_table").find("tr")[i];
 				data_array.push({
@@ -1069,7 +1052,6 @@ frappe.views.BetterDashboard = Class.extend({
 				})
 			}
 
-			console.log(me.dn_data)
 			
 
 			frappe.call({
@@ -1081,7 +1063,6 @@ frappe.views.BetterDashboard = Class.extend({
 				},
 				async: false,
 				callback: function (r) {
-					console.log(r.message);
 					$(you).text("Saved");
 					$(you).removeClass("btn-success");
 					$(you).addClass("btn-secondary");
