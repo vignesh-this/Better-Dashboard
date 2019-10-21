@@ -35,9 +35,9 @@ def get_all_data(from_date=nowdate(),to_date=nowdate()):
     sales_order = frappe.db.get_list("Sales Order", fields=["name", "customer", "status", "medley_orderid"], filters=filter, order_by="modified desc")
     for i in sales_order:
         if i.status == "To Deliver and Bill":
-            i.status = "Processing"
+            i.status = "Accepted"
         if i.status == "To Deliver":
-            i.status = "Processing"
+            i.status = "Processed"
         if i.status == "To Bill":
             i.status = "At Hub"
         if i.status == "Completed":
