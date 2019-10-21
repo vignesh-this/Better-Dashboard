@@ -36,6 +36,15 @@ def get_all_data(from_date=nowdate(),to_date=nowdate()):
     for i in sales_order:
         if i.status == "To Deliver and Bill":
             i.status = "Processing"
+        if i.status == "To Deliver":
+            i.status = "Processing"
+        if i.status == "To Bill":
+            i.status = "At Hub"
+        if i.status == "Completed":
+            i.status = "Invoiced" 
+        if i.status == "Closed":
+            i.status = "Closed" 
+                       
         items = frappe.db.get_list("Sales Order Item", filters={"parent": i.name}, fields=["item_code", "item_name", "qty", "rate", "amount"], order_by="item_name asc")
         i.items = items
         i.item_count = len(items)
