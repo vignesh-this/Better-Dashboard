@@ -206,7 +206,7 @@ def get_item_data(item, selected_pr, sales_orders):
     
     new_batch = []
     for j in batch:
-        if j.virtual_ware > 0 or j.stores_ware > 0:
+        if j.virtual_ware > 0:
             new_batch.append(j)
 
     ordered_by = []
