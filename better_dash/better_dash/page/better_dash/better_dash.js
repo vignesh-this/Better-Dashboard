@@ -1012,12 +1012,6 @@ frappe.views.BetterDashboard = Class.extend({
 						`
 					}
 					$(".dn_row.active").parent().html(div);		
-					// for (let k = 0; k < data_array.length; k++) {
-					// 	const v = data_array[k];
-					// 	var a = $(".dn_row.active").parent().find("tr")[k];
-					// 	$(a).find("input.adn.dn-qty").val(v.bill_qty);
-					// 	console.log(v.bill_qty)
-					// }
 					me.get_item_details(selected_so, selected_pr);
 				}
 			});
@@ -1026,6 +1020,19 @@ frappe.views.BetterDashboard = Class.extend({
 	delivery_note_remove_item:function (selected_so, selected_pr) {
 		var me = this;
 		$("#delete_dn_item").click(function () {
+			var data_array = [];
+			var rows = $(".dn_row.active").parent().parent();
+			for(var i=0; i<$(rows).find("#dn_table").find("tr").length; i++){
+				var a = $(rows).find("#dn_table").find("tr")[i];
+				data_array.push({
+					"item_code": $(a).data('itemcode'),
+					"bill_qty": $(a).find(".dn-qty").val(),
+					"free_qty": $(a).find(".dn-fqty").val(),
+					"dis": $(a).find(".dn-dp").val(),
+					"batch": $(a).find(".dn-batch").val()
+				})
+			}
+			console.log(data_array)
 			var path = parseInt($(this).parent().parent().parent().attr('data-dn_no'));
 			frappe.call({
 				method: "better_dash.better_dash.page.better_dash.better_dash.delte_item",
@@ -1039,6 +1046,30 @@ frappe.views.BetterDashboard = Class.extend({
 					var div = undefined;
 					for (let index = 0; index < r.message['DN'][path].items.length; index++) {
 						const element = r.message['DN'][path].items[index];
+						var a = undefined;
+						if (data_array[index]) {
+							a = data_array[index].bill_qty;
+						} else {
+							a = 0;
+						}
+						var b = undefined;
+						if (data_array[index]) {
+							b = data_array[index].batch;
+						} else {
+							b = null;
+						}
+						var c = undefined;
+						if (data_array[index]) {
+							c = data_array[index].free_qty;
+						} else {
+							c = 0;
+						}
+						var d = undefined;
+						if (data_array[index]) {
+							d = data_array[index].dis;
+						} else {
+							d = 0;
+						}
 						div += `
 						<tr class="dn_row" data-itemcode="`+element.item_code+`" data-item-number="`+index+`" data-dn-number="`+path+`">
 							<td style="padding: 0;">
@@ -1051,11 +1082,11 @@ frappe.views.BetterDashboard = Class.extend({
 							</td>
 							<td style="padding: 0;">
 								<input class="adn dn-qty" type="text" style="width:100%; padding: 10px;"
-									value="`+element.qty+`" />
+									value="`+a+`" />
 							</td>
 							<td style="padding: 0;">
 								<input class="adn dn-fqty" type="text" style="width:100%; padding: 10px;"
-									value="`+element.free_qty+`" />
+									value="`+c+`" />
 							</td>
 							<td style="padding: 0;">
 								<input readonly class="adn dn-rate" type="text" style="width:100%; padding: 10px;"
@@ -1063,14 +1094,15 @@ frappe.views.BetterDashboard = Class.extend({
 							</td>
 							<td style="padding: 0;">
 								<input class="adn dn-dp" type="text" style="width:100%; padding: 10px;"
-									value="`+element.discount_percentage+`" />
+									value="`+d+`" />
 							</td>
 							<td style="padding: 0;">
 								<input readonly class="adn dn-am" type="text" style="width:100%; padding: 10px;"
 									value="`+element.amount+`" />
 							</td>
 							<td style="padding: 0;">
-								<input readonly class="adn dn-batch" type="text" style="width:100%; padding: 10px;" value="None" />
+								<input readonly class="adn dn-batch" type="text" style="width:100%; padding: 10px;" 
+									value="`+b+`" />
 							</td>
 						</tr>																				
 						`
