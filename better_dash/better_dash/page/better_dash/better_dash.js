@@ -1001,10 +1001,6 @@ frappe.views.BetterDashboard = Class.extend({
 									value="`+d+`" />
 							</td>
 							<td style="padding: 0;">
-								<input readonly class="adn dn-am" type="text" style="width:100%; padding: 10px;"
-									value="`+element.amount+`" />
-							</td>
-							<td style="padding: 0;">
 								<input readonly class="adn dn-batch" type="text" style="width:100%; padding: 10px;" 
 									value="`+b+`" />
 							</td>
@@ -1095,10 +1091,6 @@ frappe.views.BetterDashboard = Class.extend({
 							<td style="padding: 0;">
 								<input class="adn dn-dp" type="text" style="width:100%; padding: 10px;"
 									value="`+d+`" />
-							</td>
-							<td style="padding: 0;">
-								<input readonly class="adn dn-am" type="text" style="width:100%; padding: 10px;"
-									value="`+element.amount+`" />
 							</td>
 							<td style="padding: 0;">
 								<input readonly class="adn dn-batch" type="text" style="width:100%; padding: 10px;" 
