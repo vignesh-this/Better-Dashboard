@@ -265,18 +265,17 @@ def make_sales_invoices(sales_invoices):
     return invoices
     
 @frappe.whitelist()
-def split_batch(data, path, item_code):
-
-
+def split_batch(data, path, item_code, new_data):
     data = json.loads(data)
-    
     a = frappe.get_doc(data['DN'][int(path)])
     clock = 0
     for i in a.items:
         if i.item_code == item_code and clock == 0:
             a.append('items', i)
             clock = clock + 1
+ 
     data['DN'][int(path)] = a       
+
     return data
 
 @frappe.whitelist()
