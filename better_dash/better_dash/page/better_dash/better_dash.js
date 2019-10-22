@@ -960,7 +960,7 @@ frappe.views.BetterDashboard = Class.extend({
 						if (data_array[index]) {
 							b = data_array[index].batch;
 						} else {
-							b = null;
+							b = "None";
 						}
 						var c = undefined;
 						if (data_array[index]) {
@@ -1030,6 +1030,16 @@ frappe.views.BetterDashboard = Class.extend({
 			}
 			console.log(data_array)
 			var path = parseInt($(this).parent().parent().parent().attr('data-dn_no'));
+			var item_no = parseInt($(this).parent().parent().parent().attr('data-item_no'));
+			console.log(item_no)
+			var new_arr = []
+			for (let o = 0; o < data_array.length; o++) {
+				const element = data_array[o];
+				if (item_no != o) {
+					new_arr.push(element)
+				}
+			}
+			console.log(new_arr)
 			frappe.call({
 				method: "better_dash.better_dash.page.better_dash.better_dash.delte_item",
 				args:{
@@ -1043,26 +1053,26 @@ frappe.views.BetterDashboard = Class.extend({
 					for (let index = 0; index < r.message['DN'][path].items.length; index++) {
 						const element = r.message['DN'][path].items[index];
 						var a = undefined;
-						if (data_array[index]) {
-							a = data_array[index].bill_qty;
+						if (new_arr[index]) {
+							a = new_arr[index].bill_qty;
 						} else {
 							a = 0;
 						}
 						var b = undefined;
-						if (data_array[index]) {
-							b = data_array[index].batch;
+						if (new_arr[index]) {
+							b = new_arr[index].batch;
 						} else {
-							b = null;
+							b = "None";
 						}
 						var c = undefined;
-						if (data_array[index]) {
-							c = data_array[index].free_qty;
+						if (new_arr[index]) {
+							c = new_arr[index].free_qty;
 						} else {
 							c = 0;
 						}
 						var d = undefined;
-						if (data_array[index]) {
-							d = data_array[index].dis;
+						if (new_arr[index]) {
+							d = new_arr[index].dis;
 						} else {
 							d = 0;
 						}
