@@ -1045,7 +1045,8 @@ frappe.views.BetterDashboard = Class.extend({
 				args:{
 					"data": me.dn_data,
 					"path": parseInt(path),
-					"item_code": $(this).parent().parent().parent().attr('data-item_code')
+					"item_code": $(this).parent().parent().parent().attr('data-item_code'),
+					"item_no": item_no
 				},
 				callback: function (r) {																			
 					me.dn_data = r.message;

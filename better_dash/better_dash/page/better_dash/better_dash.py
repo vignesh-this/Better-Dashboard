@@ -279,18 +279,20 @@ def split_batch(data, path, item_code, new_data):
     return data
 
 @frappe.whitelist()
-def delte_item(data, path, item_code):
+def delte_item(data, path, item_code, item_no):
     data = json.loads(data)
     
     a = frappe.get_doc(data['DN'][int(path)])
-    clock = 0
+    # clock = 0
     new_stack = []
     for i in a.items:
         new_stack.append(i)
-    for i in new_stack:
-        if i.item_code == item_code and clock == 0:
-            new_stack.remove(i)
-            clock = 1
+
+    new_stack.remove(new_stack[int(item_no)])    
+    # for i in new_stack:
+    #     if i.item_code == item_code and clock == 0:
+    #         new_stack.remove(i)
+    #         clock = 1
     a.items = new_stack
     data['DN'][int(path)] = a       
     return data
