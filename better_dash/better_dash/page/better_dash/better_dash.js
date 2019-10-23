@@ -569,8 +569,11 @@ frappe.views.BetterDashboard = Class.extend({
 						$.each(r.message, function (key, value) {
 
 							for (let index = 0; index < r.message[key].length; index++) {
-								$("[data-doctype='" + key + "'][data-name='" + r.message[key][index].name + "']").find(".panel-heading").css("background-color", "#6ebfa9");
-								$("[data-doctype='" + key + "'][data-name='" + r.message[key][index].name + "']")[0].scrollIntoView();
+								if ($("[data-doctype='" + key + "'][data-name='" + r.message[key][index].name + "']").find(".panel-heading").length > 0) {
+									$("[data-doctype='" + key + "'][data-name='" + r.message[key][index].name + "']").find(".panel-heading").css("background-color", "#6ebfa9");
+									$("[data-doctype='" + key + "'][data-name='" + r.message[key][index].name + "']")[0].scrollIntoView();
+								}
+								
 								if (key == "Purchase Order") {
 
 									frappe.call({
@@ -585,8 +588,11 @@ frappe.views.BetterDashboard = Class.extend({
 										callback: function (r) {
 											for (let lo = 0; lo < r.message.length; lo++) {
 												const element = r.message[lo];
-												$("[data-doctype='Purchase Receipt'][data-name='" + element.name + "']").find(".panel-heading").css("background-color", "#6ebfa9");
-												$("[data-doctype='Purchase Receipt'][data-name='" + element.name + "']")[0].scrollIntoView();
+												if ($("[data-doctype='Purchase Receipt'][data-name='" + element.name + "']").find(".panel-heading").length > 0) {
+													$("[data-doctype='Purchase Receipt'][data-name='" + element.name + "']").find(".panel-heading").css("background-color", "#6ebfa9");
+													$("[data-doctype='Purchase Receipt'][data-name='" + element.name + "']")[0].scrollIntoView();		
+												}
+												
 											}
 										}
 									});
