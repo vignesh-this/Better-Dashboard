@@ -622,7 +622,7 @@ frappe.views.BetterDashboard = Class.extend({
 			$(id_mapper[id].div).find("input:checked").each(function() {
 				selected_docs.push($(this).attr('data-name'));
 			});
-			if (["submit", "cancel", "update"].includes(action)) {
+			if (["submit", "update"].includes(action)) {
 				frappe.confirm(__(action.charAt(0).toUpperCase() + action.slice(1)+" Checked Documents ??"), function() {
 					frappe.call({
 						method: "frappe.desk.doctype.bulk_update.bulk_update.submit_cancel_or_update_docs",
@@ -683,6 +683,155 @@ frappe.views.BetterDashboard = Class.extend({
 					me.list_actions();
 				});
 			} 
+			else if (["cancel"].includes(action)) {
+				if (selected_doctype in ["Sales Invoice", "Delivery Note", "Purchase Receipt"]) {
+				
+					frappe.confirm(__(action.charAt(0).toUpperCase() + action.slice(1)+" Checked Documents ??"), function() {
+						const dialog = new frappe.ui.Dialog({
+							title: __("Fill Details For Purchase Orders"),
+							fields: [
+								{
+									fieldtype: 'Long Text',
+									label: 'Cancellation Reason',
+									fieldname: 'cancellation_reason',
+									reqd: 1
+								}
+							],
+							primary_action: function () {
+								this.hide();
+								const data = this.get_values();
+								frappe.call({
+									method: "better_dash.better_dash.page.better_dash.better_dash.buck_cancellation",
+									args:{
+										"doctype": selected_doctype,
+										"action": action,
+										"docnames": selected_docs,
+										"cancellation_reason": data.cancellation_reason
+									},
+									callback: function (r) {
+										console.log(r.message);
+										let failed = r.message;
+										if (!failed) failed = [];
+						
+										if (failed.length && !r._server_messages) {
+											me.get_data();
+											if (me.dash_type.get_value() == "Sales") {
+												$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_sales", {"data": me.data}));
+											} 
+											else if (me.dash_type.get_value() == "Purchase"){
+												$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_purchase", {"data": me.data}));
+											}
+											else{
+												$(me.wrapper).find(".better-dash-body").html(frappe.render_template("dash_layout", {"data": me.data}));
+											}
+											me.make_context_menu();
+											me.list_actions();
+											frappe.throw(__('Cannot {0} {1}', [action, failed.map(f => f.bold()).join(', ')]));
+											
+										}
+										if (failed.length < selected_docs.length) {
+											frappe.utils.play_sound(action);
+											me.get_data();
+											if (me.dash_type.get_value() == "Sales") {
+												$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_sales", {"data": me.data}));
+											} 
+											else if (me.dash_type.get_value() == "Purchase"){
+												$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_purchase", {"data": me.data}));
+											}
+											else{
+												$(me.wrapper).find(".better-dash-body").html(frappe.render_template("dash_layout", {"data": me.data}));
+											}
+											me.make_context_menu();
+											me.list_actions();			
+										}
+									}
+								});	
+							},
+							primary_action_label: __('Cancel')
+						});
+						dialog.show();
+											
+							
+					}, function () {
+						me.get_data();
+						if (me.dash_type.get_value() == "Sales") {
+							$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_sales", {"data": me.data}));
+						} 
+						else if (me.dash_type.get_value() == "Purchase"){
+							$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_purchase", {"data": me.data}));
+						}
+						else{
+							$(me.wrapper).find(".better-dash-body").html(frappe.render_template("dash_layout", {"data": me.data}));
+						}
+						me.make_context_menu();
+						me.list_actions();
+					});		
+					
+				} else {
+				
+					frappe.confirm(__(action.charAt(0).toUpperCase() + action.slice(1)+" Checked Documents ??"), function() {
+						frappe.call({
+							method: "frappe.desk.doctype.bulk_update.bulk_update.submit_cancel_or_update_docs",
+							args:{
+								"doctype": selected_doctype,
+								"action": action,
+								"docnames": selected_docs
+							},
+							callback: function (r) {
+								let failed = r.message;
+								if (!failed) failed = [];
+				
+								if (failed.length && !r._server_messages) {
+									me.get_data();
+									if (me.dash_type.get_value() == "Sales") {
+										$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_sales", {"data": me.data}));
+									} 
+									else if (me.dash_type.get_value() == "Purchase"){
+										$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_purchase", {"data": me.data}));
+									}
+									else{
+										$(me.wrapper).find(".better-dash-body").html(frappe.render_template("dash_layout", {"data": me.data}));
+									}
+									me.make_context_menu();
+									me.list_actions();
+									frappe.throw(__('Cannot {0} {1}', [action, failed.map(f => f.bold()).join(', ')]));
+									
+								}
+								if (failed.length < selected_docs.length) {
+									frappe.utils.play_sound(action);
+									me.get_data();
+									if (me.dash_type.get_value() == "Sales") {
+										$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_sales", {"data": me.data}));
+									} 
+									else if (me.dash_type.get_value() == "Purchase"){
+										$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_purchase", {"data": me.data}));
+									}
+									else{
+										$(me.wrapper).find(".better-dash-body").html(frappe.render_template("dash_layout", {"data": me.data}));
+									}
+									me.make_context_menu();
+									me.list_actions();			
+								}
+							}
+						});		
+					}, function () {
+						me.get_data();
+						if (me.dash_type.get_value() == "Sales") {
+							$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_sales", {"data": me.data}));
+						} 
+						else if (me.dash_type.get_value() == "Purchase"){
+							$(me.wrapper).find(".better-dash-body").html(frappe.render_template("better_purchase", {"data": me.data}));
+						}
+						else{
+							$(me.wrapper).find(".better-dash-body").html(frappe.render_template("dash_layout", {"data": me.data}));
+						}
+						me.make_context_menu();
+						me.list_actions();
+					});	
+
+				}
+				
+			}
 			else if (["delete"].includes(action)){
 				frappe.confirm(__(action.charAt(0).toUpperCase() + action.slice(1)+" Checked Documents ??"), function() {
 					frappe

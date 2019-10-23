@@ -11,6 +11,7 @@ from frappe.model.mapper import make_mapped_doc
 from erpnext.controllers.accounts_controller import get_taxes_and_charges
 import json
 from erpnext.stock.doctype.batch.batch import get_batch_qty
+from frappe.desk.doctype.bulk_update.bulk_update import submit_cancel_or_update_docs
 
 global_defaults = frappe.get_doc("Global Defaults")
 company = global_defaults.default_company
@@ -300,3 +301,13 @@ def delte_item(data, path, item_code, item_no):
 @frappe.whitelist()
 def get_po_details():
     return {"supplier": proxy_settings.default_supplier, "target_warehouse": proxy_settings.virtual_warehouse, "tax": "In State GST - "+company_abbr}
+
+@frappe.whitelist()
+def buck_cancellation(doctype, action, docnames, cancellation_reason):
+    doc_names = frappe.parse_json(docnames)
+    for i in doc_names:
+        doc = frappe.get_doc(doctype, i)
+        doc.cancellation_reason = cancellation_reason
+        doc.save()
+    return submit_cancel_or_update_docs(doctype, docnames, action='cancel', data=None)
+    
