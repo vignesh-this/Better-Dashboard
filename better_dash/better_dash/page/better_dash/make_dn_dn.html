@@ -2,19 +2,28 @@
 {% for(var j=0; j<data["DN"].length; j++) { %}
 
 <div class="panel-group" id="accordiondn{{j}}" style="margin-top:0px;">
-    <div class="panel panel-default tab_drop" data-doctype="Purchase Reciept" data-name="{{data["DN"][j].name}}">
+    <div class="panel panel-default tab_drop" data-doctype="Delivery Note" data-name="{{data["DN"][j].name}}">
         <div class="panel-heading row" style="margin: 0;">
-            <div class="col-xs-12 panel-head-title" data-toggle="collapse" data-parent="#accordiondn{{j}}"
+            <div class="col-xs-10 panel-head-title" data-toggle="collapse" data-parent="#accordiondn{{j}}"
                 href="#collapsecmdn{{j}}">
-                <p class="panel-title"> <a style="font-weight: bold">1.</a> <a data-toggle="collapse"
+                <p class="panel-title"> <a style="font-weight: bold">{{j+1}}.</a> <a data-toggle="collapse"
                         data-parent="#accordiondn{{j}}" href="#collapsecmdn{{j}}"
                         title="{{data["DN"][j].customer}}/{{data["DN"][j].name}}"> {{data["DN"][j].customer}} </a> </p>
             </div>
-            <div class="col-xs-12"> <span
+            <div class="col-xs-2" style="padding: 1px">
+                <button type="button" class="btn btn-success dn_save" data-number="{{j}}">Save</button>
+            </div>
+            <div class="col-xs-10"> 
+                <span
                     style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
                     class="badge badge-light">{{data["DN"][j].items.length}} Items</span> <span
                     style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
-                    class="badge badge-light">{{data["DN"][j].status}}</span> </div>
+                    class="badge badge-light">{{data["DN"][j].status}}
+                </span>
+            </div>
+            <div class="col-xs-2" style="padding: 1px">
+                <button type="button" class="btn btn-secondary dn_edit hidden" data-number="{{j}}">Edit</button>
+            </div>            
         </div>
         <div id="collapsecmdn{{j}}" class="panel-collapse collapse">
             <div class="panel-body">
@@ -22,30 +31,60 @@
                     <thead>
                         <tr>
                             <th>Item</th>
+                            <th>Ord Qty</th>
                             <th>Bill Qty</th>
                             <th>Free Qty</th>
                             <th>Rate</th>
                             <th>Discount %</th>
-                            <th>Amount</th>
                             <th>Batch</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="dn_table">
                         {% for(var k=0; k<data["DN"][j].items.length; k++) { %}
-                        <tr data-itemcode={{data["DN"][j].items[k].item_code}}>
-                            <td title="{{data["DN"][j].items[k].item_name}}({{data["DN"][j].items[k].item_code}})"> {{data["DN"][j].items[k].item_name}}</td>
-                            <td contenteditable="true" class="dn-qty">{{data["DN"][j].items[k].qty}}</td>
-                            <td contenteditable="true" class="dn-fqty">{{data["DN"][j].items[k].free_qty}}</td>
-                            <td contenteditable="true" class="dn-rate">{{data["DN"][j].items[k].rate}}</td>
-                            <td contenteditable="true" class="dn-dp">{{data["DN"][j].items[k].discount_percentage}}</td>
-                            <td contenteditable="true" class="dn-am">{{data["DN"][j].items[k].amount}}</td>
-                            <td contenteditable="true" class="dn-batch">None</td>
+                        <tr class="dn_row" data-itemcode={{data["DN"][j].items[k].item_code}} data-item-number={{k}} data-dn-number={{j}}>
+                            <!-- <td title="{{data["DN"][j].items[k].item_name}}({{data["DN"][j].items[k].item_code}})"> {{data["DN"][j].items[k].item_name}}</td> -->
+                            <td style="padding: 0;">
+                                <input readonly class="adn dn-item-code" type="text" style="width:100%; padding: 10px;" value="{{data["DN"][j].items[k].item_name}}"/>
+                            </td>
+                            <td style="padding: 0;">
+                                <input readonly class="adn dn-oqty" type="text" style="width:100%; padding: 10px;" value="{{data["SO"][j].items[k].qty}}"/>
+                            </td>
+                            <td style="padding: 0;">
+                                <input class="adn dn-qty" type="text" style="width:100%; padding: 10px;" value="{{data["DN"][j].items[k].qty}}"/>
+                                <!-- {{data["DN"][j].items[k].qty}} -->
+                            </td>
+                            <td style="padding: 0;">
+                                <input class="adn dn-fqty" type="text" style="width:100%; padding: 10px;" value="{{data["DN"][j].items[k].free_qty}}"/>
+                                <!-- {{data["DN"][j].items[k].free_qty}} -->
+                            </td>
+                            <td style="padding: 0;">
+                                <input readonly class="adn dn-rate" type="text" style="width:100%; padding: 10px;" value="{{data["DN"][j].items[k].rate}}"/>
+                                <!-- {{data["DN"][j].items[k].rate}} -->
+                            </td>
+                            <td style="padding: 0;">
+                                <input class="adn dn-dp" type="text" style="width:100%; padding: 10px;" value="{{data["DN"][j].items[k].discount_percentage}}"/>
+                                <!-- {{data["DN"][j].items[k].discount_percentage}} -->
+                            </td>
+                            <td style="padding: 0;">
+                                <input readonly class="adn dn-batch" type="text" style="width:100%; padding: 10px;" value="None"/>
+                                <!-- None -->
+                            </td>
                         </tr>
                         {% } %}
                     </tbody>
                 </table>
             </div>
         </div>
+    </div>
+    <div id="contextMenu1" class="dropdown clearfix">
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu"
+            style="display:block;position:static;margin-bottom:5px;">
+            <li><a tabindex="-1" id="split_batch">Split Batches</a>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li><a tabindex="-1" id="delete_dn_item">Remove Item</a>
+            </li>
+        </ul>
     </div>
 </div>
 {% } %}

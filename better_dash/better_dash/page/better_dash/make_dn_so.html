@@ -2,13 +2,13 @@
 
 {% for(var j=0; j<data["SO"].length; j++) { %}
 
-<div class="panel-group" id="accordion1233" style="margin-top:0px;">
+<div class="panel-group" id="accordion{{j}}" style="margin-top:0px;">
     <div class="panel panel-default tab_drop" data-doctype="Sales Order" data-name="{{data["SO"][j].name}}">
         <div class="panel-heading row" style="margin: 0;">
-            <div class="col-xs-12 panel-head-title" data-toggle="collapse" data-parent="#accordion1233"
-                href="#collapsecm102222">
-                <p class="panel-title"> <a style="font-weight: bold">1.</a> <a data-toggle="collapse"
-                        data-parent="#accordion1233" href="#collapsecm102222"
+            <div class="col-xs-12 panel-head-title" data-toggle="collapse" data-parent="#accordion{{j}}"
+                href="#collapsecm10{{j}}">
+                <p class="panel-title"> <a style="font-weight: bold">{{j+1}}.</a> <a data-toggle="collapse"
+                        data-parent="#accordion{{j}}" href="#collapsecm10{{j}}"
                         title="{{data["SO"][j].title}}/{{data["SO"][j].name}}"> {{data["SO"][j].title}} </a> </p>
             </div>
             <div class="col-xs-12"> <span
@@ -17,7 +17,7 @@
                     style="background-color: #d0d4d6; font-size:10px; font-weight: 100; color: black;"
                     class="badge badge-light">{{data["SO"][j].status}}</span> </div>
         </div>
-        <div id="collapsecm102222" class="panel-collapse collapse">
+        <div id="collapsecm10{{j}}" class="panel-collapse collapse">
             <div class="panel-body">
                 <table class="table table-bordered">
                     <thead>
