@@ -684,7 +684,7 @@ frappe.views.BetterDashboard = Class.extend({
 				});
 			} 
 			else if (["cancel"].includes(action)) {
-				if (selected_doctype in ["Sales Invoice", "Delivery Note", "Purchase Receipt"]) {
+				if (selected_doctype  == "Sales Invoice" || "Delivery Note" || "Purchase Receipt") {
 				
 					frappe.confirm(__(action.charAt(0).toUpperCase() + action.slice(1)+" Checked Documents ??"), function() {
 						const dialog = new frappe.ui.Dialog({
