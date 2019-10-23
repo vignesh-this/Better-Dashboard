@@ -767,7 +767,8 @@ frappe.views.BetterDashboard = Class.extend({
 						me.list_actions();
 					});		
 					
-				} else {
+				} 
+				if (selected_doctype  == "Sales Order" || "Material Request" || "Purchase Order") {
 				
 					frappe.confirm(__(action.charAt(0).toUpperCase() + action.slice(1)+" Checked Documents ??"), function() {
 						frappe.call({
