@@ -242,13 +242,12 @@ def save_dn(path, data, new_data):
     taxes = get_taxes_and_charges('Sales Taxes and Charges Template', "In State GST - "+company_abbr)
     for tax in taxes:
         a.append('taxes', tax)
-    a.taxes_and_charges = "In State GST - "+company_abbr    
     a.insert()
+    a.taxes = []
     a.taxes_and_charges = "In State GST - "+company_abbr
     taxes = get_taxes_and_charges('Sales Taxes and Charges Template', "In State GST - "+company_abbr)
     for tax in taxes:
         a.append('taxes', tax)
-    a.taxes_and_charges = "In State GST - "+company_abbr 
     a.save()
     frappe.db.commit()
     return a.name
