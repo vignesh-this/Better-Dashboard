@@ -1073,7 +1073,7 @@ frappe.views.BetterDashboard = Class.extend({
 						$(contextMenu1).attr('data-item_no', item_no);
 						$(contextMenu1).attr('data-item_code', item_code);
 						var cst_height = $(this).position();
-						alert(cst_height.top);
+						// alert(cst_height.top);
 						$contextMenu1.css({
 							display: "block",
 							"z-index": 99999,
