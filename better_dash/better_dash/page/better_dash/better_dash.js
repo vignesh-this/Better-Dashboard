@@ -202,6 +202,14 @@ frappe.views.BetterDashboard = Class.extend({
 																	"method": "erpnext.stock.doctype.material_request.material_request.make_purchase_order"
 																},
 																callback: function (r) {
+																	console.log(r.message)
+																	// var item_data = [];
+																	for (let u = 0; u < r.message.items.length; u++) {
+																		const element = r.message.items[u];
+																		element.name = element.idx+element.item_code+element.qty;
+																		// item_data.push(element)
+																	}
+																	console.log(item_data)
 																	const dialog = new frappe.ui.Dialog({
 																		title: __("Check Purchase Order Items"),
 																		fields: [
@@ -905,6 +913,14 @@ frappe.views.BetterDashboard = Class.extend({
 				var div = String(id_mapper[id].div);
 				$(div).find("input").prop("checked", true);
 			}
+			else if (["select-all-purchase-order"].includes(action)) {		
+				var div = String(id_mapper[id].div);
+				console.log(div)
+				$(div).find("input").filter(function() {
+					return !this.disabled
+				}).prop("checked", true);
+				// $(div).find("input").prop("checked", true);
+			}
 			else if (["print"].includes(action)) {	
 				var dialog = new frappe.ui.Dialog({
 					title: __('Print Documents'),
@@ -1057,7 +1073,7 @@ frappe.views.BetterDashboard = Class.extend({
 						$(contextMenu1).attr('data-item_no', item_no);
 						$(contextMenu1).attr('data-item_code', item_code);
 						var cst_height = $(this).position();
-						alert(cst_height.top);
+						// alert(cst_height.top);
 						$contextMenu1.css({
 							display: "block",
 							"z-index": 99999,
